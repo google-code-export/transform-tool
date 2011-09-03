@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="com.vstyran.transform.view.TransformTool"/>
+    <classEntry path="com.vstyran.transform.controls.Anchor"/>
+    <classEntry path="com.vstyran.transform.controls.Control"/>
+    <classEntry path="com.vstyran.transform.model.TargetData"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>
