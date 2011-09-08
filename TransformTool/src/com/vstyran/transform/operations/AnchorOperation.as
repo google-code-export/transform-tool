@@ -21,18 +21,13 @@ package com.vstyran.transform.operations
 		{
 		}
 		
-		public function startOperation(data:TargetData, point:Point):void
+		public function initOperation(data:TargetData, point:Point):void
 		{
 			startData = data;
 			startPoint = point;
 		}
 		
 		public function doOperation(point:Point):TargetData
-		{
-			return null;
-		}
-		
-		public function endOperation():TargetData
 		{
 			return null;
 		}

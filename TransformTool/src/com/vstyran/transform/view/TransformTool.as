@@ -5,8 +5,13 @@ package com.vstyran.transform.view
 	import com.vstyran.transform.factories.TargetExporter;
 	import com.vstyran.transform.factories.TargetImporter;
 	import com.vstyran.transform.model.TargetData;
+	import com.vstyran.transform.supportClasses.Converter;
+	import com.vstyran.transform.utils.TransformUtil;
 	
+	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
+	import flash.geom.Matrix;
 	
 	import mx.core.IVisualElement;
 	import mx.core.IVisualElementContainer;
@@ -27,22 +32,47 @@ package com.vstyran.transform.view
 			super();
 		}
 		
-		[SkinPart]
-		public var importer:TargetImporter = new TargetImporter();
-		
-		[SkinPart]
-		public var exporter:TargetExporter = new TargetExporter();
+		private var toolConverter:Converter = new Converter();
+		private var attachmentConverter:Converter = new Converter();
 		
 		private var attachment:UIComponent;
 		
-		public function attach(component:UIComponent):void
+		override public function parentChanged(p:DisplayObjectContainer):void
 		{
-			target = importer.importData(component);
-			attachment = component;
+			super.parentChanged(p);
+			
+			matrixDirty = true;
+			invalidateProperties();
 		}
 		
-		public var target:TargetData;
+		public function attach(component:UIComponent):void
+		{
+			matrixDirty = true;
+			invalidateProperties();
+			
+			attachment = component;
+			targetData = TransformUtil.createData(component);
+		}
 		
+		public var targetData:TargetData;
+
+		private var _toolData:TargetData;
+
+		public function get toolData():TargetData
+		{
+			return _toolData;
+		}
+
+		public function set toolData(value:TargetData):void
+		{
+			if(_toolData != value)
+			{
+				_toolData = value;
+				
+				TransformUtil.
+			}
+		}
+
 		
 		override protected function getCurrentSkinState():String
 		{
@@ -93,11 +123,14 @@ package com.vstyran.transform.view
 					if(element is UIComponent)
 						processParts(element as UIComponent);	
 				}
-				
 			}
 		}
 		
 		private var validateControls:Boolean;
+		
+		private var matrixDirty:Boolean;
+		
+		private var matrix:Matrix;
 		
 		override protected function commitProperties():void
 		{
@@ -109,18 +142,36 @@ package com.vstyran.transform.view
 				processParts(skin);
 				validateControls = false;
 			}
+			
+			if(matrixDirty)
+			{
+				var sourceContext:DisplayObject = attachment ? attachment.parent : null;
+				matrix = TransformUtil.getTransformationMatrix(sourceContext, parent);
+				
+				toolData = TransformUtil.createDataByMatrix(attachment, matrix);
+				
+				matrixDirty = false;
+			}
 		}
 		
-		public function updating(data:TargetData):void
+		private function updateTool():void
 		{
-			target = data;
+			//importer.importData(attachment
+		}
+		
+		public function startTransformation(control:Control):void
+		{
+		}
+		
+		public function doTransformation(data:TargetData):void
+		{
+			targetData = data;
 			exporter.export(attachment, data);
 		}
 		
-		public function update(data:TargetData):void
+		public function endTransformation():void
 		{
-			target = data;
-			exporter.export(attachment, data);
+			exporter.export(attachment, targetData);
 		}
 	}
 }

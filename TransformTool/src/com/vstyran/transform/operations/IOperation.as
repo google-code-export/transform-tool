@@ -7,8 +7,7 @@ package com.vstyran.transform.operations
 	public interface IOperation
 	{
 		
-		function startOperation(data:TargetData, point:Point):void;
+		function initOperation(data:TargetData, point:Point):void;
 		function doOperation(point:Point):TargetData;
-		function endOperation():TargetData;
 	}
 }

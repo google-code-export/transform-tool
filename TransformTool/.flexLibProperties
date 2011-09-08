@@ -5,15 +5,16 @@
     <classEntry path="com.vstyran.transform.controls.Anchor"/>
     <classEntry path="com.vstyran.transform.controls.Control"/>
     <classEntry path="com.vstyran.transform.model.TargetData"/>
-    <classEntry path="com.vstyran.transform.factories.TargetImporter"/>
     <classEntry path="com.vstyran.transform.skins.TransformToolSkin"/>
     <classEntry path="com.vstyran.transform.skins.ControlSkin"/>
     <classEntry path="com.vstyran.transform.operations.IOperation"/>
     <classEntry path="com.vstyran.transform.controls.IAnchor"/>
     <classEntry path="com.vstyran.transform.operations.AnchorOperation"/>
     <classEntry path="com.vstyran.transform.operations.ResizeOperation"/>
-    <classEntry path="com.vstyran.transform.factories.TargetExporter"/>
     <classEntry path="com.vstyran.transform.operations.MoveOperation"/>
+    <classEntry path="com.vstyran.transform.skins.MoveControlSkin"/>
+    <classEntry path="com.vstyran.transform.utils.TransformUtil"/>
+    <classEntry path="com.vstyran.transform.supportClasses.Converter"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
