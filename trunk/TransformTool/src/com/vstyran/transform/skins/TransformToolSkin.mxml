@@ -2,16 +2,60 @@
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:mx="library://ns.adobe.com/flex/mx" 
-		xmlns:controls="com.vstyran.transform.controls.*" xmlns:operations="com.vstyran.transform.operations.*">
+		xmlns:controls="com.vstyran.transform.controls.*" 
+		xmlns:operations="com.vstyran.transform.operations.*">
 	<!-- host component -->
 	<fx:Metadata>
 		[HostComponent("com.vstyran.transform.view.TransformTool")]
 	</fx:Metadata>
 	
 	
-	<controls:Control skinClass="com.vstyran.transform.skins.ControlSkin">
+	<controls:Control top="0" left="0" right="0" bottom="0"
+		skinClass="com.vstyran.transform.skins.MoveControlSkin">
 		<controls:operation>
 			<operations:MoveOperation/>
 		</controls:operation>
 	</controls:Control>
+	
+	<controls:Control top="-4" left="-4" skinClass="com.vstyran.transform.skins.ControlSkin">
+		<controls:operation>
+			<operations:ResizeOperation/>
+		</controls:operation>
+	</controls:Control>
+	<controls:Control top="-4" horizontalCenter="0" skinClass="com.vstyran.transform.skins.ControlSkin">
+		<controls:operation>
+			<operations:ResizeOperation/>
+		</controls:operation>
+	</controls:Control>
+	<controls:Control top="-4" right="-4" skinClass="com.vstyran.transform.skins.ControlSkin">
+		<controls:operation>
+			<operations:ResizeOperation/>
+		</controls:operation>
+	</controls:Control>
+	<controls:Control verticalCenter="0" right="-4" skinClass="com.vstyran.transform.skins.ControlSkin">
+		<controls:operation>
+			<operations:ResizeOperation/>
+		</controls:operation>
+	</controls:Control>
+	<controls:Control bottom="-4" right="-4" skinClass="com.vstyran.transform.skins.ControlSkin">
+		<controls:operation>
+			<operations:ResizeOperation/>
+		</controls:operation>
+	</controls:Control>
+	<controls:Control bottom="-4" horizontalCenter="0" skinClass="com.vstyran.transform.skins.ControlSkin">
+		<controls:operation>
+			<operations:ResizeOperation/>
+		</controls:operation>
+	</controls:Control>
+	<controls:Control bottom="-4" left="-4" skinClass="com.vstyran.transform.skins.ControlSkin">
+		<controls:operation>
+			<operations:ResizeOperation/>
+		</controls:operation>
+	</controls:Control>
+	<controls:Control verticalCenter="0" left="-4" skinClass="com.vstyran.transform.skins.ControlSkin">
+		<controls:operation>
+			<operations:ResizeOperation/>
+		</controls:operation>
+	</controls:Control>
+	
 </s:Skin>

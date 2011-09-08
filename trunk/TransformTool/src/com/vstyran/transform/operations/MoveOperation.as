@@ -13,9 +13,7 @@ package com.vstyran.transform.operations
 		protected var startData:TargetData;
 		protected var startPoint:Point;
 		
-		protected var data:TargetData;
-		
-		public function startOperation(data:TargetData, point:Point):void
+		public function initOperation(data:TargetData, point:Point):void
 		{
 			startData = data;
 			startPoint = point;
@@ -23,15 +21,10 @@ package com.vstyran.transform.operations
 		
 		public function doOperation(point:Point):TargetData
 		{
-			data = startData.clone();
+			var data:TargetData = startData.clone();
 			data.x = startData.x + point.x - startPoint.x;
 			data.y = startData.y + point.y - startPoint.y;
 			
-			return data;
-		}
-		
-		public function endOperation():TargetData
-		{
 			return data;
 		}
 	}

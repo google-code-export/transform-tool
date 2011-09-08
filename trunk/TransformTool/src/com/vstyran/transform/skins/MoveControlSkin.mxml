@@ -7,12 +7,12 @@
 		[HostComponent("com.vstyran.transform.controls.Control")]
 	</fx:Metadata>
 	
-	<s:Ellipse width="9" height="9">
+	<s:Rect top="0" right="0" bottom="0" left="0">
 		<s:stroke>
-			<s:SolidColorStroke/>
+			<s:SolidColorStroke />
 		</s:stroke>
 		<s:fill>
-			<s:SolidColor color="#FFFFFF"/>
+			<s:SolidColor color="#FFFFFF" alpha="0"/>
 		</s:fill>
-	</s:Ellipse>
+	</s:Rect>
 </s:Skin>
