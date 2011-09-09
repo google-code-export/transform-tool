@@ -17,6 +17,7 @@
     <classEntry path="com.vstyran.transform.supportClasses.Converter"/>
     <classEntry path="com.vstyran.transform.supportClasses.IExporter"/>
     <classEntry path="com.vstyran.transform.supportClasses.SimpleExporter"/>
+    <classEntry path="com.vstyran.transform.operations.IAncorOperation"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
