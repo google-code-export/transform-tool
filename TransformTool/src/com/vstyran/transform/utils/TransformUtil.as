@@ -31,8 +31,6 @@ package com.vstyran.transform.utils
 		
 		public static function getTransformationMatrix(sourceContext:DisplayObject, destContext:DisplayObject):Matrix
 		{
-			var destMatrix:Matrix = MatrixUtil.getConcatenatedMatrix(sourceContext, null);
-			
 			var m:Matrix = new Matrix();
 			
 			if(sourceContext)
@@ -40,7 +38,7 @@ package com.vstyran.transform.utils
 			
 			if(destContext)
 			{
-				var dm:Matrix = MatrixUtil.getConcatenatedMatrix(sourceContext, null);
+				var dm:Matrix = MatrixUtil.getConcatenatedMatrix(destContext, null);
 				dm.invert();
 				m.concat(dm);
 			}
