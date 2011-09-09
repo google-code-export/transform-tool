@@ -5,14 +5,11 @@ package com.vstyran.transform.operations
 	
 	import flash.geom.Point;
 
-	public class AnchorOperation implements IOperation
+	public class AnchorOperation implements IAncorOperation
 	{
 		
-		
-		public var anchor:IAnchor;
-		public var shiftAnchor:IAnchor;
-		public var altAnchor:IAnchor;
-		public var ctrlAnchor:IAnchor;
+		[Bindable]
+		public var anchor:Point;
 		
 		protected var startData:TargetData;
 		protected var startPoint:Point;
