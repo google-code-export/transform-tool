@@ -15,6 +15,8 @@
     <classEntry path="com.vstyran.transform.skins.MoveControlSkin"/>
     <classEntry path="com.vstyran.transform.utils.TransformUtil"/>
     <classEntry path="com.vstyran.transform.supportClasses.Converter"/>
+    <classEntry path="com.vstyran.transform.supportClasses.IExporter"/>
+    <classEntry path="com.vstyran.transform.supportClasses.SimpleExporter"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

@@ -6,12 +6,15 @@ package com.vstyran.transform.view
 	import com.vstyran.transform.factories.TargetImporter;
 	import com.vstyran.transform.model.TargetData;
 	import com.vstyran.transform.supportClasses.Converter;
+	import com.vstyran.transform.supportClasses.IExporter;
+	import com.vstyran.transform.supportClasses.SimpleExporter;
 	import com.vstyran.transform.utils.TransformUtil;
 	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.geom.Matrix;
+	import flash.geom.Point;
 	
 	import mx.core.IVisualElement;
 	import mx.core.IVisualElementContainer;
@@ -31,49 +34,74 @@ package com.vstyran.transform.view
 		{
 			super();
 		}
+		public var exporter:IExporter = new SimpleExporter();
+		private var toolConverter:Converter;
+		private var mouseConverter:Converter;
 		
-		private var toolConverter:Converter = new Converter();
-		private var attachmentConverter:Converter = new Converter();
+		private var _source:UIComponent;
+
+		public function get source():UIComponent
+		{
+			return _source;
+		}
+
+		public function set source(value:UIComponent):void
+		{
+			if(_source)
+				_source.removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+			
+			_source = value;
+			
+			if(_source)
+			{
+				_source.addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+				sourcePanel = source.parent;
+				sourceData = TransformUtil.createData(_source);
+			}
+			else
+			{
+				sourcePanel = null;
+			}
+			
+			converterDirty = true;
+			invalidateProperties();
+			
+		}
 		
-		private var attachment:UIComponent;
+		protected function addedToStageHandler(event:Event):void
+		{
+			sourcePanel = source.parent;
+			converterDirty = true;
+			invalidateProperties();
+			
+		}
+		
+		private var sourcePanel:DisplayObject;
 		
 		override public function parentChanged(p:DisplayObjectContainer):void
 		{
 			super.parentChanged(p);
 			
-			matrixDirty = true;
+			converterDirty = true;
 			invalidateProperties();
 		}
 		
-		public function attach(component:UIComponent):void
+		
+		private var _sourceData:TargetData;
+
+		public function get sourceData():TargetData
 		{
-			matrixDirty = true;
-			invalidateProperties();
+			return _sourceData;
+		}
+
+		public function set sourceData(value:TargetData):void
+		{
+			_sourceData = value;
 			
-			attachment = component;
-			targetData = TransformUtil.createData(component);
-		}
-		
-		public var targetData:TargetData;
-
-		private var _toolData:TargetData;
-
-		public function get toolData():TargetData
-		{
-			return _toolData;
+			updateTool();
 		}
 
-		public function set toolData(value:TargetData):void
-		{
-			if(_toolData != value)
-			{
-				_toolData = value;
-				
-				TransformUtil.
-			}
-		}
 
-		
 		override protected function getCurrentSkinState():String
 		{
 			return super.getCurrentSkinState();
@@ -128,9 +156,7 @@ package com.vstyran.transform.view
 		
 		private var validateControls:Boolean;
 		
-		private var matrixDirty:Boolean;
-		
-		private var matrix:Matrix;
+		private var converterDirty:Boolean;
 		
 		override protected function commitProperties():void
 		{
@@ -143,20 +169,14 @@ package com.vstyran.transform.view
 				validateControls = false;
 			}
 			
-			if(matrixDirty)
+			if(converterDirty)
 			{
-				var sourceContext:DisplayObject = attachment ? attachment.parent : null;
-				matrix = TransformUtil.getTransformationMatrix(sourceContext, parent);
+				toolConverter = new Converter(sourcePanel, parent);
+				mouseConverter = new Converter(null, sourcePanel);
 				
-				toolData = TransformUtil.createDataByMatrix(attachment, matrix);
-				
-				matrixDirty = false;
+				updateTool();
+				converterDirty = false;
 			}
-		}
-		
-		private function updateTool():void
-		{
-			//importer.importData(attachment
 		}
 		
 		public function startTransformation(control:Control):void
@@ -165,13 +185,23 @@ package com.vstyran.transform.view
 		
 		public function doTransformation(data:TargetData):void
 		{
-			targetData = data;
-			exporter.export(attachment, data);
+			sourceData = exporter.export(source, data);
 		}
 		
-		public function endTransformation():void
+		public function endTransformation(data:TargetData):void
 		{
-			exporter.export(attachment, targetData);
+			sourceData = exporter.export(source, data);
+		}
+		
+		public function globalToSource(point:Point):Point
+		{
+			return mouseConverter.transformPoint(point);
+		}
+		
+		public function updateTool():void
+		{
+			if(_sourceData)
+				TransformUtil.applyData(this, toolConverter.transformData(_sourceData));
 		}
 	}
 }

@@ -5,28 +5,31 @@ package com.vstyran.transform.supportClasses
 	
 	import flash.display.DisplayObject;
 	import flash.geom.Matrix;
+	import flash.geom.Point;
 
 	public class Converter
 	{
-		public function Converter()
+		public function Converter(sourcePanel:DisplayObject, targetPanel:DisplayObject)
 		{
+			matrix = TransformUtil.getTransformationMatrix(sourcePanel, targetPanel);
 		}
 		
 		private var matrix:Matrix;
 		
-		public var target:DisplayObject;
-		public var source:DisplayObject;
 		
-		public function updateMatrix():void
+		public function getData(source:DisplayObject):TargetData
 		{
-			var sourceContext:DisplayObject = source ? source.parent : null;
-			var targetContext:DisplayObject = target ? target.parent : null;
-			matrix = TransformUtil.getTransformationMatrix(sourceContext, targetContext);
+			return TransformUtil.createDataByMatrix(source, matrix);
 		}
 		
-		public function getData():TargetData
+		public function transformPoint(point:Point):Point
 		{
-			return TransformUtil.createDataByMatrix(target, matrix);
+			return matrix.transformPoint(point);
+		}
+		
+		public function transformData(data:TargetData):TargetData
+		{
+			return TransformUtil.transformData(matrix, data);
 		}
 	}
 }

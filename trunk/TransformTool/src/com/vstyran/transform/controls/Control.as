@@ -32,7 +32,7 @@ package com.vstyran.transform.controls
 			tool.startTransformation(this);
 			
 			if(operation)
-				operation.initOperation(tool.targetData, new Point(event.stageX, event.stageY));
+				operation.initOperation(tool.sourceData, tool.globalToSource(new Point(event.stageX, event.stageY)));
 			
 			systemManager.getSandboxRoot().addEventListener(MouseEvent.MOUSE_MOVE, moveHandler);
 			systemManager.getSandboxRoot().addEventListener(MouseEvent.MOUSE_UP, upHandler);
@@ -41,14 +41,15 @@ package com.vstyran.transform.controls
 		protected function moveHandler(event:MouseEvent):void
 		{
 			if(operation)
-				tool.doTransformation(operation.doOperation(new Point(event.stageX, event.stageY)));
-			
+				tool.doTransformation(operation.doOperation(tool.globalToSource(new Point(event.stageX, event.stageY))));
+		
+			event.updateAfterEvent();
 		}
 		
 		protected function upHandler(event:MouseEvent):void
 		{
 			if(operation)
-				tool.endTransformation();
+				tool.endTransformation(operation.doOperation(tool.globalToSource(new Point(event.stageX, event.stageY))));
 			
 			systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_MOVE, moveHandler);
 			systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_UP, upHandler);
