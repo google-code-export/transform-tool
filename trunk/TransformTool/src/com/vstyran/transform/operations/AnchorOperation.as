@@ -1,6 +1,5 @@
 package com.vstyran.transform.operations
 {
-	import com.vstyran.transform.controls.IAnchor;
 	import com.vstyran.transform.model.TargetData;
 	
 	import flash.geom.Point;
