@@ -4,7 +4,7 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx" width="9" height="9">
 	<!-- host component -->
 	<fx:Metadata>
-		[HostComponent("com.vstyran.transform.controls.Control")]
+		[HostComponent("com.vstyran.transform.controls.Anchor")]
 	</fx:Metadata>
 	
 	<s:Ellipse width="9" height="9">

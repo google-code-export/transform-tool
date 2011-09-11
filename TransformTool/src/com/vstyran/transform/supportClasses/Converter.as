@@ -9,9 +9,9 @@ package com.vstyran.transform.supportClasses
 
 	public class Converter
 	{
-		public function Converter(sourcePanel:DisplayObject, targetPanel:DisplayObject)
+		public function Converter(sourcePanel:DisplayObject, targetPanel:DisplayObject, targetData:TargetData = null)
 		{
-			matrix = TransformUtil.getTransformationMatrix(sourcePanel, targetPanel);
+			matrix = TransformUtil.getTransformationMatrix(sourcePanel, targetPanel, targetData);
 		}
 		
 		private var matrix:Matrix;

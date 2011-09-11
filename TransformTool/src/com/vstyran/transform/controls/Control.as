@@ -4,8 +4,10 @@ package com.vstyran.transform.controls
 	import com.vstyran.transform.operations.AnchorOperation;
 	import com.vstyran.transform.operations.IAncorOperation;
 	import com.vstyran.transform.operations.IOperation;
+	import com.vstyran.transform.supportClasses.Converter;
 	import com.vstyran.transform.view.TransformTool;
 	
+	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
@@ -16,12 +18,12 @@ package com.vstyran.transform.controls
 	
 	
 	
-	public class Control extends SkinnableComponent implements IAnchor
+	public class Control extends SkinnableComponent
 	{
-		public var anchor:IAnchor;
-		public var shiftAnchor:IAnchor;
-		public var altAnchor:IAnchor;
-		public var ctrlAnchor:IAnchor;
+		public var anchor:DisplayObject;
+		public var shiftAnchor:DisplayObject;
+		public var altAnchor:DisplayObject;
+		public var ctrlAnchor:DisplayObject;
 		
 		public function Control()
 		{
@@ -30,15 +32,17 @@ package com.vstyran.transform.controls
 			addEventListener(MouseEvent.MOUSE_DOWN, downHandler);
 		}
 		
-		private function getAnchorPoint(anchor:IAnchor):Point
+		private function getAnchorPoint(anchor:DisplayObject):Point
 		{
 			if(!anchor)
 				return null;
 			
-			return tool.globalToSource(new Point(anchor.x + anchor.width/2, anchor.y + anchor.height/2));
+			
+			var point:Point = anchor.localToGlobal(new Point(Math.floor(anchor.width/2), Math.floor(anchor.y + anchor.height/2)));
+			return converter.transformPoint(point);
 		}
 		
-		private function resolveAnchor(event:MouseEvent):IAnchor
+		private function resolveAnchor(event:MouseEvent):DisplayObject
 		{
 			if(event.shiftKey && shiftAnchor)
 				return shiftAnchor;
@@ -50,15 +54,19 @@ package com.vstyran.transform.controls
 			return anchor;
 		}
 		
+		protected var converter:Converter;
+		
 		protected function downHandler(event:MouseEvent):void
 		{
 			if(!tool)
 				return;
 			
+			converter = new Converter(null, tool.sourcePanel, tool.sourceData);
+			
 			tool.startTransformation(this);
 			
 			if(operation)
-				operation.initOperation(tool.sourceData, tool.globalToSource(new Point(event.stageX, event.stageY)));
+				operation.initOperation(tool.sourceData, converter.transformPoint(new Point(event.stageX, event.stageY)));
 			
 			if(operation is IAncorOperation)
 				(operation as IAncorOperation).anchor = getAnchorPoint(resolveAnchor(event));
@@ -70,7 +78,7 @@ package com.vstyran.transform.controls
 		protected function moveHandler(event:MouseEvent):void
 		{
 			if(operation)
-				tool.doTransformation(operation.doOperation(tool.globalToSource(new Point(event.stageX, event.stageY))));
+				tool.doTransformation(operation.doOperation(converter.transformPoint(new Point(event.stageX, event.stageY))));
 		
 			event.updateAfterEvent();
 		}
@@ -78,7 +86,7 @@ package com.vstyran.transform.controls
 		protected function upHandler(event:MouseEvent):void
 		{
 			if(operation)
-				tool.endTransformation(operation.doOperation(tool.globalToSource(new Point(event.stageX, event.stageY))));
+				tool.endTransformation(operation.doOperation(converter.transformPoint(new Point(event.stageX, event.stageY))));
 			
 			systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_MOVE, moveHandler);
 			systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_UP, upHandler);

@@ -29,19 +29,26 @@ package com.vstyran.transform.utils
 			return data;
 		}
 		
-		public static function getTransformationMatrix(sourceContext:DisplayObject, destContext:DisplayObject):Matrix
+		public static function getTransformationMatrix(sourceContext:DisplayObject, destContext:DisplayObject, destData:TargetData = null):Matrix
 		{
 			var m:Matrix = new Matrix();
 			
 			if(sourceContext)
 				m = MatrixUtil.getConcatenatedMatrix(sourceContext, null);
 			
+			var dm:Matrix = new Matrix();
+			
 			if(destContext)
+				dm = MatrixUtil.getConcatenatedMatrix(destContext, null);
+			
+			if(destData)
 			{
-				var dm:Matrix = MatrixUtil.getConcatenatedMatrix(destContext, null);
-				dm.invert();
-				m.concat(dm);
+				dm.rotate(destData.rotation);
+				dm.translate(destData.x, destData.y);
 			}
+			
+			dm.invert();
+			m.concat(dm);
 			
 			return m;
 		}

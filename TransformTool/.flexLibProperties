@@ -8,7 +8,6 @@
     <classEntry path="com.vstyran.transform.skins.TransformToolSkin"/>
     <classEntry path="com.vstyran.transform.skins.ControlSkin"/>
     <classEntry path="com.vstyran.transform.operations.IOperation"/>
-    <classEntry path="com.vstyran.transform.controls.IAnchor"/>
     <classEntry path="com.vstyran.transform.operations.AnchorOperation"/>
     <classEntry path="com.vstyran.transform.operations.ResizeOperation"/>
     <classEntry path="com.vstyran.transform.operations.MoveOperation"/>
@@ -18,6 +17,7 @@
     <classEntry path="com.vstyran.transform.supportClasses.IExporter"/>
     <classEntry path="com.vstyran.transform.supportClasses.SimpleExporter"/>
     <classEntry path="com.vstyran.transform.operations.IAncorOperation"/>
+    <classEntry path="com.vstyran.transform.skins.AnchorSkin"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

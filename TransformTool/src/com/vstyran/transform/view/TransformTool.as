@@ -36,7 +36,6 @@ package com.vstyran.transform.view
 		}
 		public var exporter:IExporter = new SimpleExporter();
 		private var toolConverter:Converter;
-		private var mouseConverter:Converter;
 		
 		private var _source:UIComponent;
 
@@ -76,7 +75,7 @@ package com.vstyran.transform.view
 			
 		}
 		
-		private var sourcePanel:DisplayObject;
+		public var sourcePanel:DisplayObject;
 		
 		override public function parentChanged(p:DisplayObjectContainer):void
 		{
@@ -172,7 +171,6 @@ package com.vstyran.transform.view
 			if(converterDirty)
 			{
 				toolConverter = new Converter(sourcePanel, parent);
-				mouseConverter = new Converter(null, sourcePanel);
 				
 				updateTool();
 				converterDirty = false;
@@ -191,11 +189,6 @@ package com.vstyran.transform.view
 		public function endTransformation(data:TargetData):void
 		{
 			sourceData = exporter.export(source, data);
-		}
-		
-		public function globalToSource(point:Point):Point
-		{
-			return mouseConverter.transformPoint(point);
 		}
 		
 		public function updateTool():void

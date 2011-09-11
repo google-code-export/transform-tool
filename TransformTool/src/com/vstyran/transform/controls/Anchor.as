@@ -5,7 +5,7 @@ package com.vstyran.transform.controls
 	
 	
 	
-	public class Anchor extends SkinnableComponent implements IAnchor
+	public class Anchor extends SkinnableComponent
 	{
 		
 		public function Anchor()
