@@ -37,8 +37,7 @@ package com.vstyran.transform.controls
 			if(!anchor)
 				return null;
 			
-			
-			var point:Point = anchor.localToGlobal(new Point(Math.floor(anchor.width/2), Math.floor(anchor.y + anchor.height/2)));
+			var point:Point = anchor.localToGlobal(new Point(Math.floor(anchor.width/2), Math.floor(anchor.height/2)));
 			return converter.transformPoint(point);
 		}
 		

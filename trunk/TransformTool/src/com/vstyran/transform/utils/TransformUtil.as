@@ -43,8 +43,10 @@ package com.vstyran.transform.utils
 			
 			if(destData)
 			{
-				dm.rotate(destData.rotation);
-				dm.translate(destData.x, destData.y);
+				var ddm:Matrix = new Matrix();
+				ddm.rotate(destData.rotation*Math.PI/180);
+				ddm.translate(destData.x, destData.y);
+				dm.concat(ddm);
 			}
 			
 			dm.invert();
