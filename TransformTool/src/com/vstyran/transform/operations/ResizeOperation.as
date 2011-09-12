@@ -3,6 +3,7 @@ package com.vstyran.transform.operations
 	import com.vstyran.transform.model.TargetData;
 	import com.vstyran.transform.supportClasses.Converter;
 	
+	import flash.geom.Matrix;
 	import flash.geom.Point;
 
 	public class ResizeOperation extends AnchorOperation
@@ -28,14 +29,20 @@ package com.vstyran.transform.operations
 			var k:Number = anchor.x/startData.width;
 			
 			var znak:Number  = startPoint.x > anchor.x ? 1 : -1;
-			data.width +=  (point.x - startPoint.x) * znak;
+			data.width =  startData.width + (point.x - startPoint.x) * znak;
 			var newAnckorX:Number =  Math.round(k * data.width);
 			//data.x -= ;
 			
 			var converter:Converter = new Converter(null, null, startData);
 			
-			var p:Point = converter.transformPoint(new Point(newAnckorX - anchor.x, 0)); 
-			data.x = startData.x + p.x;
+			var m:Matrix = new Matrix();
+			m.rotate(startData.rotation*Math.PI/180);
+			
+			//var p:Point = converter.transformPoint(new Point(newAnckorX - anchor.x, 0));
+			var p:Point = m.transformPoint(new Point(newAnckorX - anchor.x, 0));
+			data.x = startData.x - p.x;
+			data.y = startData.y - p.y;
+			//data.x = startData.x - (newAnckorX - anchor.x);
 			return data;
 		}
 	}
