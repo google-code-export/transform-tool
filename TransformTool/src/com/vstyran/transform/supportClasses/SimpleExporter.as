@@ -20,8 +20,8 @@ package com.vstyran.transform.supportClasses
 			
 			target.x = data.x;
 			target.y = data.y;
-			target.width = Math.min(Math.max(data.width, target.minWidth), target.maxWidth);
-			target.height = Math.min(Math.max(data.height, target.minHeight), target.maxHeight);
+			target.width = Math.min(Math.max(data.width/target.scaleX, target.minWidth), target.maxWidth);
+			target.height = Math.min(Math.max(data.height/target.scaleY, target.minHeight), target.maxHeight);
 			target.rotation = data.rotation;
 			
 			return TransformUtil.createData(target);
