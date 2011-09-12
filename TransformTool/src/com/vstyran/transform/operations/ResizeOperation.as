@@ -28,22 +28,62 @@ package com.vstyran.transform.operations
 			
 			var k:Number = anchor.x/startData.width;
 			
-			var znak:Number  = startPoint.x > anchor.x ? 1 : -1;
+			var znak:Number = startPoint.x > anchor.x ? 1 : -1;
 			data.width =  startData.width + (point.x - startPoint.x) * znak;
-			var newAnckorX:Number =  Math.round(k * data.width);
+			
+			data = centerAroundAnchor(data);
+			//var newAnckorX:Number =  Math.round(k * data.width);
 			//data.x -= ;
 			
-			var converter:Converter = new Converter(null, null, startData);
+			//var converter:Converter = new Converter(null, null, startData);
 			
-			var m:Matrix = new Matrix();
-			m.rotate(startData.rotation*Math.PI/180);
+		/*	var m:Matrix = new Matrix();
+			m.rotate(startData.rotation*Math.PI/180);*/
 			
 			//var p:Point = converter.transformPoint(new Point(newAnckorX - anchor.x, 0));
-			var p:Point = m.transformPoint(new Point(newAnckorX - anchor.x, 0));
+		/*	var p:Point = m.transformPoint(new Point(newAnckorX - anchor.x, 0));
 			data.x = startData.x - p.x;
-			data.y = startData.y - p.y;
+			data.y = startData.y - p.y;*/
 			//data.x = startData.x - (newAnckorX - anchor.x);
 			return data;
+		}
+		
+		public function centerAroundAnchor(data:TargetData):TargetData
+		{
+			var m:Matrix = getMatrix(null, startData);
+			var localAnchor:Point = m.transformPoint(anchor);
+		
+			var newLocalAnchor:Point = new Point(localAnchor.x/startData.width*data.width, localAnchor.y/startData.height*data.height);
+			
+			var m1:Matrix = getMatrix(startData, null);
+			var newAnchor:Point = m1.transformPoint(newLocalAnchor);
+			
+			
+			data.x = startData.x + anchor.x - newAnchor.x;
+			data.y = startData.y + anchor.y - newAnchor.y;
+			return data;
+		}
+		
+		private function getMatrix(fromContext:TargetData, toContext:TargetData):Matrix
+		{
+			var m:Matrix = new Matrix();
+			
+			if(fromContext)
+			{
+				m.rotate(fromContext.rotation*Math.PI/180);
+				m.translate(fromContext.x,fromContext.y);
+			}
+			
+			if(toContext)
+			{
+				var tm:Matrix = new Matrix();
+				tm.rotate(toContext.rotation*Math.PI/180);
+				tm.translate(toContext.x, toContext.y);
+				tm.invert();
+				m.concat(tm);
+			}
+			
+			return m;
 		}
 	}
 }
