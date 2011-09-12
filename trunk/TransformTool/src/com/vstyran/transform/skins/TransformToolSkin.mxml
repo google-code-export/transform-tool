@@ -54,7 +54,7 @@
 		</controls:operation>
 	</controls:Control>
 	<controls:Control id="middleLeft" verticalCenter="0" left="-4" skinClass="com.vstyran.transform.skins.ControlSkin" 
-					  anchor="{centerAnchor}">
+					  anchor="{middleRight}">
 		<controls:operation>
 			<operations:ResizeOperation/>
 		</controls:operation>
