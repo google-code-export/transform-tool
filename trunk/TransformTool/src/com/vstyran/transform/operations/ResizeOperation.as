@@ -16,35 +16,14 @@ package com.vstyran.transform.operations
 		override public function doOperation(point:Point):TargetData
 		{
 			var data:TargetData = startData.clone();
-			var rad:Number = (360-startData.rotation)*Math.PI/180;
-			var sin:Number = Math.sin(rad);
-			var cos:Number = Math.cos(rad);	
-			var deltaX:Number = Math.floor((point.x - startPoint.x)*cos - (point.y - startPoint.y)*sin);
-			var deltaY:Number = Math.floor((point.x - startPoint.x)*sin + (point.y - startPoint.y)*cos);
 			
-			/*var c:Number = anchor.x/(startData.width-anchor.x)*deltaX;
-			data.x = startData.x  - c;
-			data.width = c + deltaX + startData.width;*/
+			var m:Matrix = new Matrix();
+			m.rotate(startData.rotation*Math.PI/180);
+			var deltaPoint:Point = m.transformPoint(new Point(point.x - startPoint.x, point.y - startPoint.y));
 			
-			var k:Number = anchor.x/startData.width;
-			
-			var znak:Number = startPoint.x > anchor.x ? 1 : -1;
-			data.width =  startData.width + (point.x - startPoint.x) * znak;
-			
+			data.width = startData.width + startData.width/(startPoint.x-anchor.x) * deltaPoint.x;
 			data = centerAroundAnchor(data);
-			//var newAnckorX:Number =  Math.round(k * data.width);
-			//data.x -= ;
 			
-			//var converter:Converter = new Converter(null, null, startData);
-			
-		/*	var m:Matrix = new Matrix();
-			m.rotate(startData.rotation*Math.PI/180);*/
-			
-			//var p:Point = converter.transformPoint(new Point(newAnckorX - anchor.x, 0));
-		/*	var p:Point = m.transformPoint(new Point(newAnckorX - anchor.x, 0));
-			data.x = startData.x - p.x;
-			data.y = startData.y - p.y;*/
-			//data.x = startData.x - (newAnckorX - anchor.x);
 			return data;
 		}
 		

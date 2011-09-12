@@ -24,7 +24,7 @@ package com.vstyran.transform.utils
 			
 			data.width = sourceData.width* components[3];
 			data.height = sourceData.height*components[4];
-			data.rotation = components[2];
+			data.rotation = components[2]+sourceData.rotation;
 			
 			return data;
 		}
@@ -52,8 +52,8 @@ package com.vstyran.transform.utils
 			var data:TargetData = new TargetData();
 			data.x = target.x;
 			data.y = target.y;
-			data.width = target.width;
-			data.height = target.height;
+			data.width = target.width*target.scaleX;
+			data.height = target.height*target.scaleY;
 			data.rotation = target.rotation;
 			
 			return data;
@@ -73,8 +73,8 @@ package com.vstyran.transform.utils
 		{
 			target.x = data.x;
 			target.y = data.y;
-			target.width = data.width;
-			target.height = data.height;
+			target.width = data.width/target.scaleX;
+			target.height = data.height/target.scaleY;
 			target.rotation = data.rotation;
 		}
 		
