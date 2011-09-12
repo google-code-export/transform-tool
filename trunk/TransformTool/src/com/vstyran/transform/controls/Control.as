@@ -5,6 +5,7 @@ package com.vstyran.transform.controls
 	import com.vstyran.transform.operations.IAncorOperation;
 	import com.vstyran.transform.operations.IOperation;
 	import com.vstyran.transform.supportClasses.Converter;
+	import com.vstyran.transform.utils.TransformUtil;
 	import com.vstyran.transform.view.TransformTool;
 	
 	import flash.display.DisplayObject;
@@ -68,7 +69,7 @@ package com.vstyran.transform.controls
 			
 			if(operation is IAncorOperation)
 			{
-				var anckorPoint:Point = getAnchorPoint(resolveAnchor(event));
+				var anckorPoint:Point = TransformUtil.roundPoint(getAnchorPoint(resolveAnchor(event)));
 				if(anckorPoint)
 					(operation as IAncorOperation).anchor = anckorPoint; 
 			}

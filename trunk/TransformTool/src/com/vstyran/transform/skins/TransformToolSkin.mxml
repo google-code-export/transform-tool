@@ -3,7 +3,7 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:mx="library://ns.adobe.com/flex/mx" 
 		xmlns:controls="com.vstyran.transform.controls.*" 
-		xmlns:operations="com.vstyran.transform.operations.*">
+		xmlns:operations="com.vstyran.transform.operations.*" width="200" height="180">
 	<!-- host component -->
 	<fx:Metadata>
 		[HostComponent("com.vstyran.transform.view.TransformTool")]
