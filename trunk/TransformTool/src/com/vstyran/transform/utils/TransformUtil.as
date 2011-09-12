@@ -29,28 +29,20 @@ package com.vstyran.transform.utils
 			return data;
 		}
 		
-		public static function getTransformationMatrix(sourceContext:DisplayObject, destContext:DisplayObject, destData:TargetData = null):Matrix
+		public static function getTransformationMatrix(sourceContext:DisplayObject, destContext:DisplayObject):Matrix
 		{
 			var m:Matrix = new Matrix();
 			
 			if(sourceContext)
 				m = MatrixUtil.getConcatenatedMatrix(sourceContext, null);
 			
-			var dm:Matrix = new Matrix();
-			
 			if(destContext)
-				dm = MatrixUtil.getConcatenatedMatrix(destContext, null);
-			
-			if(destData)
 			{
-				var ddm:Matrix = new Matrix();
-				ddm.rotate(destData.rotation*Math.PI/180);
-				ddm.translate(destData.x, destData.y);
-				dm.concat(ddm);
+				var dm:Matrix = new Matrix();
+				dm = MatrixUtil.getConcatenatedMatrix(destContext, null);
+				dm.invert();
+				m.concat(dm);
 			}
-			
-			dm.invert();
-			m.concat(dm);
 			
 			return m;
 		}
@@ -85,5 +77,35 @@ package com.vstyran.transform.utils
 			target.height = data.height;
 			target.rotation = data.rotation;
 		}
+		
+		/*public static function getBoundsInContext(sourcePanel:DisplayObject, source:TargetData, context:DisplayObject=null):TargetData
+		{
+			var m:Matrix = getTransformationMatrix(sourcePanel, context);
+			
+			return getBoundsByMatrix(m, source);
+		}
+		
+		public static function getBoundsByMatrix(m:Matrix, source:TargetData):TargetData
+		{
+			var data:TargetData = new TargetData();
+			
+			
+			var topLeft:Point = m.transformPoint(new Point(source.x, source.y));
+			var topRight:Point = m.transformPoint(new Point(source.x+source.width,source.y));
+			var bottomRight:Point = m.transformPoint(new Point(source.x+source.width, source.y+source.height));
+			var bottomLeft:Point = m.transformPoint(new Point(source.x, source.y+source.height));
+			
+			var minX:Number = Math.min(topLeft.x, topRight.x, bottomRight.x, bottomLeft.x);
+			var minY:Number = Math.min(topLeft.y, topRight.y, bottomRight.y, bottomLeft.y);
+			var maxX:Number = Math.max(topLeft.x, topRight.x, bottomRight.x, bottomLeft.x);
+			var maxY:Number = Math.max(topLeft.y, topRight.y, bottomRight.y, bottomLeft.y);
+			
+			data.x = minX;
+			data.y = minY;
+			data.width = maxX - minX;
+			data.height = maxY - minY;
+			
+			return data;
+		}*/
 	}
 }
