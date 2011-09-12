@@ -1,5 +1,6 @@
 package com.vstyran.transform.model
 {
+	[Bindable]
 	public class TargetData
 	{
 		public function TargetData()

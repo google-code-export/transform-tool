@@ -37,7 +37,7 @@ package com.vstyran.transform.controls
 			if(!anchor)
 				return null;
 			
-			return converter.transformPoint(new Point(Math.floor(anchor.width/2), Math.floor(anchor.height/2)));
+			return converter.transformPoint(new Point(Math.floor(anchor.width/2), Math.floor(anchor.height/2)));;
 		}
 		
 		private function resolveAnchor(event:MouseEvent):DisplayObject
@@ -67,7 +67,11 @@ package com.vstyran.transform.controls
 				operation.initOperation(tool.sourceData, tool.sourcePanel.globalToLocal(new Point(event.stageX, event.stageY)));
 			
 			if(operation is IAncorOperation)
-				(operation as IAncorOperation).anchor = getAnchorPoint(resolveAnchor(event));
+			{
+				var anckorPoint:Point = getAnchorPoint(resolveAnchor(event));
+				if(anckorPoint)
+					(operation as IAncorOperation).anchor = anckorPoint; 
+			}
 			
 			systemManager.getSandboxRoot().addEventListener(MouseEvent.MOUSE_MOVE, moveHandler);
 			systemManager.getSandboxRoot().addEventListener(MouseEvent.MOUSE_UP, upHandler);

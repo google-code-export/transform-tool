@@ -88,6 +88,7 @@ package com.vstyran.transform.view
 		
 		private var _sourceData:TargetData;
 
+		[Bindable]
 		public function get sourceData():TargetData
 		{
 			return _sourceData;
