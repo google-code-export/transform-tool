@@ -78,6 +78,11 @@ package com.vstyran.transform.utils
 			target.rotation = data.rotation;
 		}
 		
+		public static function roundPoint(point:Point):Point
+		{
+			return new Point(Math.round(point.x), Math.round(point.y));
+		}
+		
 		/*public static function getBoundsInContext(sourcePanel:DisplayObject, source:TargetData, context:DisplayObject=null):TargetData
 		{
 			var m:Matrix = getTransformationMatrix(sourcePanel, context);

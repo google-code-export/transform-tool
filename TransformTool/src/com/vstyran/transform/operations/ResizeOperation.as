@@ -20,7 +20,7 @@ package com.vstyran.transform.operations
 			
 			var m:Matrix = new Matrix();
 			m.rotate(startData.rotation*Math.PI/180);
-			var deltaPoint:Point = m.transformPoint(new Point(point.x - startPoint.x, point.y - startPoint.y));
+			var deltaPoint:Point = TransformUtil.roundPoint(m.transformPoint(new Point(point.x - startPoint.x, point.y - startPoint.y)));
 			
 			data.width = Math.round(startData.width + startData.width/(startPoint.x-anchor.x) * deltaPoint.x);
 			data = centerAroundAnchor(data);
@@ -32,14 +32,12 @@ package com.vstyran.transform.operations
 		{
 			var m:Matrix = getMatrix(null, startData);
 			var localAnchor:Point = m.transformPoint(anchor);
-			localAnchor.x = Math.round(localAnchor.x);
-			localAnchor.y = Math.round(localAnchor.y);
 		
 			var newLocalAnchor:Point = new Point(localAnchor.x/startData.width*data.width, localAnchor.y/startData.height*data.height);
 			
 			
 			var m1:Matrix = getMatrix(startData, null);
-			var newAnchor:Point = m1.transformPoint(newLocalAnchor);
+			var newAnchor:Point = TransformUtil.roundPoint(m1.transformPoint(newLocalAnchor));
 			
 			
 			data.x = Math.round(startData.x + anchor.x - newAnchor.x);
