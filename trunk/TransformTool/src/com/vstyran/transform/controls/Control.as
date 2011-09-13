@@ -64,15 +64,16 @@ package com.vstyran.transform.controls
 			
 			tool.startTransformation(this);
 			
+			if(operation is IAncorOperation)
+			{
+				var anckorPoint:Point = getAnchorPoint(resolveAnchor(event));
+				if(anckorPoint)
+					(operation as IAncorOperation).anchor = TransformUtil.roundPoint(anckorPoint); 
+			}
+			
 			if(operation)
 				operation.initOperation(tool.sourceData, tool.sourcePanel.globalToLocal(new Point(event.stageX, event.stageY)));
 			
-			if(operation is IAncorOperation)
-			{
-				var anckorPoint:Point = TransformUtil.roundPoint(getAnchorPoint(resolveAnchor(event)));
-				if(anckorPoint)
-					(operation as IAncorOperation).anchor = anckorPoint; 
-			}
 			
 			systemManager.getSandboxRoot().addEventListener(MouseEvent.MOUSE_MOVE, moveHandler);
 			systemManager.getSandboxRoot().addEventListener(MouseEvent.MOUSE_UP, upHandler);

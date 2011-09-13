@@ -38,7 +38,8 @@
 			<operations:ResizeOperation/>
 		</controls:operation>
 	</controls:Control>
-	<controls:Control bottom="-4" right="-4" skinClass="com.vstyran.transform.skins.ControlSkin">
+	<controls:Control bottom="-4" right="-4" skinClass="com.vstyran.transform.skins.ControlSkin"
+					  anchor="{middleLeft}">
 		<controls:operation>
 			<operations:ResizeOperation/>
 		</controls:operation>
@@ -53,10 +54,10 @@
 			<operations:ResizeOperation/>
 		</controls:operation>
 	</controls:Control>
-	<controls:Control id="middleLeft" verticalCenter="0" left="-4" skinClass="com.vstyran.transform.skins.ControlSkin" 
-					  anchor="{middleRight}">
+	<controls:Control id="middleLeft" verticalCenter="0" left="-4" skinClass="com.vstyran.transform.skins.ControlSkin"
+					  >
 		<controls:operation>
-			<operations:ResizeOperation/>
+			<operations:ResizeOperation localAnchor="{new Point(width, height/2)}"/>
 		</controls:operation>
 	</controls:Control>
 	
