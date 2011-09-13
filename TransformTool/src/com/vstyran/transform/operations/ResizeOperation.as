@@ -22,7 +22,7 @@ package com.vstyran.transform.operations
 			m.rotate(startData.rotation*Math.PI/180);
 			var deltaPoint:Point = TransformUtil.roundPoint(m.transformPoint(new Point(point.x - startPoint.x, point.y - startPoint.y)));
 			
-			data.width = Math.round(startData.width + startData.width/(startPoint.x-anchor.x) * deltaPoint.x);
+			data.width = Math.round(startData.width + startData.width/(startPoint.x-startAnchor.x) * deltaPoint.x);
 			data = centerAroundAnchor(data);
 			
 			return data;
@@ -30,41 +30,25 @@ package com.vstyran.transform.operations
 		
 		public function centerAroundAnchor(data:TargetData):TargetData
 		{
-			var m:Matrix = getMatrix(null, startData);
-			var localAnchor:Point = m.transformPoint(anchor);
-		
-			var newLocalAnchor:Point = new Point(localAnchor.x/startData.width*data.width, localAnchor.y/startData.height*data.height);
+			
+			var newLocalAnchor:Point = TransformUtil.roundPoint(new Point(startLocalAnchor.x/startData.width*data.width, startLocalAnchor.y/startData.height*data.height));
+			//trace("old: " + startLocalAnchor.toString() + " new: " + newLocalAnchor.toString());
 			
 			
 			var m1:Matrix = getMatrix(startData, null);
 			var newAnchor:Point = TransformUtil.roundPoint(m1.transformPoint(newLocalAnchor));
+		//	trace(newAnchor.toString());
 			
+			data.x = Math.round(startAnchor.x - Math.cos(startData.rotation*Math.PI/180)*newLocalAnchor.x);
+			data.y = Math.round(startAnchor.y - Math.cos(startData.rotation*Math.PI/180)*newLocalAnchor.y);
 			
-			data.x = Math.round(startData.x + anchor.x - newAnchor.x);
-			data.y = Math.round(startData.y + anchor.y - newAnchor.y);
+			/*data.x = startData.x + startAnchor.x - newAnchor.x;
+			data.y = startData.y + startAnchor.y - newAnchor.y;*/
+			
+			//trace("x: " + data.x + " y: " + data.y);
 			return data;
 		}
 		
-		private function getMatrix(fromContext:TargetData, toContext:TargetData):Matrix
-		{
-			var m:Matrix = new Matrix();
-			
-			if(fromContext)
-			{
-				m.rotate(fromContext.rotation*Math.PI/180);
-				m.translate(fromContext.x,fromContext.y);
-			}
-			
-			if(toContext)
-			{
-				var tm:Matrix = new Matrix();
-				tm.rotate(toContext.rotation*Math.PI/180);
-				tm.translate(toContext.x, toContext.y);
-				tm.invert();
-				m.concat(tm);
-			}
-			
-			return m;
-		}
+		
 	}
 }

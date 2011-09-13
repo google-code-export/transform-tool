@@ -83,6 +83,11 @@ package com.vstyran.transform.utils
 			return new Point(Math.round(point.x), Math.round(point.y));
 		}
 		
+		public static function floorPoint(point:Point):Point
+		{
+			return new Point(Math.floor(point.x), Math.floor(point.y));
+		}
+		
 		/*public static function getBoundsInContext(sourcePanel:DisplayObject, source:TargetData, context:DisplayObject=null):TargetData
 		{
 			var m:Matrix = getTransformationMatrix(sourcePanel, context);
