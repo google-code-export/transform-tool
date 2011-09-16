@@ -43,9 +43,9 @@ package com.vstyran.transform.operations
 			m.translate(startData.x, startData.y);
 			
 			var pos:Point = m.transformPoint(new Point(0,0));
-			data.x = pos.x;
-			data.y = pos.y;
-			data.width = startData.width*scaleX;
+			data.x = Math.round(pos.x*100)/100;
+			data.y = Math.round(pos.y*100)/100;
+			data.width = Math.round(startData.width*scaleX*100)/100;
 			
 			
 			/*var deltaPoint:Point = new Point(point.x - startPoint.x, point.y - startPoint.y);
