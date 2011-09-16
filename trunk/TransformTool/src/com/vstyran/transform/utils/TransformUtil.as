@@ -50,10 +50,10 @@ package com.vstyran.transform.utils
 		public static function createData(target:DisplayObject):TargetData
 		{
 			var data:TargetData = new TargetData();
-			data.x = target.x;
-			data.y = target.y;
-			data.width = target.width*target.scaleX;
-			data.height = target.height*target.scaleY;
+			data.x = Math.round(target.x);
+			data.y = Math.round(target.y);
+			data.width = Math.round(target.width*target.scaleX);
+			data.height = Math.round(target.height*target.scaleY);
 			data.rotation = target.rotation;
 			
 			return data;

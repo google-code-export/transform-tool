@@ -18,12 +18,40 @@ package com.vstyran.transform.operations
 		{
 			var data:TargetData = startData.clone();
 			
-			var m:Matrix = new Matrix();
-			m.rotate(startData.rotation*Math.PI/180);
-			var deltaPoint:Point = TransformUtil.roundPoint(m.transformPoint(new Point(point.x - startPoint.x, point.y - startPoint.y)));
+			var deltaPoint:Point = TransformUtil.roundPoint(new Point(point.x - startPoint.x, point.y - startPoint.y));
+			//trace(deltaPoint)
+			var scaleX:Number = 1 + deltaPoint.x/(startPoint.x-anchor.x);
+			var newWidth:Number = data.width*scaleX;
 			
-			data.width = Math.round(startData.width + startData.width/(startPoint.x-startAnchor.x) * deltaPoint.x);
-			data = centerAroundAnchor(data);
+			trace("old " + scaleX);
+			
+			var deltaW:Number = Math.round(newWidth - startData.width);
+			
+			if(Math.floor(deltaW/2) != deltaW/2)
+				deltaW = Math.round(deltaW/2) > deltaW/2 ? deltaW + 1 : deltaW - 1; 
+			trace(deltaW);
+			
+			scaleX = Math.abs(deltaW > 0 ? (startData.width + deltaW)/startData.width : scaleX);
+			trace("new " + scaleX);
+
+			var m:Matrix = new Matrix();
+			m.rotate(-startData.rotation*Math.PI/180);
+			m.translate(-anchor.x, -anchor.y);
+			m.scale(scaleX, 1);
+			m.translate(anchor.x, anchor.y);
+			m.rotate(startData.rotation*Math.PI/180);	
+			m.translate(startData.x, startData.y);
+			
+			var pos:Point = m.transformPoint(new Point(0,0));
+			data.x = pos.x;
+			data.y = pos.y;
+			data.width = startData.width*scaleX;
+			
+			
+			/*var deltaPoint:Point = new Point(point.x - startPoint.x, point.y - startPoint.y);
+			
+			data.width = startData.width + startData.width/(startPoint.x-anchor.x) * deltaPoint.x;
+			data = centerAroundAnchor(data);*/
 			
 			return data;
 		}
@@ -31,16 +59,24 @@ package com.vstyran.transform.operations
 		public function centerAroundAnchor(data:TargetData):TargetData
 		{
 			
-			var newLocalAnchor:Point = TransformUtil.roundPoint(new Point(startLocalAnchor.x/startData.width*data.width, startLocalAnchor.y/startData.height*data.height));
+			var newAnchor:Point = new Point(anchor.x/startData.width*data.width, anchor.y/startData.height*data.height);
+			
+			
+			var m:Matrix = new Matrix();
+			m.rotate(data.rotation*Math.PI/180);
+			var p:Point = m.transformPoint(new Point(newAnchor.x - anchor.x, newAnchor.y - anchor.y));
+			data.x = startData.x - p.x;
+			data.y = startData.y - p.y;
+			
 			//trace("old: " + startLocalAnchor.toString() + " new: " + newLocalAnchor.toString());
 			
 			
-			var m1:Matrix = getMatrix(startData, null);
+			/*var m1:Matrix = getMatrix(startData, null);
 			var newAnchor:Point = TransformUtil.roundPoint(m1.transformPoint(newLocalAnchor));
 		//	trace(newAnchor.toString());
 			
 			data.x = Math.round(startAnchor.x - Math.cos(startData.rotation*Math.PI/180)*newLocalAnchor.x);
-			data.y = Math.round(startAnchor.y - Math.cos(startData.rotation*Math.PI/180)*newLocalAnchor.y);
+			data.y = Math.round(startAnchor.y - Math.cos(startData.rotation*Math.PI/180)*newLocalAnchor.y);*/
 			
 			/*data.x = startData.x + startAnchor.x - newAnchor.x;
 			data.y = startData.y + startAnchor.y - newAnchor.y;*/

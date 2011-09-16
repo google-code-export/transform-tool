@@ -7,7 +7,7 @@
 		[HostComponent("com.vstyran.transform.controls.Control")]
 	</fx:Metadata>
 	
-	<s:Ellipse width="9" height="9">
+	<s:Ellipse width="8" height="8">
 		<s:stroke>
 			<s:SolidColorStroke/>
 		</s:stroke>
