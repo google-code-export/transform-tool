@@ -18,6 +18,11 @@
     <classEntry path="com.vstyran.transform.supportClasses.SimpleExporter"/>
     <classEntry path="com.vstyran.transform.operations.IAncorOperation"/>
     <classEntry path="com.vstyran.transform.skins.AnchorSkin"/>
+    <classEntry path="com.vstyran.transform.connectors.SimpleConnector"/>
+    <classEntry path="com.vstyran.transform.connectors.IConnector"/>
+    <classEntry path="com.vstyran.transform.events.ConnectorEvent"/>
+    <classEntry path="com.vstyran.transform.connectors.DataConnector"/>
+    <classEntry path="com.vstyran.transform.connectors.UIConnector"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

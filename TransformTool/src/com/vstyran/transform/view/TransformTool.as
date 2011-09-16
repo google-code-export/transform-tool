@@ -1,9 +1,9 @@
 package com.vstyran.transform.view
 {
 	
+	import com.vstyran.transform.connectors.IConnector;
 	import com.vstyran.transform.controls.Control;
-	import com.vstyran.transform.factories.TargetExporter;
-	import com.vstyran.transform.factories.TargetImporter;
+	import com.vstyran.transform.events.ConnectorEvent;
 	import com.vstyran.transform.model.TargetData;
 	import com.vstyran.transform.supportClasses.Converter;
 	import com.vstyran.transform.supportClasses.IExporter;
@@ -34,87 +34,33 @@ package com.vstyran.transform.view
 		{
 			super();
 		}
-		public var exporter:IExporter = new SimpleExporter();
-		private var toolConverter:Converter;
 		
-		private var _source:UIComponent;
+		private var _connector:IConnector;
 
-		public function get source():UIComponent
+		public function get connector():IConnector
 		{
-			return _source;
+			return _connector;
 		}
 
-		public function set source(value:UIComponent):void
+		public function set connector(value:IConnector):void
 		{
-			if(_source)
-				_source.removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
-			
-			_source = value;
-			
-			if(_source)
+			if(_connector != value)
 			{
-				_source.addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
-				sourcePanel = source.parent;
-				sourceData = TransformUtil.createData(_source);
+				if(_connector)
+					_connector.removeEventListener(ConnectorEvent.DATA_CHANGE, dataChangeHendler);
+				
+				_connector = value;
+				
+				if(_connector)
+					_connector.addEventListener(ConnectorEvent.DATA_CHANGE, dataChangeHendler);
+				
+				updateTool();
 			}
-			else
-			{
-				sourcePanel = null;
-			}
-			
-			converterDirty = true;
-			invalidateProperties();
-			
 		}
 		
-		protected function addedToStageHandler(event:Event):void
+		private function dataChangeHendler(event:ConnectorEvent):void
 		{
-			sourcePanel = source.parent;
-			converterDirty = true;
-			invalidateProperties();
-			
-		}
-		
-		public var sourcePanel:DisplayObject;
-		
-		override public function parentChanged(p:DisplayObjectContainer):void
-		{
-			super.parentChanged(p);
-			
-			converterDirty = true;
-			invalidateProperties();
-		}
-		
-		
-		private var _sourceData:TargetData;
-
-		[Bindable]
-		public function get sourceData():TargetData
-		{
-			return _sourceData;
-		}
-
-		public function set sourceData(value:TargetData):void
-		{
-			_sourceData = value;
-			
 			updateTool();
-		}
-
-
-		override protected function getCurrentSkinState():String
-		{
-			return super.getCurrentSkinState();
-		} 
-		
-		override protected function partAdded(partName:String, instance:Object) : void
-		{
-			super.partAdded(partName, instance);
-		}
-		
-		override protected function partRemoved(partName:String, instance:Object) : void
-		{
-			super.partRemoved(partName, instance);
 		}
 		
 		override protected function attachSkin():void
@@ -156,8 +102,6 @@ package com.vstyran.transform.view
 		
 		private var validateControls:Boolean;
 		
-		private var converterDirty:Boolean;
-		
 		override protected function commitProperties():void
 		{
 			super.commitProperties();
@@ -168,14 +112,6 @@ package com.vstyran.transform.view
 				processParts(skin);
 				validateControls = false;
 			}
-			
-			if(converterDirty)
-			{
-				toolConverter = new Converter(sourcePanel, parent);
-				
-				updateTool();
-				converterDirty = false;
-			}
 		}
 		
 		public function startTransformation(control:Control):void
@@ -184,18 +120,18 @@ package com.vstyran.transform.view
 		
 		public function doTransformation(data:TargetData):void
 		{
-			sourceData = exporter.export(source, data);
+			TransformUtil.applyData(this, connector.transfrom(data));
 		}
 		
 		public function endTransformation(data:TargetData):void
 		{
-			sourceData = exporter.export(source, data);
 		}
 		
 		public function updateTool():void
 		{
-			if(_sourceData)
-				TransformUtil.applyData(this, toolConverter.transformData(_sourceData));
+			var data:TargetData = connector.getData();
+			if(data)
+				TransformUtil.applyData(this, data);
 		}
 	}
 }

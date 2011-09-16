@@ -11,6 +11,7 @@ package com.vstyran.transform.controls
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.geom.Matrix;
 	import flash.geom.Point;
 	
 	import mx.core.UIComponent;
@@ -38,7 +39,7 @@ package com.vstyran.transform.controls
 			if(!anchor)
 				return null;
 			
-			return converter.transformPoint(new Point(Math.floor(anchor.width/2), Math.floor(anchor.height/2)));;
+			return TransformUtil.getTransformationMatrix(anchor, tool).transformPoint(new Point(Math.floor(anchor.width/2), Math.floor(anchor.height/2)));
 		}
 		
 		private function resolveAnchor(event:MouseEvent):DisplayObject
@@ -53,15 +54,14 @@ package com.vstyran.transform.controls
 			return anchor;
 		}
 		
-		protected var converter:Converter;
+		private var matrix:Matrix;
 		
 		protected function downHandler(event:MouseEvent):void
 		{
 			if(!tool)
 				return;
 			
-			converter = new Converter(anchor, tool.sourcePanel);
-			
+			matrix = TransformUtil.getTransformationMatrix(null, tool);
 			tool.startTransformation(this);
 			
 			if(operation is IAncorOperation)
@@ -72,7 +72,7 @@ package com.vstyran.transform.controls
 			}
 			
 			if(operation)
-				operation.initOperation(tool.sourceData, tool.sourcePanel.globalToLocal(new Point(event.stageX, event.stageY)));
+				operation.initOperation(TransformUtil.createData(tool), TransformUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY))));
 			
 			
 			systemManager.getSandboxRoot().addEventListener(MouseEvent.MOUSE_MOVE, moveHandler);
@@ -82,7 +82,7 @@ package com.vstyran.transform.controls
 		protected function moveHandler(event:MouseEvent):void
 		{
 			if(operation)
-				tool.doTransformation(operation.doOperation(tool.sourcePanel.globalToLocal(new Point(event.stageX, event.stageY))));
+				tool.doTransformation(operation.doOperation( TransformUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY)))));
 		
 			event.updateAfterEvent();
 		}
@@ -90,7 +90,7 @@ package com.vstyran.transform.controls
 		protected function upHandler(event:MouseEvent):void
 		{
 			if(operation)
-				tool.endTransformation(operation.doOperation(tool.sourcePanel.globalToLocal(new Point(event.stageX, event.stageY))));
+				tool.endTransformation(operation.doOperation( TransformUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY)))));
 			
 			systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_MOVE, moveHandler);
 			systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_UP, upHandler);

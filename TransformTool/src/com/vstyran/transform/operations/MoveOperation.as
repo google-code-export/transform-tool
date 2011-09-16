@@ -2,6 +2,7 @@ package com.vstyran.transform.operations
 {
 	import com.vstyran.transform.model.TargetData;
 	
+	import flash.geom.Matrix;
 	import flash.geom.Point;
 	
 	public class MoveOperation implements IOperation
@@ -22,8 +23,12 @@ package com.vstyran.transform.operations
 		public function doOperation(point:Point):TargetData
 		{
 			var data:TargetData = startData.clone();
-			data.x = startData.x + point.x - startPoint.x;
-			data.y = startData.y + point.y - startPoint.y;
+			
+			var m:Matrix = new Matrix();
+			m.rotate(data.rotation*Math.PI/180);
+			var p:Point = m.transformPoint(new Point(point.x - startPoint.x, point.y - startPoint.y));
+			data.x = startData.x + p.x;
+			data.y = startData.y + p.y;
 			
 			return data;
 		}
