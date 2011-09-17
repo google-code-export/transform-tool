@@ -23,6 +23,7 @@
     <classEntry path="com.vstyran.transform.events.ConnectorEvent"/>
     <classEntry path="com.vstyran.transform.connectors.DataConnector"/>
     <classEntry path="com.vstyran.transform.connectors.UIConnector"/>
+    <classEntry path="com.vstyran.transform.utils.MathUtil"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
