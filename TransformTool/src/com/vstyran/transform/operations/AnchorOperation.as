@@ -1,28 +1,20 @@
 package com.vstyran.transform.operations
 {
 	import com.vstyran.transform.model.TargetData;
+	import com.vstyran.transform.utils.MathUtil;
 	import com.vstyran.transform.utils.TransformUtil;
 	
 	import flash.geom.Matrix;
 	import flash.geom.Point;
-
+	
 	public class AnchorOperation implements IAncorOperation
 	{
 		
-		private var _anchor:Point;
-
 		[Bindable]
-		public function get anchor():Point
-		{
-			return _anchor;
-		}
-
-		public function set anchor(value:Point):void
-		{
-			_anchor = value;
-		}
+		public var anchor:Point;
 		
 		
+		protected var startAnchor:Point;
 		protected var startData:TargetData;
 		protected var startPoint:Point;
 		
@@ -33,7 +25,8 @@ package com.vstyran.transform.operations
 		public function initOperation(data:TargetData, point:Point):void
 		{
 			startData = data;
-			startPoint = point;
+			startPoint = MathUtil.roundPoint(point);
+			startAnchor = MathUtil.floorPoint(anchor.clone(), 2)
 		}
 		
 		public function doOperation(point:Point):TargetData
