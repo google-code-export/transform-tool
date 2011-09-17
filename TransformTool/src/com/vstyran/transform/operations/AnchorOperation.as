@@ -9,8 +9,18 @@ package com.vstyran.transform.operations
 	public class AnchorOperation implements IAncorOperation
 	{
 		
+		private var _anchor:Point;
+
 		[Bindable]
-		public var anchor:Point;
+		public function get anchor():Point
+		{
+			return _anchor;
+		}
+
+		public function set anchor(value:Point):void
+		{
+			_anchor = value;
+		}
 		
 		
 		protected var startData:TargetData;

@@ -5,6 +5,7 @@ package com.vstyran.transform.controls
 	import com.vstyran.transform.operations.IAncorOperation;
 	import com.vstyran.transform.operations.IOperation;
 	import com.vstyran.transform.supportClasses.Converter;
+	import com.vstyran.transform.utils.MathUtil;
 	import com.vstyran.transform.utils.TransformUtil;
 	import com.vstyran.transform.view.TransformTool;
 	
@@ -68,11 +69,11 @@ package com.vstyran.transform.controls
 			{
 				var anckorPoint:Point = getAnchorPoint(resolveAnchor(event));
 				if(anckorPoint)
-					(operation as IAncorOperation).anchor = TransformUtil.roundPoint(anckorPoint); 
+					(operation as IAncorOperation).anchor = MathUtil.floorPoint(anckorPoint, 2); 
 			}
 			
 			if(operation)
-				operation.initOperation(TransformUtil.createData(tool), TransformUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY))));
+				operation.initOperation(TransformUtil.createData(tool), MathUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY))));
 			
 			
 			systemManager.getSandboxRoot().addEventListener(MouseEvent.MOUSE_MOVE, moveHandler);
@@ -82,7 +83,7 @@ package com.vstyran.transform.controls
 		protected function moveHandler(event:MouseEvent):void
 		{
 			if(operation)
-				tool.doTransformation(operation.doOperation( TransformUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY)))));
+				tool.doTransformation(operation.doOperation( MathUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY)))));
 		
 			event.updateAfterEvent();
 		}
@@ -90,7 +91,7 @@ package com.vstyran.transform.controls
 		protected function upHandler(event:MouseEvent):void
 		{
 			if(operation)
-				tool.endTransformation(operation.doOperation( TransformUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY)))));
+				tool.endTransformation(operation.doOperation( MathUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY)))));
 			
 			systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_MOVE, moveHandler);
 			systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_UP, upHandler);
