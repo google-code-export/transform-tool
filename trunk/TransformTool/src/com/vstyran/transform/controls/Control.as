@@ -69,11 +69,11 @@ package com.vstyran.transform.controls
 			{
 				var anckorPoint:Point = getAnchorPoint(resolveAnchor(event));
 				if(anckorPoint)
-					(operation as IAncorOperation).anchor = MathUtil.floorPoint(anckorPoint, 2); 
+					(operation as IAncorOperation).anchor = anckorPoint; 
 			}
 			
 			if(operation)
-				operation.initOperation(TransformUtil.createData(tool), MathUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY))));
+				operation.initOperation(TransformUtil.createData(tool), matrix.transformPoint(new Point(event.stageX, event.stageY)));
 			
 			
 			systemManager.getSandboxRoot().addEventListener(MouseEvent.MOUSE_MOVE, moveHandler);
