@@ -26,7 +26,10 @@ package com.vstyran.transform.operations
 		{
 			startData = data;
 			startPoint = MathUtil.roundPoint(point);
-			startAnchor = MathUtil.floorPoint(anchor.clone(), 2)
+			if(anchor)
+				startAnchor =  MathUtil.floorPoint(anchor.clone(), 2)
+			else
+				startAnchor =  MathUtil.floorPoint(new Point(startData.width/2, startData.height/2));	
 		}
 		
 		public function doOperation(point:Point):TargetData

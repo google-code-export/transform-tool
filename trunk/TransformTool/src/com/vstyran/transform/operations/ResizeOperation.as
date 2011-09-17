@@ -1,9 +1,7 @@
 package com.vstyran.transform.operations
 {
 	import com.vstyran.transform.model.TargetData;
-	import com.vstyran.transform.supportClasses.Converter;
 	import com.vstyran.transform.utils.MathUtil;
-	import com.vstyran.transform.utils.TransformUtil;
 	
 	import flash.geom.Matrix;
 	import flash.geom.Point;
@@ -15,15 +13,25 @@ package com.vstyran.transform.operations
 			super();
 		}
 		
+		public var verticalEnabled:Boolean = true;
+		public var horizontalEnabled:Boolean = true;
+		
 		override public function doOperation(point:Point):TargetData
 		{
 			var data:TargetData = startData.clone();
 			
 			var deltaPoint:Point = MathUtil.roundPoint(new Point(point.x - startPoint.x, point.y - startPoint.y));
 			
-			var newWidth:Number = data.width + data.width*deltaPoint.x/(startPoint.x-startAnchor.x);
-			
-			data.width = MathUtil.round(newWidth,2);
+			if(horizontalEnabled)
+			{
+				var newWidth:Number = data.width + data.width*deltaPoint.x/(startPoint.x-startAnchor.x);
+				data.width = MathUtil.round(newWidth,2);
+			}
+			if(verticalEnabled)
+			{
+				var newHeight:Number = data.height + data.height*deltaPoint.y/(startPoint.y-startAnchor.y);
+				data.height = MathUtil.round(newHeight,2);
+			}
 			
 			var m:Matrix = new Matrix();
 			m.rotate(startData.rotation*Math.PI/180);
