@@ -1,6 +1,7 @@
 package com.vstyran.transform.operations
 {
 	import com.vstyran.transform.model.TargetData;
+	import com.vstyran.transform.utils.MathUtil;
 	
 	import flash.geom.Matrix;
 	import flash.geom.Point;
@@ -17,7 +18,7 @@ package com.vstyran.transform.operations
 		public function initOperation(data:TargetData, point:Point):void
 		{
 			startData = data;
-			startPoint = point;
+			startPoint = MathUtil.roundPoint(point);
 		}
 		
 		public function doOperation(point:Point):TargetData
