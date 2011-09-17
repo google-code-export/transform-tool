@@ -31,7 +31,7 @@ package com.vstyran.transform.operations
 				deltaW = Math.round(deltaW/2) > deltaW/2 ? deltaW + 1 : deltaW - 1; 
 			trace(deltaW);
 			
-			scaleX = Math.abs(deltaW > 0 ? (startData.width + deltaW)/startData.width : scaleX);
+			/*scaleX = Math.abs(deltaW > 0 ? (startData.width + deltaW)/startData.width : scaleX);
 			trace("new " + scaleX);
 
 			var m:Matrix = new Matrix();
@@ -40,13 +40,19 @@ package com.vstyran.transform.operations
 			m.scale(scaleX, 1);
 			m.translate(anchor.x, anchor.y);
 			m.rotate(startData.rotation*Math.PI/180);	
-			m.translate(startData.x, startData.y);
+			m.translate(startData.x, startData.y);*/
 			
-			var pos:Point = m.transformPoint(new Point(0,0));
-			data.x = Math.round(pos.x*100)/100;
-			data.y = Math.round(pos.y*100)/100;
+			
 			data.width = Math.round(startData.width*scaleX*100)/100;
 			
+			var m:Matrix = new Matrix();
+			m.rotate(startData.rotation*Math.PI/180);
+			//m.translate(startData.x, startData.y);
+			
+			var pos:Point = m.transformPoint(new Point(data.width*anchor.x/startData.width - anchor.x,data.height*anchor.y/startData.height-anchor.y));
+			
+			data.x = Math.round((startData.x - pos.x)*100)/100;
+			data.y = Math.round((startData.y - pos.y)*100)/100;
 			
 			/*var deltaPoint:Point = new Point(point.x - startPoint.x, point.y - startPoint.y);
 			
