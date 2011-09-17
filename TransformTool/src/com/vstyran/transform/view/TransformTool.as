@@ -5,24 +5,14 @@ package com.vstyran.transform.view
 	import com.vstyran.transform.controls.Control;
 	import com.vstyran.transform.events.ConnectorEvent;
 	import com.vstyran.transform.model.TargetData;
-	import com.vstyran.transform.supportClasses.Converter;
-	import com.vstyran.transform.supportClasses.IExporter;
-	import com.vstyran.transform.supportClasses.SimpleExporter;
 	import com.vstyran.transform.utils.TransformUtil;
 	
-	import flash.display.DisplayObject;
-	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
-	import flash.geom.Matrix;
-	import flash.geom.Point;
 	
 	import mx.core.IVisualElement;
 	import mx.core.IVisualElementContainer;
 	import mx.core.UIComponent;
-	import mx.events.PropertyChangeEvent;
 	
-	import spark.components.Group;
-	import spark.components.supportClasses.Skin;
 	import spark.components.supportClasses.SkinnableComponent;
 	
 	

@@ -1,21 +1,16 @@
 package com.vstyran.transform.controls
 {
 	
-	import com.vstyran.transform.operations.AnchorOperation;
 	import com.vstyran.transform.operations.IAncorOperation;
 	import com.vstyran.transform.operations.IOperation;
-	import com.vstyran.transform.supportClasses.Converter;
 	import com.vstyran.transform.utils.MathUtil;
 	import com.vstyran.transform.utils.TransformUtil;
 	import com.vstyran.transform.view.TransformTool;
 	
 	import flash.display.DisplayObject;
-	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Matrix;
 	import flash.geom.Point;
-	
-	import mx.core.UIComponent;
 	
 	import spark.components.supportClasses.SkinnableComponent;
 	
