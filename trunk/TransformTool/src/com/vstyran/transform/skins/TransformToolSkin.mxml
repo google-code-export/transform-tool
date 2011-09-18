@@ -11,7 +11,15 @@
 	
 	<fx:Declarations>
 		<raster:CursorManager id="toolCursorManager">
-			<raster:CursorItem control="{moveControl}" cusrsor="@Embed('resources/move.png')" xOffset="-9" yOffset="-9"/>
+			<raster:CursorItem control="{moveControl}" cusrsor="@Embed('resources/move.png')" xOffset="-11" yOffset="-11"/>
+			<raster:CursorItem control="{middleLeft}" cusrsor="@Embed('resources/resize1.png')" xOffset="-11" yOffset="-5"/>
+			<raster:CursorItem control="{middleRight}" cusrsor="@Embed('resources/resize1.png')" xOffset="-11" yOffset="-5"/>
+			<raster:CursorItem control="{topMiddle}" cusrsor="@Embed('resources/resize2.png')" xOffset="-5" yOffset="-11"/>
+			<raster:CursorItem control="{bottomMiddle}" cusrsor="@Embed('resources/resize2.png')" xOffset="-5" yOffset="-11"/>
+			<raster:CursorItem control="{topLeft}" cusrsor="@Embed('resources/resize3.png')" xOffset="-11" yOffset="-10"/>
+			<raster:CursorItem control="{bottomRight}" cusrsor="@Embed('resources/resize3.png')" xOffset="-11" yOffset="-10"/>
+			<raster:CursorItem control="{topRight}" cusrsor="@Embed('resources/resize4.png')" xOffset="-10" yOffset="-11"/>
+			<raster:CursorItem control="{bottomLeft}" cusrsor="@Embed('resources/resize4.png')" xOffset="-10" yOffset="-11"/>
 		</raster:CursorManager>
 	</fx:Declarations>
 	
