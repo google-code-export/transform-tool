@@ -3,7 +3,10 @@ package com.vstyran.transform.connectors
 	import com.vstyran.transform.events.ConnectorEvent;
 	import com.vstyran.transform.model.TargetData;
 	
+	import flash.display.DisplayObject;
 	import flash.events.EventDispatcher;
+	
+	import mx.core.UIComponent;
 
 	[Event(name="dataChange", type="com.vstyran.transform.events.ConnectorEvent")]
 	
@@ -13,6 +16,11 @@ package com.vstyran.transform.connectors
 	{
 		public function SimpleConnector()
 		{
+		}
+		
+		public function setToolPanel(panel:DisplayObject):void
+		{
+			
 		}
 		
 		private var _data:TargetData;

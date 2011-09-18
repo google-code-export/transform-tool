@@ -8,6 +8,7 @@ package com.vstyran.transform.view
 	import com.vstyran.transform.utils.TransformUtil;
 	
 	import flash.events.Event;
+	import flash.geom.Matrix;
 	
 	import mx.core.IVisualElement;
 	import mx.core.IVisualElementContainer;
@@ -23,6 +24,16 @@ package com.vstyran.transform.view
 		public function TransformTool()
 		{
 			super();
+			
+			addEventListener(Event.ADDED_TO_STAGE, addedTostageHandler);
+		}
+		
+		protected function addedTostageHandler(event:Event):void
+		{
+			if(connector)
+				connector.setToolPanel(parent);
+			
+			updateTool();
 		}
 		
 		private var _connector:IConnector;
@@ -119,7 +130,7 @@ package com.vstyran.transform.view
 		
 		public function updateTool():void
 		{
-			var data:TargetData = connector.getData();
+			var data:TargetData = connector.getData()
 			if(data)
 				TransformUtil.applyData(this, data);
 		}
