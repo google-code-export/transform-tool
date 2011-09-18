@@ -26,6 +26,7 @@
     <classEntry path="com.vstyran.transform.managers.raster.CursorManager"/>
     <classEntry path="com.vstyran.transform.managers.ICursorManager"/>
     <classEntry path="com.vstyran.transform.managers.raster.CursorItem"/>
+    <classEntry path="com.vstyran.transform.operations.RotateOperation"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

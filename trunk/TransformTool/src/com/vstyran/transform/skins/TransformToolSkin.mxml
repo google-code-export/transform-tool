@@ -16,10 +16,11 @@
 			<raster:CursorItem control="{middleRight}" cusrsor="@Embed('resources/resize1.png')" xOffset="-11" yOffset="-5"/>
 			<raster:CursorItem control="{topMiddle}" cusrsor="@Embed('resources/resize2.png')" xOffset="-5" yOffset="-11"/>
 			<raster:CursorItem control="{bottomMiddle}" cusrsor="@Embed('resources/resize2.png')" xOffset="-5" yOffset="-11"/>
-			<raster:CursorItem control="{topLeft}" cusrsor="@Embed('resources/resize3.png')" xOffset="-11" yOffset="-10"/>
-			<raster:CursorItem control="{bottomRight}" cusrsor="@Embed('resources/resize3.png')" xOffset="-11" yOffset="-10"/>
-			<raster:CursorItem control="{topRight}" cusrsor="@Embed('resources/resize4.png')" xOffset="-10" yOffset="-11"/>
-			<raster:CursorItem control="{bottomLeft}" cusrsor="@Embed('resources/resize4.png')" xOffset="-10" yOffset="-11"/>
+			<raster:CursorItem control="{topLeft}" cusrsor="@Embed('resources/resize3.png')" xOffset="-8" yOffset="-8"/>
+			<raster:CursorItem control="{bottomRight}" cusrsor="@Embed('resources/resize3.png')" xOffset="-8" yOffset="-8"/>
+			<raster:CursorItem control="{topRight}" cusrsor="@Embed('resources/resize4.png')" xOffset="-8" yOffset="-8"/>
+			<raster:CursorItem control="{bottomLeft}" cusrsor="@Embed('resources/resize4.png')" xOffset="-8" yOffset="-8"/>
+			<raster:CursorItem control="{rotateControl}" cusrsor="@Embed('resources/rotate.png')" xOffset="-9" yOffset="-9"/>
 		</raster:CursorManager>
 	</fx:Declarations>
 	
@@ -27,6 +28,18 @@
 		skinClass="com.vstyran.transform.skins.MoveControlSkin">
 		<controls:operation>
 			<operations:MoveOperation/>
+		</controls:operation>
+	</controls:Control>
+	
+	<s:Line yFrom="-20" yTo="0" horizontalCenter="0">
+		<s:stroke>
+			<s:SolidColorStroke/>
+		</s:stroke>
+	</s:Line>
+	<controls:Control id="rotateControl" top="-20" horizontalCenter="0"
+					  skinClass="com.vstyran.transform.skins.ControlSkin" anchor="{centerAnchor}">
+		<controls:operation>
+			<operations:RotateOperation/>
 		</controls:operation>
 	</controls:Control>
 	
