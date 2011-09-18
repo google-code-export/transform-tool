@@ -15,6 +15,7 @@ package com.vstyran.transform.operations
 		
 		public var verticalEnabled:Boolean = true;
 		public var horizontalEnabled:Boolean = true;
+		public var maintainAspectRatio:Boolean = false;
 		
 		override public function doOperation(point:Point):TargetData
 		{
@@ -31,6 +32,16 @@ package com.vstyran.transform.operations
 			{
 				var newHeight:Number = data.height + data.height*deltaPoint.y/(startPoint.y-startAnchor.y);
 				data.height = MathUtil.round(newHeight,2);
+			}
+			
+			if(maintainAspectRatio) 
+			{
+				var verticalFactor:Number = horizontalEnabled ? data.width/startData.width : 0;
+				var horizontalFactor:Number = verticalEnabled ? data.height/startData.height : 0;
+				var ratio:Number = Math.max(verticalFactor, horizontalFactor);
+				
+				data.width = ratio* startData.width;
+				data.height = ratio* startData.height;
 			}
 			
 			var m:Matrix = new Matrix();

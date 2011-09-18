@@ -17,6 +17,7 @@ package com.vstyran.transform.controls
 	
 	[SkinState("normal")]
 	[SkinState("anchorActivated")]
+	[SkinState("controlActivated")]
 	
 	public class Control extends SkinnableComponent implements IAnchor
 	{
@@ -47,9 +48,17 @@ package com.vstyran.transform.controls
 		}
 		
 		
+		private var controlActivated:Boolean;
+
 		override protected function getCurrentSkinState():String
 		{
-			return _anchorActivated ? "anchorActivated" : "normal";
+			if(_anchorActivated)
+				return "anchorActivated";
+			
+			if(controlActivated)
+				return "controlActivated";
+			
+			return "normal";
 		} 
 		
 		private function getAnchorPoint(anchor:DisplayObject):Point
@@ -101,6 +110,8 @@ package com.vstyran.transform.controls
 			if(operation)
 				operation.initOperation(TransformUtil.createData(tool), matrix.transformPoint(new Point(event.stageX, event.stageY)));
 			
+			controlActivated = true;
+			invalidateSkinState();
 			
 			systemManager.getSandboxRoot().addEventListener(MouseEvent.MOUSE_MOVE, moveHandler);
 			systemManager.getSandboxRoot().addEventListener(MouseEvent.MOUSE_UP, upHandler);
@@ -124,6 +135,9 @@ package com.vstyran.transform.controls
 			
 			activeAnchor = null;
 			
+			controlActivated = false;
+			invalidateSkinState();
+			
 			systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_MOVE, moveHandler);
 			systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_UP, upHandler);
 		}
@@ -131,6 +145,7 @@ package com.vstyran.transform.controls
 		public var tool:TransformTool;
 		
 		public var operation:IOperation;
+	
 		
 		override protected function partAdded(partName:String, instance:Object) : void
 		{
