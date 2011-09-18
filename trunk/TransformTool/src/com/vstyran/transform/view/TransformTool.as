@@ -4,6 +4,7 @@ package com.vstyran.transform.view
 	import com.vstyran.transform.connectors.IConnector;
 	import com.vstyran.transform.controls.Control;
 	import com.vstyran.transform.events.ConnectorEvent;
+	import com.vstyran.transform.managers.ICursorManager;
 	import com.vstyran.transform.model.TargetData;
 	import com.vstyran.transform.utils.TransformUtil;
 	
@@ -20,6 +21,8 @@ package com.vstyran.transform.view
 	
 	public class TransformTool extends SkinnableComponent
 	{
+		[SkinPart]
+		public var toolCursorManager:ICursorManager;
 		
 		public function TransformTool()
 		{

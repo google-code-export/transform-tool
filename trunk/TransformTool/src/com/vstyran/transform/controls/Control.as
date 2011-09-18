@@ -31,6 +31,8 @@ package com.vstyran.transform.controls
 			super();
 			
 			addEventListener(MouseEvent.MOUSE_DOWN, downHandler);
+			addEventListener(MouseEvent.MOUSE_OVER, overHandler);
+			addEventListener(MouseEvent.MOUSE_OUT, outHandler);
 		}
 		
 		private var _anchorActivated:Boolean;
@@ -138,8 +140,25 @@ package com.vstyran.transform.controls
 			controlActivated = false;
 			invalidateSkinState();
 			
+			if(tool.toolCursorManager && !hitTestPoint(event.stageX, event.stageY))
+				tool.toolCursorManager.removeCursor(this);
+			
 			systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_MOVE, moveHandler);
 			systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_UP, upHandler);
+		}
+		
+		
+		protected function overHandler(event:MouseEvent):void
+		{
+			if(tool.toolCursorManager)
+				tool.toolCursorManager.setCursor(this);
+			
+		}
+		
+		protected function outHandler(event:MouseEvent):void
+		{
+			if(tool.toolCursorManager && !controlActivated)
+				tool.toolCursorManager.removeCursor(this);
 		}
 		
 		public var tool:TransformTool;

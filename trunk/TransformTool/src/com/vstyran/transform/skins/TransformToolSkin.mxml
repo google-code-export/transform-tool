@@ -3,14 +3,19 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:mx="library://ns.adobe.com/flex/mx" 
 		xmlns:controls="com.vstyran.transform.controls.*" 
-		xmlns:operations="com.vstyran.transform.operations.*" width="200" height="180">
+		xmlns:operations="com.vstyran.transform.operations.*" width="200" height="180" xmlns:raster="com.vstyran.transform.managers.raster.*">
 	<!-- host component -->
 	<fx:Metadata>
 		[HostComponent("com.vstyran.transform.view.TransformTool")]
 	</fx:Metadata>
 	
+	<fx:Declarations>
+		<raster:CursorManager id="toolCursorManager">
+			<raster:CursorItem control="{moveControl}" cusrsor="@Embed('resources/move.png')" xOffset="-9" yOffset="-9"/>
+		</raster:CursorManager>
+	</fx:Declarations>
 	
-	<controls:Control top="0" left="0" right="0" bottom="0"
+	<controls:Control id="moveControl" top="0" left="0" right="0" bottom="0"
 		skinClass="com.vstyran.transform.skins.MoveControlSkin">
 		<controls:operation>
 			<operations:MoveOperation/>
