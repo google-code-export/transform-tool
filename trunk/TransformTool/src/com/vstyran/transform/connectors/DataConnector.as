@@ -4,6 +4,7 @@ package com.vstyran.transform.connectors
 	import com.vstyran.transform.model.TargetData;
 	import com.vstyran.transform.utils.TransformUtil;
 	
+	import flash.display.DisplayObject;
 	import flash.events.EventDispatcher;
 	import flash.geom.Matrix;
 	
@@ -30,11 +31,19 @@ package com.vstyran.transform.connectors
 		{
 			_panel = value;
 			
-			matrix = TransformUtil.getTransformationMatrix(panel, null);
-			invertMatrix = TransformUtil.getTransformationMatrix(null, panel);
+			matrix = TransformUtil.getTransformationMatrix(panel, toolPanel);
+			invertMatrix = TransformUtil.getTransformationMatrix(toolPanel, panel);
 			dispatchEvent(new ConnectorEvent(ConnectorEvent.DATA_CHANGE));
 		}
 
+		private var toolPanel:DisplayObject;
+		
+		public function setToolPanel(toolPanel:DisplayObject):void
+		{
+			this.toolPanel = toolPanel;
+			matrix = TransformUtil.getTransformationMatrix(panel, toolPanel);
+			invertMatrix = TransformUtil.getTransformationMatrix(toolPanel, panel);
+		}
 		
 		private var _data:TargetData;
 		
