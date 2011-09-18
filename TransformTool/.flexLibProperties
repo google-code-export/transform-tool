@@ -23,6 +23,9 @@
     <classEntry path="com.vstyran.transform.connectors.UIConnector"/>
     <classEntry path="com.vstyran.transform.utils.MathUtil"/>
     <classEntry path="com.vstyran.transform.controls.IAnchor"/>
+    <classEntry path="com.vstyran.transform.managers.raster.CursorManager"/>
+    <classEntry path="com.vstyran.transform.managers.ICursorManager"/>
+    <classEntry path="com.vstyran.transform.managers.raster.CursorItem"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
