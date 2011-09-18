@@ -15,8 +15,10 @@ package com.vstyran.transform.controls
 	import spark.components.supportClasses.SkinnableComponent;
 	
 	
+	[SkinState("normal")]
+	[SkinState("anchorActivated")]
 	
-	public class Control extends SkinnableComponent
+	public class Control extends SkinnableComponent implements IAnchor
 	{
 		public var anchor:DisplayObject;
 		public var shiftAnchor:DisplayObject;
@@ -29,6 +31,26 @@ package com.vstyran.transform.controls
 			
 			addEventListener(MouseEvent.MOUSE_DOWN, downHandler);
 		}
+		
+		private var _anchorActivated:Boolean;
+		
+		public function get anchorActivated():Boolean
+		{
+			return _anchorActivated;
+		}
+		
+		public function set anchorActivated(value:Boolean):void
+		{
+			_anchorActivated = value;
+			
+			invalidateSkinState();
+		}
+		
+		
+		override protected function getCurrentSkinState():String
+		{
+			return _anchorActivated ? "anchorActivated" : "normal";
+		} 
 		
 		private function getAnchorPoint(anchor:DisplayObject):Point
 		{
@@ -52,6 +74,8 @@ package com.vstyran.transform.controls
 		
 		private var matrix:Matrix;
 		
+		private var activeAnchor:IAnchor;
+		
 		protected function downHandler(event:MouseEvent):void
 		{
 			if(!tool)
@@ -62,9 +86,16 @@ package com.vstyran.transform.controls
 			
 			if(operation is IAncorOperation)
 			{
-				var anckorPoint:Point = getAnchorPoint(resolveAnchor(event));
-				if(anckorPoint)
-					(operation as IAncorOperation).anchor = anckorPoint; 
+				var resolvedAnchor:DisplayObject = resolveAnchor(event);
+				if(resolvedAnchor)
+				{
+					(operation as IAncorOperation).anchor = getAnchorPoint(resolvedAnchor); 
+					if(resolvedAnchor is IAnchor)
+					{
+						activeAnchor = resolvedAnchor as IAnchor;
+						activeAnchor.anchorActivated = true;
+					}
+				}
 			}
 			
 			if(operation)
@@ -88,6 +119,11 @@ package com.vstyran.transform.controls
 			if(operation)
 				tool.endTransformation(operation.doOperation( MathUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY)))));
 			
+			if(activeAnchor)
+				activeAnchor.anchorActivated = false;
+			
+			activeAnchor = null;
+			
 			systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_MOVE, moveHandler);
 			systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_UP, upHandler);
 		}
@@ -95,13 +131,6 @@ package com.vstyran.transform.controls
 		public var tool:TransformTool;
 		
 		public var operation:IOperation;
-		
-		
-		
-		override protected function getCurrentSkinState():String
-		{
-			return super.getCurrentSkinState();
-		} 
 		
 		override protected function partAdded(partName:String, instance:Object) : void
 		{

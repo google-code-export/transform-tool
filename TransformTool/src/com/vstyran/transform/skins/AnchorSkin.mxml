@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark" 
-		xmlns:mx="library://ns.adobe.com/flex/mx" width="8" height="8">
+		xmlns:mx="library://ns.adobe.com/flex/mx" width="8" height="8"
+		visible.normal="false">
 	<!-- host component -->
 	<fx:Metadata>
 		[HostComponent("com.vstyran.transform.controls.Anchor")]
 	</fx:Metadata>
+	
+	
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="active"/>
+	</s:states>
 	
 	<s:Ellipse width="8" height="8">
 		<s:stroke>
@@ -15,4 +22,15 @@
 			<s:SolidColor color="#FFFFFF"/>
 		</s:fill>
 	</s:Ellipse>
+	
+	<s:Line xFrom="-2" xTo="10" verticalCenter="0">
+		<s:stroke>
+			<s:SolidColorStroke weight="2"/>
+		</s:stroke>
+	</s:Line>
+	<s:Line yFrom="-2" yTo="10" horizontalCenter="0">
+		<s:stroke>
+			<s:SolidColorStroke weight="2"/>
+		</s:stroke>
+	</s:Line>
 </s:Skin>
