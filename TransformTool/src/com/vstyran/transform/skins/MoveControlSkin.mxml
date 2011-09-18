@@ -9,8 +9,8 @@
 	
 	<s:states>
 		<s:State name="normal"/>
-		<s:State name="anchorActivated"/>
-		<s:State name="controlActivated"/>
+		<s:State name="anchorActive"/>
+		<s:State name="controlActive"/>
 	</s:states>
 	
 	<s:Rect top="0" right="0" bottom="0" left="0">

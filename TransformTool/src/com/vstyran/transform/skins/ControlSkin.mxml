@@ -9,8 +9,8 @@
 	
 	<s:states>
 		<s:State name="normal"/>
-		<s:State name="anchorActivated"/>
-		<s:State name="controlActivated"/>
+		<s:State name="anchorActive"/>
+		<s:State name="controlActive"/>
 	</s:states>
 	
 	<s:Ellipse width="8" height="8">
@@ -18,7 +18,7 @@
 			<s:SolidColorStroke/>
 		</s:stroke>
 		<s:fill>
-			<s:SolidColor color="#FFFFFF" color.controlActivated="red"/>
+			<s:SolidColor color="#FFFFFF" color.controlActive="red"/>
 		</s:fill>
 	</s:Ellipse>
 </s:Skin>

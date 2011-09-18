@@ -16,8 +16,8 @@ package com.vstyran.transform.controls
 	
 	
 	[SkinState("normal")]
-	[SkinState("anchorActivated")]
-	[SkinState("controlActivated")]
+	[SkinState("anchorActive")]
+	[SkinState("controlActive")]
 	
 	public class Control extends SkinnableComponent implements IAnchor
 	{
@@ -53,10 +53,10 @@ package com.vstyran.transform.controls
 		override protected function getCurrentSkinState():String
 		{
 			if(_anchorActivated)
-				return "anchorActivated";
+				return "anchorActive";
 			
 			if(controlActivated)
-				return "controlActivated";
+				return "controlActive";
 			
 			return "normal";
 		} 
