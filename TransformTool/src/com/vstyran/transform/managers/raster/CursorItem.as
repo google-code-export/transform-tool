@@ -18,6 +18,6 @@ package com.vstyran.transform.managers.raster
 		
 		public var yOffset:Number = 0;
 		
-		public var cursorID:Number = 0;
+		public var cursorID:Number = -1;
 	}
 }
