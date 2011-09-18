@@ -38,13 +38,13 @@
 	<controls:Control id="middleRight" verticalCenter="0" right="-4" anchor="{middleLeft}" shiftAnchor="{centerAnchor}"
 					  skinClass="com.vstyran.transform.skins.ControlSkin">
 		<controls:operation>
-			<operations:ResizeOperation verticalEnabled="false"/>
+			<operations:ResizeOperation verticalEnabled="false" maintainAspectRatio="true"/>
 		</controls:operation>
 	</controls:Control>
 	<controls:Control id="bottomRight" bottom="-4" right="-4" anchor="{topLeft}"
 					  skinClass="com.vstyran.transform.skins.ControlSkin">
 		<controls:operation>
-			<operations:ResizeOperation/>
+			<operations:ResizeOperation maintainAspectRatio="true"/>
 		</controls:operation>
 	</controls:Control>
 	<controls:Control id="bottomMiddle" bottom="-4" horizontalCenter="0" anchor="{topMiddle}"
