@@ -35,10 +35,10 @@ package com.vstyran.transform.operations
 			m.rotate(data.rotation*Math.PI/180);
 			m.translate(globalAnchor.x, globalAnchor.y);
 			
-			var pos:Point = m.transformPoint(new Point(0, 0));
+			var pos:Point = MathUtil.roundPoint(m.transformPoint(new Point(0, 0)), 2);
 			
-			data.x = MathUtil.round(pos.x, 2);
-			data.y = MathUtil.round(pos.y, 2);
+			data.x = pos.x;
+			data.y = pos.y;
 			
 			return data;
 		}
