@@ -140,7 +140,7 @@ package com.vstyran.transform.controls
 			controlActivated = false;
 			invalidateSkinState();
 			
-			if(tool.toolCursorManager && !hitTestPoint(event.stageX, event.stageY))
+			if(tool.toolCursorManager && !hitTestPoint(event.stageX, event.stageY, true))
 				tool.toolCursorManager.removeCursor(this);
 			
 			systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_MOVE, moveHandler);
