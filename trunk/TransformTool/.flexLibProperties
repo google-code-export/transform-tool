@@ -27,7 +27,6 @@
     <classEntry path="com.vstyran.transform.managers.ICursorManager"/>
     <classEntry path="com.vstyran.transform.managers.raster.CursorItem"/>
     <classEntry path="com.vstyran.transform.operations.RotateOperation"/>
-    <classEntry path="com.vstyran.transform.layouts.AnchorLayout"/>
     <classEntry path="com.vstyran.transform.managers.raster.Cursors"/>
   </includeClasses>
   <includeResources/>
