@@ -100,10 +100,5 @@
 		</controls:operation>
 	</controls:Control>
 	
-	<s:Group top="0" bottom="0" left="0" right="0">
-		<s:layout>
-			<layouts:AnchorLayout/>
-		</s:layout>
-		<controls:Anchor id="centerAnchor" x="96" y="86"  skinClass="com.vstyran.transform.skins.AnchorSkin"/>
-	</s:Group>
+	<controls:Anchor id="centerAnchor" verticalCenter="0" horizontalCenter="0" skinClass="com.vstyran.transform.skins.AnchorSkin"/>
 </s:Skin>

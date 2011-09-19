@@ -13,12 +13,18 @@
 		<s:State name="controlActive"/>
 	</s:states>
 	
-	<s:Ellipse width="8" height="8">
+	<s:Ellipse x="-1" y="-1" width="10" height="10">
 		<s:stroke>
 			<s:SolidColorStroke/>
 		</s:stroke>
 		<s:fill>
 			<s:SolidColor color="#FFFFFF" color.controlActive="red"/>
+		</s:fill>
+	</s:Ellipse>
+	
+	<s:Ellipse width="2" height="2" verticalCenter="0" horizontalCenter="0" includeIn="anchorActive">
+		<s:fill>
+			<s:SolidColor/>
 		</s:fill>
 	</s:Ellipse>
 </s:Skin>
