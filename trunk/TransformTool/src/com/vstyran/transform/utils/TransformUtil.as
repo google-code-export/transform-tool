@@ -26,6 +26,11 @@ package com.vstyran.transform.utils
 			data.height = sourceData.height*components[4];
 			data.rotation = components[2]+sourceData.rotation;
 			
+			data.minWidth = !isNaN(sourceData.minWidth) ? sourceData.minWidth * components[3] : NaN;
+			data.minHeight = !isNaN(sourceData.minHeight) ? sourceData.minHeight * components[4] : NaN; 
+			data.maxWidth = !isNaN(sourceData.maxWidth) ? sourceData.maxWidth * components[3] : NaN; 
+			data.maxHeight = !isNaN(sourceData.maxHeight) ? sourceData.maxHeight * components[4] : NaN;
+			
 			return data;
 		}
 		
@@ -47,7 +52,7 @@ package com.vstyran.transform.utils
 			return m;
 		}
 		
-		public static function createData(target:DisplayObject):TargetData
+		public static function createData(target:UIComponent):TargetData
 		{
 			var data:TargetData = new TargetData();
 			data.x = Math.round(target.x);
@@ -56,26 +61,39 @@ package com.vstyran.transform.utils
 			data.height = Math.round(target.height*target.scaleY);
 			data.rotation = target.rotation;
 			
+			data.minWidth = !isNaN(target.minWidth) ? target.minWidth * target.scaleX : NaN;
+			data.minHeight = !isNaN(target.minHeight) ? target.minHeight * target.scaleY : NaN;
+			data.maxWidth = !isNaN(target.maxWidth) ? target.maxWidth * target.scaleX : NaN;
+			data.maxHeight = !isNaN(target.maxHeight) ? target.maxHeight * target.scaleY : NaN;
+			
 			return data;
 		}
 		
-		public static function createDataInContext(source:DisplayObject, context:DisplayObject):TargetData
+		public static function createDataInContext(source:UIComponent, context:UIComponent):TargetData
 		{
 			return createDataByMatrix(source, getTransformationMatrix(source.parent, context));
 		}
 		
-		public static function createDataByMatrix(source:DisplayObject, matrix:Matrix):TargetData
+		public static function createDataByMatrix(source:UIComponent, matrix:Matrix):TargetData
 		{
 			return transformData(matrix, createData(source));
 		}
 		
-		public static function applyData(target:DisplayObject, data:TargetData):void
+		public static function applyData(target:UIComponent, data:TargetData, applyMinMax:Boolean = false):void
 		{
 			target.x = data.x;
 			target.y = data.y;
 			target.width = data.width/target.scaleX;
 			target.height = data.height/target.scaleY;
 			target.rotation = data.rotation;
+			
+			if(applyMinMax)
+			{
+				target.minWidth = !isNaN(data.minWidth) ? data.minWidth/target.scaleX : NaN;
+				target.minHeight = !isNaN(data.minHeight) ? data.minHeight/target.scaleY : NaN;
+				target.maxWidth = !isNaN(data.maxWidth) ? data.maxWidth/target.scaleX : NaN;
+				target.maxHeight = !isNaN(data.maxHeight) ? data.maxHeight/target.scaleY : NaN;
+			}
 		}
 		
 	

@@ -26,18 +26,22 @@ package com.vstyran.transform.operations
 			if(horizontalEnabled)
 			{
 				var newWidth:Number = data.width + data.width*deltaPoint.x/(startPoint.x-startAnchor.x);
-				data.width = MathUtil.round(newWidth,2);
+				data.width = resolveSize(MathUtil.round(newWidth,2), startData.minWidth, startData.maxWidth);
 			}
 			if(verticalEnabled)
 			{
 				var newHeight:Number = data.height + data.height*deltaPoint.y/(startPoint.y-startAnchor.y);
-				data.height = MathUtil.round(newHeight,2);
+				data.height = resolveSize(MathUtil.round(newHeight,2), startData.minHeight, startData.maxHeight);
 			}
 			
 			if(maintainAspectRatio) 
 			{
-				var verticalFactor:Number = horizontalEnabled ? data.width/startData.width : 0;
-				var horizontalFactor:Number = verticalEnabled ? data.height/startData.height : 0;
+				var horizontalFactor:Number = horizontalEnabled ? data.width/startData.width : 0;
+				horizontalFactor = resolveSize(data.height*horizontalFactor, NaN, startData.maxHeight)/data.height;
+				
+				var verticalFactor:Number = verticalEnabled ? data.height/startData.height : 0;
+				verticalFactor = resolveSize(data.width*verticalFactor, NaN, startData.maxWidth)/data.width;
+				
 				var ratio:Number = Math.max(verticalFactor, horizontalFactor);
 				
 				data.width = ratio* startData.width;
@@ -53,6 +57,14 @@ package com.vstyran.transform.operations
 			data.y = MathUtil.round(startData.y - pos.y, 2);
 					
 			return data;
+		}
+		
+		private function resolveSize(value:Number, min:Number, max:Number):Number 
+		{
+			min = !isNaN(min) ? min : value;
+			max = !isNaN(max) ? max : value;
+			
+			return Math.min(max, Math.max(min, value));
 		}
 	}
 }
