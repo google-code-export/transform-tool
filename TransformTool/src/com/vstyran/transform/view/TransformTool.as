@@ -133,9 +133,9 @@ package com.vstyran.transform.view
 		
 		public function updateTool():void
 		{
-			var data:TargetData = connector.getData()
+			var data:TargetData = connector.getData();
 			if(data)
-				TransformUtil.applyData(this, data);
+				TransformUtil.applyData(this, data, true);
 		}
 	}
 }

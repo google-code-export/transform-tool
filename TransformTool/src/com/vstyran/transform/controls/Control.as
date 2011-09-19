@@ -70,7 +70,7 @@ package com.vstyran.transform.controls
 				return null;
 			
 			var bounds:Rectangle = anchor.getBounds(tool);
-			trace(bounds);
+			
 			return new Point(bounds.x + bounds.width/2, bounds.y + bounds.height/2);
 			
 		//	return TransformUtil.getTransformationMatrix(anchor, tool).transformPoint(new Point(Math.floor(anchor.getBounds(/2), Math.floor(anchor.height/2)));
@@ -106,7 +106,6 @@ package com.vstyran.transform.controls
 				if(resolvedAnchor)
 				{
 					(operation as IAncorOperation).anchor = getAnchorPoint(resolvedAnchor); 
-					trace(getAnchorPoint(resolvedAnchor))
 					if(resolvedAnchor is IAnchor)
 					{
 						activeAnchor = resolvedAnchor as IAnchor;
