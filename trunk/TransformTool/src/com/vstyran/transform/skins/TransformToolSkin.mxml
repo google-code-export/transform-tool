@@ -3,24 +3,32 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:mx="library://ns.adobe.com/flex/mx" 
 		xmlns:controls="com.vstyran.transform.controls.*" 
-		xmlns:operations="com.vstyran.transform.operations.*" width="200" height="180" xmlns:raster="com.vstyran.transform.managers.raster.*">
+		xmlns:operations="com.vstyran.transform.operations.*" 
+		xmlns:raster="com.vstyran.transform.managers.raster.*" 
+		xmlns:layouts="com.vstyran.transform.layouts.*"
+		width="200" height="180">
 	<!-- host component -->
 	<fx:Metadata>
 		[HostComponent("com.vstyran.transform.view.TransformTool")]
 	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import com.vstyran.transform.managers.raster.Cursors;
+		]]>
+	</fx:Script>
 	
 	<fx:Declarations>
 		<raster:CursorManager id="toolCursorManager">
-			<raster:CursorItem control="{moveControl}" cusrsor="@Embed('resources/move.png')" xOffset="-11" yOffset="-11"/>
-			<raster:CursorItem control="{middleLeft}" cusrsor="@Embed('resources/resize1.png')" xOffset="-11" yOffset="-5"/>
-			<raster:CursorItem control="{middleRight}" cusrsor="@Embed('resources/resize1.png')" xOffset="-11" yOffset="-5"/>
-			<raster:CursorItem control="{topMiddle}" cusrsor="@Embed('resources/resize2.png')" xOffset="-5" yOffset="-11"/>
-			<raster:CursorItem control="{bottomMiddle}" cusrsor="@Embed('resources/resize2.png')" xOffset="-5" yOffset="-11"/>
-			<raster:CursorItem control="{topLeft}" cusrsor="@Embed('resources/resize3.png')" xOffset="-8" yOffset="-8"/>
-			<raster:CursorItem control="{bottomRight}" cusrsor="@Embed('resources/resize3.png')" xOffset="-8" yOffset="-8"/>
-			<raster:CursorItem control="{topRight}" cusrsor="@Embed('resources/resize4.png')" xOffset="-8" yOffset="-8"/>
-			<raster:CursorItem control="{bottomLeft}" cusrsor="@Embed('resources/resize4.png')" xOffset="-8" yOffset="-8"/>
-			<raster:CursorItem control="{rotateControl}" cusrsor="@Embed('resources/rotate.png')" xOffset="-9" yOffset="-9"/>
+			<raster:CursorItem control="{moveControl}" cusrsor="{Cursors.MoveCursor}" xOffset="-11" yOffset="-11"/>
+			<raster:CursorItem control="{middleLeft}" cusrsor="{Cursors.HResizeCursor}" xOffset="-11" yOffset="-5"/>
+			<raster:CursorItem control="{middleRight}" cusrsor="{Cursors.HResizeCursor}" xOffset="-11" yOffset="-5"/>
+			<raster:CursorItem control="{topMiddle}" cusrsor="{Cursors.VResizeCursor}" xOffset="-5" yOffset="-11"/>
+			<raster:CursorItem control="{bottomMiddle}" cusrsor="{Cursors.VResizeCursor}" xOffset="-5" yOffset="-11"/>
+			<raster:CursorItem control="{topLeft}" cusrsor="{Cursors.TLResizeCursor}" xOffset="-8" yOffset="-8"/>
+			<raster:CursorItem control="{bottomRight}" cusrsor="{Cursors.TLResizeCursor}" xOffset="-8" yOffset="-8"/>
+			<raster:CursorItem control="{topRight}" cusrsor="{Cursors.TRResizeCursor}" xOffset="-8" yOffset="-8"/>
+			<raster:CursorItem control="{bottomLeft}" cusrsor="{Cursors.TRResizeCursor}" xOffset="-8" yOffset="-8"/>
+			<raster:CursorItem control="{rotateControl}" cusrsor="{Cursors.RotateCursor}" xOffset="-9" yOffset="-9"/>
 		</raster:CursorManager>
 	</fx:Declarations>
 	
@@ -92,5 +100,10 @@
 		</controls:operation>
 	</controls:Control>
 	
-	<controls:Anchor id="centerAnchor" verticalCenter="0" horizontalCenter="0" skinClass="com.vstyran.transform.skins.AnchorSkin"/>
+	<s:Group top="0" bottom="0" left="0" right="0">
+		<s:layout>
+			<layouts:AnchorLayout/>
+		</s:layout>
+		<controls:Anchor id="centerAnchor" x="96" y="86"  skinClass="com.vstyran.transform.skins.AnchorSkin"/>
+	</s:Group>
 </s:Skin>
