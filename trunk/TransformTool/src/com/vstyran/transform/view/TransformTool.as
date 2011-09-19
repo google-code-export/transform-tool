@@ -129,6 +129,7 @@ package com.vstyran.transform.view
 		
 		public function endTransformation(data:TargetData):void
 		{
+			TransformUtil.applyData(this, connector.transfrom(data));
 		}
 		
 		public function updateTool():void
