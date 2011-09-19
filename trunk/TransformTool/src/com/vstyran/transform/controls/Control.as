@@ -11,6 +11,7 @@ package com.vstyran.transform.controls
 	import flash.events.MouseEvent;
 	import flash.geom.Matrix;
 	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	
 	import spark.components.supportClasses.SkinnableComponent;
 	
@@ -68,7 +69,11 @@ package com.vstyran.transform.controls
 			if(!anchor)
 				return null;
 			
-			return TransformUtil.getTransformationMatrix(anchor, tool).transformPoint(new Point(Math.floor(anchor.width/2), Math.floor(anchor.height/2)));
+			var bounds:Rectangle = anchor.getBounds(tool);
+			trace(bounds);
+			return new Point(bounds.x + bounds.width/2, bounds.y + bounds.height/2);
+			
+		//	return TransformUtil.getTransformationMatrix(anchor, tool).transformPoint(new Point(Math.floor(anchor.getBounds(/2), Math.floor(anchor.height/2)));
 		}
 		
 		private function resolveAnchor(event:MouseEvent):DisplayObject
@@ -101,6 +106,7 @@ package com.vstyran.transform.controls
 				if(resolvedAnchor)
 				{
 					(operation as IAncorOperation).anchor = getAnchorPoint(resolvedAnchor); 
+					trace(getAnchorPoint(resolvedAnchor))
 					if(resolvedAnchor is IAnchor)
 					{
 						activeAnchor = resolvedAnchor as IAnchor;
