@@ -39,61 +39,61 @@
 		</controls:operation>
 	</controls:Control>
 	
-	<s:Line yFrom="-20" yTo="0" horizontalCenter="0">
+	<s:Line yFrom="-26" yTo="0" horizontalCenter="0">
 		<s:stroke>
 			<s:SolidColorStroke/>
 		</s:stroke>
 	</s:Line>
-	<controls:Control id="rotateControl" top="-20" horizontalCenter="0"
+	<controls:Control id="rotateControl" top="-26" horizontalCenter="0"
 					  skinClass="com.vstyran.transform.skins.ControlSkin" anchor="{centerAnchor}">
 		<controls:operation>
 			<operations:RotateOperation/>
 		</controls:operation>
 	</controls:Control>
 	
-	<controls:Control id="topLeft" top="-4" left="-4" anchor="{bottomRight}"
+	<controls:Control id="topLeft" top="-6" left="-6" anchor="{bottomRight}"
 					  skinClass="com.vstyran.transform.skins.ControlSkin">
 		<controls:operation>
 			<operations:ResizeOperation/>
 		</controls:operation>
 	</controls:Control>
-	<controls:Control id="topMiddle" top="-4" horizontalCenter="0" anchor="{bottomMiddle}"
+	<controls:Control id="topMiddle" top="-6" horizontalCenter="0" anchor="{bottomMiddle}"
 					  skinClass="com.vstyran.transform.skins.ControlSkin">
 		<controls:operation>
 			<operations:ResizeOperation horizontalEnabled="false"/>
 		</controls:operation>
 	</controls:Control>
-	<controls:Control id="topRight" top="-4" right="-4" anchor="{bottomLeft}"
+	<controls:Control id="topRight" top="-6" right="-6" anchor="{bottomLeft}"
 					  skinClass="com.vstyran.transform.skins.ControlSkin">
 		<controls:operation>
 			<operations:ResizeOperation/>
 		</controls:operation>
 	</controls:Control>
-	<controls:Control id="middleRight" verticalCenter="0" right="-4" anchor="{middleLeft}" shiftAnchor="{centerAnchor}"
+	<controls:Control id="middleRight" verticalCenter="0" right="-6" anchor="{middleLeft}" shiftAnchor="{centerAnchor}"
 					  skinClass="com.vstyran.transform.skins.ControlSkin">
 		<controls:operation>
 			<operations:ResizeOperation verticalEnabled="false" maintainAspectRatio="true"/>
 		</controls:operation>
 	</controls:Control>
-	<controls:Control id="bottomRight" bottom="-4" right="-4" anchor="{topLeft}"
+	<controls:Control id="bottomRight" bottom="-6" right="-6" anchor="{topLeft}"
 					  skinClass="com.vstyran.transform.skins.ControlSkin">
 		<controls:operation>
 			<operations:ResizeOperation maintainAspectRatio="true"/>
 		</controls:operation>
 	</controls:Control>
-	<controls:Control id="bottomMiddle" bottom="-4" horizontalCenter="0" anchor="{topMiddle}"
+	<controls:Control id="bottomMiddle" bottom="-6" horizontalCenter="0" anchor="{topMiddle}"
 					  skinClass="com.vstyran.transform.skins.ControlSkin">
 		<controls:operation>
 			<operations:ResizeOperation horizontalEnabled="false"/>
 		</controls:operation>
 	</controls:Control>
-	<controls:Control id="bottomLeft" bottom="-4" left="-4" anchor="{topRight}"
+	<controls:Control id="bottomLeft" bottom="-6" left="-6" anchor="{topRight}"
 					  skinClass="com.vstyran.transform.skins.ControlSkin">
 		<controls:operation>
 			<operations:ResizeOperation/>
 		</controls:operation>
 	</controls:Control>
-	<controls:Control id="middleLeft" verticalCenter="0" left="-4" anchor="{middleRight}"
+	<controls:Control id="middleLeft" verticalCenter="0" left="-6" anchor="{middleRight}"
 					  skinClass="com.vstyran.transform.skins.ControlSkin">
 		<controls:operation>
 			<operations:ResizeOperation verticalEnabled="false"/>
