@@ -39,12 +39,15 @@ package com.vstyran.transform.operations
 			if(maintainAspectRatio) 
 			{
 				var horizontalFactor:Number = horizontalEnabled ? data.width/startData.width : 0;
-				horizontalFactor = resolveSize(data.height*horizontalFactor, NaN, startData.maxHeight)/data.height;
-				
 				var verticalFactor:Number = verticalEnabled ? data.height/startData.height : 0;
-				verticalFactor = resolveSize(data.width*verticalFactor, NaN, startData.maxWidth)/data.width;
 				
-				var ratio:Number = Math.max(verticalFactor, horizontalFactor);
+				var ratio:Number;// = Math.max(verticalFactor, horizontalFactor);
+				
+				if(verticalFactor > horizontalFactor)
+					ratio = resolveSize(verticalFactor * startData.width, startData.minWidth, startData.maxWidth)/startData.width;
+				else
+					ratio = resolveSize(horizontalFactor * startData.height, startData.minHeight, startData.maxHeight)/startData.height;
+				
 				
 				data.width = ratio* startData.width;
 				data.height = ratio* startData.height;
