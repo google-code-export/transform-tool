@@ -2,10 +2,9 @@ package com.vstyran.transform.managers.raster
 {
 	import com.vstyran.transform.controls.Control;
 	import com.vstyran.transform.managers.ICursorManager;
+	import com.vstyran.transform.namespaces.tt_internal;
 	
 	import mx.managers.CursorManager;
-	
-	import com.vstyran.transform.namespaces.tt_internal;
 
 	
 	
@@ -52,6 +51,19 @@ package com.vstyran.transform.managers.raster
 			
 			return null;
 		}
+		
+		public function addedToStage():void
+		{
+			// TODO Auto Generated method stub
+			
+		}
+		
+		public function removedFromStage():void
+		{
+			// TODO Auto Generated method stub
+			
+		}
+		
 		
 		public var items:Vector.<CursorItem>;
 	}

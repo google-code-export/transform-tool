@@ -5,6 +5,7 @@ package com.vstyran.transform.managers.vector
 	
 	import mx.core.IVisualElement;
 
+	[DefaultProperty("cursor")]
 	public class CursorItem
 	{
 		include "../../Version.as";

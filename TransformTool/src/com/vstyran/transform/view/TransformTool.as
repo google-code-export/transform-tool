@@ -30,11 +30,21 @@ package com.vstyran.transform.view
 		{
 			super();
 			
-			addEventListener(Event.ADDED_TO_STAGE, addedTostageHandler);
+			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+			addEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
 		}
 		
-		protected function addedTostageHandler(event:Event):void
+		protected function removedFromStageHandler(event:Event):void
 		{
+			if(toolCursorManager)
+				toolCursorManager.removedFromStage();
+		}
+		
+		protected function addedToStageHandler(event:Event):void
+		{
+			if(toolCursorManager)
+				toolCursorManager.addedToStage();
+			
 			if(connector)
 				connector.setToolPanel(parent);
 			
