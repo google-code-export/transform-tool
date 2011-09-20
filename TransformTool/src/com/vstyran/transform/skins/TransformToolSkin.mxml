@@ -33,7 +33,7 @@
 		
 		<vector:CursorManager id="toolCursorManager">
 			<vector:CursorItem control="{moveControl}">
-					<cursors:Move/>
+					<cursors:MoveCursor/>
 			</vector:CursorItem>
 		</vector:CursorManager>
 	</fx:Declarations>
