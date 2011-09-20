@@ -7,10 +7,14 @@ package com.vstyran.transform.managers.vector
 	import flash.ui.Mouse;
 	import flash.ui.MouseCursor;
 	
+	import mx.core.FlexGlobals;
 	import mx.core.IMXMLObject;
 	import mx.core.IVisualElement;
 	import mx.core.IVisualElementContainer;
-
+	import mx.core.UIComponent;
+	
+	[DefaultProperty("items")]
+	
 	public class CursorManager implements ICursorManager, IMXMLObject
 	{
 		include "../../Version.as";
@@ -21,13 +25,21 @@ package com.vstyran.transform.managers.vector
 		
 		public var cursorStage:IVisualElementContainer;
 		
+		public var useAppStage:Boolean = true;
+		
 		public var hideMouse:Boolean = true;
 		
 		public function initialized(document:Object, id:String):void
 		{
+			if(useAppStage)
+				cursorStage = FlexGlobals.topLevelApplication as IVisualElementContainer;
+			
 			if(!cursorStage)
 				cursorStage = document as IVisualElementContainer;
-			
+		}
+		
+		public function addedToStage():void
+		{
 			for each (var item:CursorItem in items) 
 			{
 				item.cursor.includeInLayout = false;
@@ -35,6 +47,15 @@ package com.vstyran.transform.managers.vector
 				cursorStage.addElement(item.cursor);
 			}
 		}
+		
+		public function removedFromStage():void
+		{
+			for each (var item:CursorItem in items) 
+			{
+				cursorStage.removeElement(item.cursor);
+			}
+		}
+		
 		
 		private var currentCursor:IVisualElement;
 		

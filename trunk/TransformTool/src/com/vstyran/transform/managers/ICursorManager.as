@@ -6,5 +6,8 @@ package com.vstyran.transform.managers
 	{
 		function setCursor(control:Control):void
 		function removeCursor(control:Control):void
+			
+		function addedToStage():void
+		function removedFromStage():void
 	}
 }

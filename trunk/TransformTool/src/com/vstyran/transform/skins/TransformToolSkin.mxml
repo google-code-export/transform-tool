@@ -6,7 +6,7 @@
 		xmlns:operations="com.vstyran.transform.operations.*" 
 		xmlns:raster="com.vstyran.transform.managers.raster.*" 
 		xmlns:layouts="com.vstyran.transform.layouts.*"
-		width="200" height="180">
+		width="200" height="180" xmlns:vector="com.vstyran.transform.managers.vector.*" xmlns:cursors="com.vstyran.transform.managers.vector.cursors.*">
 	<!-- host component -->
 	<fx:Metadata>
 		[HostComponent("com.vstyran.transform.view.TransformTool")]
@@ -18,7 +18,7 @@
 	</fx:Script>
 	
 	<fx:Declarations>
-		<raster:CursorManager id="toolCursorManager">
+		<!--<raster:CursorManager id="toolCursorManager">
 			<raster:CursorItem control="{moveControl}" cursor="{Cursors.MoveCursor}" xOffset="-11" yOffset="-11"/>
 			<raster:CursorItem control="{middleLeft}" cursor="{Cursors.HResizeCursor}" xOffset="-11" yOffset="-5"/>
 			<raster:CursorItem control="{middleRight}" cursor="{Cursors.HResizeCursor}" xOffset="-11" yOffset="-5"/>
@@ -29,7 +29,13 @@
 			<raster:CursorItem control="{topRight}" cursor="{Cursors.TRResizeCursor}" xOffset="-8" yOffset="-8"/>
 			<raster:CursorItem control="{bottomLeft}" cursor="{Cursors.TRResizeCursor}" xOffset="-8" yOffset="-8"/>
 			<raster:CursorItem control="{rotateControl}" cursor="{Cursors.RotateCursor}" xOffset="-9" yOffset="-9"/>
-		</raster:CursorManager>
+		</raster:CursorManager>-->
+		
+		<vector:CursorManager id="toolCursorManager">
+			<vector:CursorItem control="{moveControl}">
+					<cursors:Move/>
+			</vector:CursorItem>
+		</vector:CursorManager>
 	</fx:Declarations>
 	
 	<controls:Control id="moveControl" top="0" left="0" right="0" bottom="0"
