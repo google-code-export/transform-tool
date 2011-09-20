@@ -4,6 +4,8 @@ package com.vstyran.transform.events
 	
 	public class ConnectorEvent extends Event
 	{ 
+		include "../Version.as";
+		
 		public static const DATA_CHANGE:String = "dataChange";
 		
 		public static const TRANSFORMATION:String = "transformation";

@@ -9,6 +9,7 @@ package com.vstyran.transform.operations
 	
 	public class AnchorOperation implements IAncorOperation
 	{
+		include "../Version.as";
 		
 		[Bindable]
 		public var anchor:Point;

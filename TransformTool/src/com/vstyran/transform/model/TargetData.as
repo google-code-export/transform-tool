@@ -3,6 +3,8 @@ package com.vstyran.transform.model
 	[Bindable]
 	public class TargetData
 	{
+		include "../Version.as";
+		
 		public function TargetData()
 		{
 		}

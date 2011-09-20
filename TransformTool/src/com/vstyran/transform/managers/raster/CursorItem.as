@@ -4,6 +4,8 @@ package com.vstyran.transform.managers.raster
 
 	public class CursorItem
 	{
+		include "../../Version.as";
+		
 		public function CursorItem()
 		{
 		}
