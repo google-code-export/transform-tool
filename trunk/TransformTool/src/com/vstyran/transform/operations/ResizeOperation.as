@@ -8,6 +8,8 @@ package com.vstyran.transform.operations
 
 	public class ResizeOperation extends AnchorOperation
 	{
+		include "../Version.as";
+		
 		public function ResizeOperation()
 		{
 			super();

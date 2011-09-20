@@ -21,6 +21,8 @@ package com.vstyran.transform.view
 	
 	public class TransformTool extends SkinnableComponent
 	{
+		include "../Version.as";
+		
 		[SkinPart]
 		public var toolCursorManager:ICursorManager;
 		

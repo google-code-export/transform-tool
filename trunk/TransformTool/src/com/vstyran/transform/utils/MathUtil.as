@@ -4,6 +4,8 @@ package com.vstyran.transform.utils
 
 	public class MathUtil
 	{
+		include "../Version.as";
+		
 		public static function roundPoint(point:Point, precision:uint = 0):Point
 		{
 			return new Point(round(point.x, precision), round(point.y, precision));

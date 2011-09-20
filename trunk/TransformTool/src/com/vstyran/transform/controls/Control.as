@@ -22,6 +22,8 @@ package com.vstyran.transform.controls
 	
 	public class Control extends SkinnableComponent implements IAnchor
 	{
+		include "../Version.as";
+		
 		public var anchor:DisplayObject;
 		public var shiftAnchor:DisplayObject;
 		public var altAnchor:DisplayObject;

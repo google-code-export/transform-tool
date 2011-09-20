@@ -8,6 +8,8 @@ package com.vstyran.transform.managers.raster
 	[DefaultProperty("items")]
 	public class CursorManager implements ICursorManager
 	{
+		include "../../Version.as";
+		
 		public function CursorManager()
 		{
 		}

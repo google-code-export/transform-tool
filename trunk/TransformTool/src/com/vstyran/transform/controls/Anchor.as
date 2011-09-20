@@ -8,6 +8,7 @@ package com.vstyran.transform.controls
 	
 	public class Anchor extends SkinnableComponent implements IAnchor
 	{
+		include "../Version.as";
 		
 		public function Anchor()
 		{

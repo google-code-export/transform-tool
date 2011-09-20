@@ -11,6 +11,8 @@ package com.vstyran.transform.utils
 	
 	public class TransformUtil
 	{
+		include "../Version.as";
+		
 		public static function transformData(m:Matrix, sourceData:TargetData):TargetData
 		{
 			var data:TargetData = new TargetData();

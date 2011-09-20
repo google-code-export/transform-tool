@@ -8,6 +8,8 @@ package com.vstyran.transform.operations
 	
 	public class RotateOperation extends AnchorOperation
 	{
+		include "../Version.as";
+		
 		public function RotateOperation()
 		{
 			super();
