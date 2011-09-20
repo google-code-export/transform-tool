@@ -4,10 +4,18 @@ package com.vstyran.transform.managers.raster
 	import com.vstyran.transform.managers.ICursorManager;
 	
 	import mx.managers.CursorManager;
+	
+	import com.vstyran.transform.namespaces.tt_internal;
 
+	
+	
+	use namespace tt_internal;
+	
 	[DefaultProperty("items")]
 	public class CursorManager implements ICursorManager
 	{
+	
+		
 		include "../../Version.as";
 		
 		public function CursorManager()
@@ -18,7 +26,7 @@ package com.vstyran.transform.managers.raster
 		{
 			var item:CursorItem = findItem(control);
 			if(item && item.cursorID == -1)
-				item.cursorID = mx.managers.CursorManager.setCursor(item.cusrsor, item.priority, item.xOffset, item.yOffset);
+				item.cursorID = mx.managers.CursorManager.setCursor(item.cursor, item.priority, item.xOffset, item.yOffset);
 		}
 		
 		public function removeCursor(control:Control):void

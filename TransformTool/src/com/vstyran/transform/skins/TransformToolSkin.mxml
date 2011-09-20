@@ -19,16 +19,16 @@
 	
 	<fx:Declarations>
 		<raster:CursorManager id="toolCursorManager">
-			<raster:CursorItem control="{moveControl}" cusrsor="{Cursors.MoveCursor}" xOffset="-11" yOffset="-11"/>
-			<raster:CursorItem control="{middleLeft}" cusrsor="{Cursors.HResizeCursor}" xOffset="-11" yOffset="-5"/>
-			<raster:CursorItem control="{middleRight}" cusrsor="{Cursors.HResizeCursor}" xOffset="-11" yOffset="-5"/>
-			<raster:CursorItem control="{topMiddle}" cusrsor="{Cursors.VResizeCursor}" xOffset="-5" yOffset="-11"/>
-			<raster:CursorItem control="{bottomMiddle}" cusrsor="{Cursors.VResizeCursor}" xOffset="-5" yOffset="-11"/>
-			<raster:CursorItem control="{topLeft}" cusrsor="{Cursors.TLResizeCursor}" xOffset="-8" yOffset="-8"/>
-			<raster:CursorItem control="{bottomRight}" cusrsor="{Cursors.TLResizeCursor}" xOffset="-8" yOffset="-8"/>
-			<raster:CursorItem control="{topRight}" cusrsor="{Cursors.TRResizeCursor}" xOffset="-8" yOffset="-8"/>
-			<raster:CursorItem control="{bottomLeft}" cusrsor="{Cursors.TRResizeCursor}" xOffset="-8" yOffset="-8"/>
-			<raster:CursorItem control="{rotateControl}" cusrsor="{Cursors.RotateCursor}" xOffset="-9" yOffset="-9"/>
+			<raster:CursorItem control="{moveControl}" cursor="{Cursors.MoveCursor}" xOffset="-11" yOffset="-11"/>
+			<raster:CursorItem control="{middleLeft}" cursor="{Cursors.HResizeCursor}" xOffset="-11" yOffset="-5"/>
+			<raster:CursorItem control="{middleRight}" cursor="{Cursors.HResizeCursor}" xOffset="-11" yOffset="-5"/>
+			<raster:CursorItem control="{topMiddle}" cursor="{Cursors.VResizeCursor}" xOffset="-5" yOffset="-11"/>
+			<raster:CursorItem control="{bottomMiddle}" cursor="{Cursors.VResizeCursor}" xOffset="-5" yOffset="-11"/>
+			<raster:CursorItem control="{topLeft}" cursor="{Cursors.TLResizeCursor}" xOffset="-8" yOffset="-8"/>
+			<raster:CursorItem control="{bottomRight}" cursor="{Cursors.TLResizeCursor}" xOffset="-8" yOffset="-8"/>
+			<raster:CursorItem control="{topRight}" cursor="{Cursors.TRResizeCursor}" xOffset="-8" yOffset="-8"/>
+			<raster:CursorItem control="{bottomLeft}" cursor="{Cursors.TRResizeCursor}" xOffset="-8" yOffset="-8"/>
+			<raster:CursorItem control="{rotateControl}" cursor="{Cursors.RotateCursor}" xOffset="-9" yOffset="-9"/>
 		</raster:CursorManager>
 	</fx:Declarations>
 	
