@@ -140,8 +140,16 @@ package com.vstyran.transform.view
 			}
 		}
 		
+		private var _transforming:Boolean;
+
+		public function get transforming():Boolean
+		{
+			return _transforming;
+		}
+
 		public function startTransformation(control:Control):void
 		{
+			_transforming = true;
 		}
 		
 		public function doTransformation(data:TargetData):void
@@ -152,6 +160,8 @@ package com.vstyran.transform.view
 		public function endTransformation(data:TargetData):void
 		{
 			TransformUtil.applyData(this, connector.transfrom(data));
+			
+			_transforming = false;
 		}
 		
 		public function updateTool():void
