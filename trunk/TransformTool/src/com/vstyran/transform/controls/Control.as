@@ -158,7 +158,7 @@ package com.vstyran.transform.controls
 		protected function overHandler(event:MouseEvent):void
 		{
 			if(tool.toolCursorManager)
-				tool.toolCursorManager.setCursor(this);
+				tool.toolCursorManager.setCursor(this, event.stageX, event.stageY);
 			
 		}
 		

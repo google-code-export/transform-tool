@@ -3,6 +3,7 @@ package com.vstyran.transform.managers.raster
 	import com.vstyran.transform.controls.Control;
 	import com.vstyran.transform.managers.ICursorManager;
 	import com.vstyran.transform.namespaces.tt_internal;
+	import com.vstyran.transform.view.TransformTool;
 	
 	import mx.managers.CursorManager;
 
@@ -21,7 +22,7 @@ package com.vstyran.transform.managers.raster
 		{
 		}
 		
-		public function setCursor(control:Control):void
+		public function setCursor(control:Control, stageX:Number, stageY:Number):void
 		{
 			var item:CursorItem = findItem(control);
 			if(item && item.cursorID == -1)
@@ -52,18 +53,11 @@ package com.vstyran.transform.managers.raster
 			return null;
 		}
 		
-		public function addedToStage():void
+		public function set tool(value:TransformTool):void
 		{
 			// TODO Auto Generated method stub
 			
 		}
-		
-		public function removedFromStage():void
-		{
-			// TODO Auto Generated method stub
-			
-		}
-		
 		
 		public var items:Vector.<CursorItem>;
 	}

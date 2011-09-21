@@ -16,6 +16,10 @@ package com.vstyran.transform.managers.vector
 		
 		public var control:Control;
 		
+		public var maintainRotation:Boolean;
+		
 		public var cursor:IVisualElement;
+		
+		tt_internal var originalRotation:Number = 0;
 	}
 }
