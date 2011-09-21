@@ -34,7 +34,7 @@ package com.vstyran.transform.controls
 			super();
 			
 			addEventListener(MouseEvent.MOUSE_DOWN, downHandler);
-			addEventListener(MouseEvent.MOUSE_OVER, overHandler);
+			addEventListener(MouseEvent.ROLL_OVER, overHandler);
 			addEventListener(MouseEvent.MOUSE_OUT, outHandler);
 		}
 		
@@ -157,14 +157,14 @@ package com.vstyran.transform.controls
 		
 		protected function overHandler(event:MouseEvent):void
 		{
-			if(tool.toolCursorManager)
+			if(tool.toolCursorManager && !tool.transforming)
 				tool.toolCursorManager.setCursor(this, event.stageX, event.stageY);
 			
 		}
 		
 		protected function outHandler(event:MouseEvent):void
 		{
-			if(tool.toolCursorManager && !controlActivated)
+			if(tool.toolCursorManager && !controlActivated && !tool.transforming)
 				tool.toolCursorManager.removeCursor(this);
 		}
 		
