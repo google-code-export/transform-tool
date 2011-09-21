@@ -83,6 +83,8 @@ package com.vstyran.transform.view
 		
 		protected function addedHandler(event:Event):void
 		{
+			skin.removeEventListener(Event.ADDED_TO_STAGE, addedHandler);
+			
 			validateControls = true;
 			invalidateProperties();
 		}
