@@ -31,20 +31,10 @@ package com.vstyran.transform.view
 			super();
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
-			addEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
-		}
-		
-		protected function removedFromStageHandler(event:Event):void
-		{
-			if(toolCursorManager)
-				toolCursorManager.removedFromStage();
 		}
 		
 		protected function addedToStageHandler(event:Event):void
 		{
-			if(toolCursorManager)
-				toolCursorManager.addedToStage();
-			
 			if(connector)
 				connector.setToolPanel(parent);
 			
@@ -113,6 +103,26 @@ package com.vstyran.transform.view
 					if(element is UIComponent)
 						processParts(element as UIComponent);	
 				}
+			}
+		}
+		
+		override protected function partAdded(partName:String, instance:Object):void
+		{
+			super.partAdded(partName, instance);
+			
+			if(instance == toolCursorManager)
+			{
+				toolCursorManager.tool = this;
+			}
+		}
+		
+		override protected function partRemoved(partName:String, instance:Object):void
+		{
+			super.partRemoved(partName, instance);
+			
+			if(instance == toolCursorManager)
+			{
+				toolCursorManager.tool = null;
 			}
 		}
 		
