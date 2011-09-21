@@ -31,12 +31,22 @@
 			<raster:CursorItem control="{rotateControl}" cursor="{Cursors.RotateCursor}" xOffset="-9" yOffset="-9"/>
 		</raster:CursorManager>-->
 		
+		<cursors:ResizeCursor id="resizeCursor" rotation="45" mouseChildren="false" mouseEnabled="false"/>
+		
 		<vector:CursorManager id="toolCursorManager">
 			<vector:CursorItem control="{moveControl}">
 					<cursors:MoveCursor mouseChildren="false" mouseEnabled="false"/>
 			</vector:CursorItem>
-			<vector:CursorItem control="{topLeft}" maintainRotation="true">
-				<cursors:ResizeCursor rotation="45" mouseChildren="false" mouseEnabled="false"/>
+			<vector:CursorItem control="{topMiddle}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="90"/>
+			<vector:CursorItem control="{bottomMiddle}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="90"/>
+			<vector:CursorItem control="{middleLeft}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="0"/>
+			<vector:CursorItem control="{middleRight}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="0"/>
+			<vector:CursorItem control="{topLeft}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="45"/>
+			<vector:CursorItem control="{bottomRight}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="45"/>
+			<vector:CursorItem control="{topRight}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="-45"/>
+			<vector:CursorItem control="{bottomLeft}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="-45"/>
+			<vector:CursorItem control="{rotateControl}">
+				<cursors:RotateCursor mouseChildren="false" mouseEnabled="false"/>
 			</vector:CursorItem>
 		</vector:CursorManager>
 	</fx:Declarations>

@@ -53,8 +53,6 @@ package com.vstyran.transform.managers.vector
 				{
 					item.cursor.includeInLayout = false;
 					item.cursor.visible = false;
-					if((item.cursor as Object).hasOwnProperty("rotation"))
-						item.originalRotation = (item.cursor as Object).rotation;
 					cursorStage.addElement(item.cursor);
 				}
 				
@@ -109,16 +107,20 @@ package com.vstyran.transform.managers.vector
 					var data:TargetData = TransformUtil.transformData(m, TransformUtil.createData(_tool));
 					
 					var matrix:Matrix = new Matrix();
-					matrix.translate(-currentCursor.getLayoutBoundsWidth()/2, -currentCursor.getLayoutBoundsHeight()/2);
+					matrix.translate(-currentCursor.width/2, -currentCursor.height/2);
 					matrix.rotate((data.rotation + item.originalRotation) * Math.PI/180);
-					matrix.translate(currentCursor.getLayoutBoundsWidth()/2, currentCursor.getLayoutBoundsHeight()/2);
+					matrix.translate(currentCursor.width/2, currentCursor.height/2);
+					
 					currentCursor.setLayoutMatrix(matrix, false);
 					
-					delta = matrix.transformPoint(new Point(currentCursor.getLayoutBoundsWidth()/2, currentCursor.getLayoutBoundsHeight()/2));
+					matrix = new Matrix();
+					matrix.rotate((data.rotation + item.originalRotation) * Math.PI/180);
+					
+					delta = matrix.transformPoint(new Point(currentCursor.width/2, currentCursor.height/2));
 				}
 				else
 				{
-					delta = new Point(currentCursor.getLayoutBoundsWidth()/2, currentCursor.getLayoutBoundsHeight()/2);
+					delta = new Point(currentCursor.width/2, currentCursor.height/2);
 				}
 				
 				

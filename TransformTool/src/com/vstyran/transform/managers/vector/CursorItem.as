@@ -4,7 +4,9 @@ package com.vstyran.transform.managers.vector
 	import com.vstyran.transform.namespaces.tt_internal;
 	
 	import mx.core.IVisualElement;
-
+	
+	use namespace tt_internal;
+	
 	[DefaultProperty("cursor")]
 	public class CursorItem
 	{
@@ -20,6 +22,6 @@ package com.vstyran.transform.managers.vector
 		
 		public var cursor:IVisualElement;
 		
-		tt_internal var originalRotation:Number = 0;
+		public var originalRotation:Number = 0;
 	}
 }
