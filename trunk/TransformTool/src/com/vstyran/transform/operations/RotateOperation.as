@@ -1,6 +1,6 @@
 package com.vstyran.transform.operations
 {
-	import com.vstyran.transform.model.TargetData;
+	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.utils.MathUtil;
 	
 	import flash.geom.Matrix;
@@ -15,9 +15,9 @@ package com.vstyran.transform.operations
 			super();
 		}
 		
-		override public function doOperation(point:Point):TargetData
+		override public function doOperation(point:Point):DisplayData
 		{
-			var data:TargetData = startData.clone();
+			var data:DisplayData = startData.clone();
 			
 			
 			var initialAngle:Number =  Math.atan2(startPoint.y - startAnchor.y, startPoint.x - startAnchor.x) * 180/Math.PI;

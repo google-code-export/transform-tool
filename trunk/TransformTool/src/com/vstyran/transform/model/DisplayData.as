@@ -1,11 +1,11 @@
 package com.vstyran.transform.model
 {
 	[Bindable]
-	public class TargetData
+	public class DisplayData
 	{
 		include "../Version.as";
 		
-		public function TargetData()
+		public function DisplayData()
 		{
 		}
 		
@@ -20,9 +20,9 @@ package com.vstyran.transform.model
 		public var maxWidth:Number;
 		public var maxHeight:Number;
 		
-		public function clone():TargetData
+		public function clone():DisplayData
 		{
-			var clone:TargetData = new TargetData();
+			var clone:DisplayData = new DisplayData();
 			clone.x = x;
 			clone.y = y;
 			clone.width = width;

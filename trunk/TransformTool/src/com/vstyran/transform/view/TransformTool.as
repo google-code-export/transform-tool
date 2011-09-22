@@ -5,7 +5,7 @@ package com.vstyran.transform.view
 	import com.vstyran.transform.controls.Control;
 	import com.vstyran.transform.events.ConnectorEvent;
 	import com.vstyran.transform.managers.ICursorManager;
-	import com.vstyran.transform.model.TargetData;
+	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.utils.TransformUtil;
 	
 	import flash.events.Event;
@@ -170,12 +170,12 @@ package com.vstyran.transform.view
 			_transforming = true;
 		}
 		
-		public function doTransformation(data:TargetData):void
+		public function doTransformation(data:DisplayData):void
 		{
 			TransformUtil.applyData(this, connector.transfrom(data));
 		}
 		
-		public function endTransformation(data:TargetData):void
+		public function endTransformation(data:DisplayData):void
 		{
 			TransformUtil.applyData(this, connector.transfrom(data));
 			
@@ -184,7 +184,7 @@ package com.vstyran.transform.view
 		
 		public function updateTool():void
 		{
-			var data:TargetData = connector.getData();
+			var data:DisplayData = connector.getData();
 			if(data)
 				TransformUtil.applyData(this, data, true);
 		}

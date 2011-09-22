@@ -1,7 +1,7 @@
 package com.vstyran.transform.connectors
 {
 	import com.vstyran.transform.events.ConnectorEvent;
-	import com.vstyran.transform.model.TargetData;
+	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.utils.TransformUtil;
 	
 	import flash.display.DisplayObject;
@@ -52,7 +52,7 @@ package com.vstyran.transform.connectors
 			dispatchEvent(new ConnectorEvent(ConnectorEvent.DATA_CHANGE));
 		}
 		
-		public function getData():TargetData
+		public function getData():DisplayData
 		{
 			if(uiTarget)
 				dataConnector.data = TransformUtil.createData(uiTarget);
@@ -65,9 +65,9 @@ package com.vstyran.transform.connectors
 			dataConnector.setToolPanel(toolPanel);
 		}
 		
-		public function transfrom(data:TargetData):TargetData
+		public function transfrom(data:DisplayData):DisplayData
 		{
-			var data:TargetData = dataConnector.transfrom(data);
+			var data:DisplayData = dataConnector.transfrom(data);
 			
 			TransformUtil.applyData(uiTarget, dataConnector.data);
 			

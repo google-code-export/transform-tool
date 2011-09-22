@@ -1,6 +1,6 @@
 package com.vstyran.transform.operations
 {
-	import com.vstyran.transform.model.TargetData;
+	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.utils.MathUtil;
 	
 	import flash.geom.Matrix;
@@ -14,18 +14,18 @@ package com.vstyran.transform.operations
 		{
 		}
 		
-		protected var startData:TargetData;
+		protected var startData:DisplayData;
 		protected var startPoint:Point;
 		
-		public function initOperation(data:TargetData, point:Point):void
+		public function initOperation(data:DisplayData, point:Point):void
 		{
 			startData = data;
 			startPoint = MathUtil.roundPoint(point);
 		}
 		
-		public function doOperation(point:Point):TargetData
+		public function doOperation(point:Point):DisplayData
 		{
-			var data:TargetData = startData.clone();
+			var data:DisplayData = startData.clone();
 			
 			var m:Matrix = new Matrix();
 			m.rotate(data.rotation*Math.PI/180);

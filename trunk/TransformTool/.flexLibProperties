@@ -13,7 +13,7 @@
     <classEntry path="com.vstyran.transform.managers.raster.CursorItem"/>
     <classEntry path="com.vstyran.transform.managers.raster.CursorManager"/>
     <classEntry path="com.vstyran.transform.managers.raster.Cursors"/>
-    <classEntry path="com.vstyran.transform.model.TargetData"/>
+    <classEntry path="com.vstyran.transform.model.DisplayData"/>
     <classEntry path="com.vstyran.transform.namespaces.tt_internal"/>
     <classEntry path="com.vstyran.transform.operations.AnchorOperation"/>
     <classEntry path="com.vstyran.transform.operations.IAncorOperation"/>

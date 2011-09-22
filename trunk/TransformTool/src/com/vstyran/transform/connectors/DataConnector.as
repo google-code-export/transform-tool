@@ -1,7 +1,7 @@
 package com.vstyran.transform.connectors
 {
 	import com.vstyran.transform.events.ConnectorEvent;
-	import com.vstyran.transform.model.TargetData;
+	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.utils.TransformUtil;
 	
 	import flash.display.DisplayObject;
@@ -47,14 +47,14 @@ package com.vstyran.transform.connectors
 			invertMatrix = TransformUtil.getTransformationMatrix(toolPanel, panel);
 		}
 		
-		private var _data:TargetData;
+		private var _data:DisplayData;
 		
-		public function get data():TargetData
+		public function get data():DisplayData
 		{
 			return _data;
 		}
 		
-		public function set data(value:TargetData):void
+		public function set data(value:DisplayData):void
 		{
 			_data = value;
 			
@@ -64,7 +64,7 @@ package com.vstyran.transform.connectors
 		private var matrix:Matrix;
 		private var invertMatrix:Matrix;
 		
-		public function getData():TargetData
+		public function getData():DisplayData
 		{
 			if(matrix && data)
 				return TransformUtil.transformData(matrix, data);
@@ -72,7 +72,7 @@ package com.vstyran.transform.connectors
 				return null;
 		}
 		
-		public function transfrom(data:TargetData):TargetData
+		public function transfrom(data:DisplayData):DisplayData
 		{
 			_data = TransformUtil.transformData(invertMatrix, data);
 			

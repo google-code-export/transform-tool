@@ -1,6 +1,6 @@
 package com.vstyran.transform.operations
 {
-	import com.vstyran.transform.model.TargetData;
+	import com.vstyran.transform.model.DisplayData;
 	
 	import flash.geom.Point;
 
@@ -18,7 +18,7 @@ package com.vstyran.transform.operations
 		 * @param point Initial mouse position in transform tool coordinate space
 		 * on moment of starting transformation
 		 */		
-		function initOperation(data:TargetData, point:Point):void;
+		function initOperation(data:DisplayData, point:Point):void;
 		
 		/**
 		 * Perform transformation.
@@ -26,6 +26,6 @@ package com.vstyran.transform.operations
 		 * @param point Current mouse position in transform tool coordinate space
 		 * @return New data of transform tool.
 		 */		
-		function doOperation(point:Point):TargetData;
+		function doOperation(point:Point):DisplayData;
 	}
 }
