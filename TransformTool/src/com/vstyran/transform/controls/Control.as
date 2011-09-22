@@ -45,9 +45,16 @@ package com.vstyran.transform.controls
 			return _anchorActivated;
 		}
 		
-		public function set anchorActivated(value:Boolean):void
+		public function activateAnchor():void
 		{
-			_anchorActivated = value;
+			_anchorActivated = true;
+			
+			invalidateSkinState();
+		}
+		
+		public function deactivateAnchor():void
+		{
+			_anchorActivated = false;
 			
 			invalidateSkinState();
 		}
@@ -107,11 +114,11 @@ package com.vstyran.transform.controls
 				var resolvedAnchor:DisplayObject = resolveAnchor(event);
 				if(resolvedAnchor)
 				{
-					(operation as IAncorOperation).anchor = getAnchorPoint(resolvedAnchor); 
+					(operation as IAncorOperation).anchorPoint = getAnchorPoint(resolvedAnchor); 
 					if(resolvedAnchor is IAnchor)
 					{
 						activeAnchor = resolvedAnchor as IAnchor;
-						activeAnchor.anchorActivated = true;
+						activeAnchor.activateAnchor();
 					}
 				}
 			}
@@ -140,7 +147,7 @@ package com.vstyran.transform.controls
 				tool.endTransformation(operation.doOperation( MathUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY)))));
 			
 			if(activeAnchor)
-				activeAnchor.anchorActivated = false;
+				activeAnchor.deactivateAnchor();
 			
 			activeAnchor = null;
 			

@@ -4,15 +4,34 @@ package com.vstyran.transform.connectors
 	
 	import flash.display.DisplayObject;
 	import flash.events.IEventDispatcher;
-	
-	import mx.core.UIComponent;
 
+	/**
+	 * Interface for connector between transform tool and tranformation target.
+	 * 
+	 * @author Volodymyr Styranivskyi
+	 */
 	public interface IConnector extends IEventDispatcher
 	{
+		/**
+		 * Setter for transform tool's panel. 
+		 * 
+		 * @param toolPanel Panel that contains transform tool.
+		 */		
 		function setToolPanel(toolPanel:DisplayObject):void;
 		
+		/**
+		 * Get target data.
+		 * 
+		 * @return Target data in transform tool coordinate space
+		 */		
 		function getData():TargetData;
 		
+		/**
+		 * Transform target.
+		 *  
+		 * @param data Data in transform tool coordinate space
+		 * @return Adjusted data in transform tool coordinate space
+		 */		
 		function transfrom(data:TargetData):TargetData;
 	}
 }

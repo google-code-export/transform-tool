@@ -33,7 +33,7 @@ package com.vstyran.transform.operations
 			
 			// calculates position
 			m = new Matrix();
-			m.translate(-anchor.x, -anchor.y);
+			m.translate(-startAnchor.x, -startAnchor.y);
 			m.rotate(data.rotation*Math.PI/180);
 			m.translate(globalAnchor.x, globalAnchor.y);
 			
