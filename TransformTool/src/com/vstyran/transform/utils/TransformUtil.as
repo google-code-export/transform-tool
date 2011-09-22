@@ -1,6 +1,6 @@
 package com.vstyran.transform.utils
 {
-	import com.vstyran.transform.model.TargetData;
+	import com.vstyran.transform.model.DisplayData;
 	
 	import flash.display.DisplayObject;
 	import flash.geom.Matrix;
@@ -13,9 +13,9 @@ package com.vstyran.transform.utils
 	{
 		include "../Version.as";
 		
-		public static function transformData(m:Matrix, sourceData:TargetData):TargetData
+		public static function transformData(m:Matrix, sourceData:DisplayData):DisplayData
 		{
-			var data:TargetData = new TargetData();
+			var data:DisplayData = new DisplayData();
 			
 			var position:Point = m.transformPoint(new Point(sourceData.x, sourceData.y));
 			data.x = position.x;
@@ -54,9 +54,9 @@ package com.vstyran.transform.utils
 			return m;
 		}
 		
-		public static function createData(target:UIComponent):TargetData
+		public static function createData(target:UIComponent):DisplayData
 		{
-			var data:TargetData = new TargetData();
+			var data:DisplayData = new DisplayData();
 			data.x = Math.round(target.x);
 			data.y = Math.round(target.y);
 			data.width = Math.round(target.width*target.scaleX);
@@ -71,17 +71,17 @@ package com.vstyran.transform.utils
 			return data;
 		}
 		
-		public static function createDataInContext(source:UIComponent, context:UIComponent):TargetData
+		public static function createDataInContext(source:UIComponent, context:UIComponent):DisplayData
 		{
 			return createDataByMatrix(source, getTransformationMatrix(source.parent, context));
 		}
 		
-		public static function createDataByMatrix(source:UIComponent, matrix:Matrix):TargetData
+		public static function createDataByMatrix(source:UIComponent, matrix:Matrix):DisplayData
 		{
 			return transformData(matrix, createData(source));
 		}
 		
-		public static function applyData(target:UIComponent, data:TargetData, applyMinMax:Boolean = false):void
+		public static function applyData(target:UIComponent, data:DisplayData, applyMinMax:Boolean = false):void
 		{
 			target.x = data.x;
 			target.y = data.y;

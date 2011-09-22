@@ -1,6 +1,6 @@
 package com.vstyran.transform.operations
 {
-	import com.vstyran.transform.model.TargetData;
+	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.utils.MathUtil;
 	import com.vstyran.transform.utils.TransformUtil;
 	
@@ -16,14 +16,14 @@ package com.vstyran.transform.operations
 		
 		
 		protected var startAnchor:Point;
-		protected var startData:TargetData;
+		protected var startData:DisplayData;
 		protected var startPoint:Point;
 		
 		public function AnchorOperation()
 		{
 		}
 		
-		public function initOperation(data:TargetData, point:Point):void
+		public function initOperation(data:DisplayData, point:Point):void
 		{
 			startData = data;
 			startPoint = MathUtil.roundPoint(point);
@@ -33,7 +33,7 @@ package com.vstyran.transform.operations
 				startAnchor =  MathUtil.floorPoint(new Point(startData.width/2, startData.height/2));	
 		}
 		
-		public function doOperation(point:Point):TargetData
+		public function doOperation(point:Point):DisplayData
 		{
 			return null;
 		}

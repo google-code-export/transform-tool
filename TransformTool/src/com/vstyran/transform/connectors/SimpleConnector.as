@@ -1,7 +1,7 @@
 package com.vstyran.transform.connectors
 {
 	import com.vstyran.transform.events.ConnectorEvent;
-	import com.vstyran.transform.model.TargetData;
+	import com.vstyran.transform.model.DisplayData;
 	
 	import flash.display.DisplayObject;
 	import flash.events.EventDispatcher;
@@ -25,14 +25,14 @@ package com.vstyran.transform.connectors
 			
 		}
 		
-		private var _data:TargetData;
+		private var _data:DisplayData;
 
-		public function get data():TargetData
+		public function get data():DisplayData
 		{
 			return _data;
 		}
 
-		public function set data(value:TargetData):void
+		public function set data(value:DisplayData):void
 		{
 			_data = value;
 			
@@ -40,12 +40,12 @@ package com.vstyran.transform.connectors
 		}
 
 		
-		public function getData():TargetData
+		public function getData():DisplayData
 		{
 			return data;
 		}
 		
-		public function transfrom(data:TargetData):TargetData
+		public function transfrom(data:DisplayData):DisplayData
 		{
 			_data = data;
 			

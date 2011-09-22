@@ -2,7 +2,7 @@ package com.vstyran.transform.managers.vector
 {
 	import com.vstyran.transform.controls.Control;
 	import com.vstyran.transform.managers.ICursorManager;
-	import com.vstyran.transform.model.TargetData;
+	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.namespaces.tt_internal;
 	import com.vstyran.transform.utils.TransformUtil;
 	import com.vstyran.transform.view.TransformTool;
@@ -120,7 +120,7 @@ package com.vstyran.transform.managers.vector
 				if(item.maintainRotation)
 				{
 					var m:Matrix = TransformUtil.getTransformationMatrix(_tool.parent, null);
-					var data:TargetData = TransformUtil.transformData(m, TransformUtil.createData(_tool));
+					var data:DisplayData = TransformUtil.transformData(m, TransformUtil.createData(_tool));
 					
 					var matrix:Matrix = new Matrix();
 					matrix.translate(-currentCursor.width/2, -currentCursor.height/2);

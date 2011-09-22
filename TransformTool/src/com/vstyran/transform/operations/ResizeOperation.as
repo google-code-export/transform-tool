@@ -1,6 +1,6 @@
 package com.vstyran.transform.operations
 {
-	import com.vstyran.transform.model.TargetData;
+	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.utils.MathUtil;
 	
 	import flash.geom.Matrix;
@@ -19,9 +19,9 @@ package com.vstyran.transform.operations
 		public var horizontalEnabled:Boolean = true;
 		public var maintainAspectRatio:Boolean = false;
 		
-		override public function doOperation(point:Point):TargetData
+		override public function doOperation(point:Point):DisplayData
 		{
-			var data:TargetData = startData.clone();
+			var data:DisplayData = startData.clone();
 			
 			var deltaPoint:Point = MathUtil.roundPoint(new Point(point.x - startPoint.x, point.y - startPoint.y));
 			
