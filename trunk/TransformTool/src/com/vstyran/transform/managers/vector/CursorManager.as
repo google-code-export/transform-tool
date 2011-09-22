@@ -3,10 +3,9 @@ package com.vstyran.transform.managers.vector
 	import com.vstyran.transform.controls.Control;
 	import com.vstyran.transform.managers.ICursorManager;
 	import com.vstyran.transform.model.TargetData;
+	import com.vstyran.transform.namespaces.tt_internal;
 	import com.vstyran.transform.utils.TransformUtil;
 	import com.vstyran.transform.view.TransformTool;
-	
-	import com.vstyran.transform.namespaces.tt_internal;
 	
 	import flash.display.DisplayObject;
 	import flash.events.IEventDispatcher;
@@ -26,38 +25,55 @@ package com.vstyran.transform.managers.vector
 	
 	[DefaultProperty("items")]
 	
-	public class CursorManager implements ICursorManager, IMXMLObject
+	public class CursorManager implements ICursorManager
 	{
 		include "../../Version.as";
 		
 		public function CursorManager()
 		{
+			cursorStage = FlexGlobals.topLevelApplication as IVisualElementContainer;
 		}
 		
 		private var cursorStage:IVisualElementContainer;
 		
 		public var hideMouse:Boolean = true;
 		
-		public function initialized(document:Object, id:String):void
-		{
-			cursorStage = FlexGlobals.topLevelApplication as IVisualElementContainer;
-		}
 		
 		private var _tool:TransformTool;
 		
+		private var cursorsAdded:Boolean;
 		public function set tool(value:TransformTool):void
 		{
 			if(_tool != value)
 			{
-				for each (var item:CursorItem in items) 
-				{
-					item.cursor.includeInLayout = false;
-					item.cursor.visible = false;
-					cursorStage.addElement(item.cursor);
-				}
+				if(!cursorsAdded && value)
+					addRemoveCursors();
 				
+				if(cursorsAdded && !value)
+					addRemoveCursors(false);
+					
 				_tool = value;
 			}
+		}
+		
+		private function addRemoveCursors(adding:Boolean = true):void
+		{
+			for each (var item:CursorItem in items) 
+			{
+				item.cursor.includeInLayout = false;
+				item.cursor.visible = false;
+				if(adding)
+				{
+					cursorStage.addElement(item.cursor);
+				}
+				else
+				{
+					if(item.cursor.parent)
+						cursorStage.removeElement(item.cursor);
+				}
+			}
+			
+			cursorsAdded = adding;
 		}
 		
 		private var currentCursor:IVisualElement;
