@@ -12,7 +12,7 @@ package com.vstyran.transform.operations
 		include "../Version.as";
 		
 		[Bindable]
-		public var anchor:Point;
+		public var anchorPoint:Point;
 		
 		
 		protected var startAnchor:Point;
@@ -27,8 +27,8 @@ package com.vstyran.transform.operations
 		{
 			startData = data;
 			startPoint = MathUtil.roundPoint(point);
-			if(anchor)
-				startAnchor =  MathUtil.floorPoint(anchor.clone(), 2)
+			if(anchorPoint)
+				startAnchor =  MathUtil.floorPoint(anchorPoint.clone(), 2)
 			else
 				startAnchor =  MathUtil.floorPoint(new Point(startData.width/2, startData.height/2));	
 		}

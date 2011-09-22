@@ -22,9 +22,16 @@ package com.vstyran.transform.controls
 			return _anchorActivated;
 		}
 
-		public function set anchorActivated(value:Boolean):void
+		public function activateAnchor():void
 		{
-			_anchorActivated = value;
+			_anchorActivated = true;
+			
+			invalidateSkinState();
+		}
+		
+		public function deactivateAnchor():void
+		{
+			_anchorActivated = false;
 			
 			invalidateSkinState();
 		}
