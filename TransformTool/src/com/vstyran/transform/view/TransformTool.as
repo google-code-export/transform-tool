@@ -18,52 +18,50 @@ package com.vstyran.transform.view
 	import spark.components.supportClasses.SkinnableComponent;
 	
 	
-	
+	/**
+	 * Transfrom tool that can edit geometry properties of target object.
+	 * 
+	 * @author Volodymyr Styranivskyi
+	 */
 	public class TransformTool extends SkinnableComponent
 	{
 		include "../Version.as";
 		
 		[SkinPart]
+		/**
+		 * Manager for managing cursors under controls. 
+		 */		
 		public var toolCursorManager:ICursorManager;
 		
+		/**
+		 * Constructor. 
+		 */		
 		public function TransformTool()
 		{
 			super();
+			
+			includeInLayout = false;
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			addEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
 		}
 		
-		
-		private var addedToStage:Boolean;
-		protected function removedFromStageHandler(event:Event):void
-		{
-			addedToStage = false;
-			
-			if(toolCursorManager)
-				toolCursorManager.tool = null;
-		}
-		
-		protected function addedToStageHandler(event:Event):void
-		{
-			if(connector)
-				connector.setToolPanel(parent);
-			
-			addedToStage = true;
-			
-			if(toolCursorManager)
-				toolCursorManager.tool = this;
-			
-			updateTool();
-		}
-		
+		/**
+		 * @private 
+		 */		
 		private var _connector:IConnector;
-
+		
+		/**
+		 * Connector object for managing transform targets. 
+		 */		
 		public function get connector():IConnector
 		{
 			return _connector;
 		}
-
+		
+		/**
+		 * @private 
+		 */		
 		public function set connector(value:IConnector):void
 		{
 			if(_connector != value)
@@ -80,31 +78,85 @@ package com.vstyran.transform.view
 			}
 		}
 		
-		private function dataChangeHendler(event:ConnectorEvent):void
-		{
-			updateTool();
-		}
-		
+		//------------------------------------------------
+		// Life cycle methods
+		//------------------------------------------------
+		/**
+		 * @inheritDoc 
+		 */		
 		override protected function attachSkin():void
 		{
 			super.attachSkin();
 			
 			if(skin)
-				skin.addEventListener(Event.ADDED_TO_STAGE, addedHandler, true);
-			
+				skin.addEventListener(Event.ADDED_TO_STAGE, skinAddedHandler, true);
 			
 			validateControls = true;
 			invalidateProperties();
 		}
 		
-		protected function addedHandler(event:Event):void
+		/**
+		 * @inheritDoc 
+		 */
+		override protected function partAdded(partName:String, instance:Object):void
 		{
-			skin.removeEventListener(Event.ADDED_TO_STAGE, addedHandler);
+			super.partAdded(partName, instance);
+			
+			if(instance == toolCursorManager && addedToStage)
+			{
+				toolCursorManager.tool = this;
+			}
+		}
+		
+		/**
+		 * @inheritDoc 
+		 */
+		override protected function partRemoved(partName:String, instance:Object):void
+		{
+			super.partRemoved(partName, instance);
+			
+			if(instance == toolCursorManager)
+			{
+				toolCursorManager.tool = null;
+			}
+		}
+		
+		/**
+		 * @private 
+		 */		
+		private var validateControls:Boolean;
+		
+		/**
+		 * @inheritDoc 
+		 */		
+		override protected function commitProperties():void
+		{
+			super.commitProperties();
+			
+			
+			if(validateControls)
+			{
+				processParts(skin);
+				validateControls = false;
+			}
+		}
+		
+		/**
+		 * Skin added to stage
+		 * @private
+		 */		
+		protected function skinAddedHandler(event:Event):void
+		{
+			skin.removeEventListener(Event.ADDED_TO_STAGE, skinAddedHandler);
 			
 			validateControls = true;
 			invalidateProperties();
 		}
 		
+		/**
+		 * Loop through all skin elements and add tool to all Controls
+		 * @private 
+		 */		
 		protected function processParts(container:UIComponent):void
 		{
 			if(container is Control)
@@ -124,57 +176,92 @@ package com.vstyran.transform.view
 			}
 		}
 		
-		override protected function partAdded(partName:String, instance:Object):void
+	
+		//------------------------------------------------
+		// Event handlers
+		//------------------------------------------------
+		
+		/**
+		 * @private 
+		 */		
+		private var addedToStage:Boolean;
+		
+		/**
+		 * Tool added to stage handler 
+		 * @private
+		 */	
+		protected function addedToStageHandler(event:Event):void
 		{
-			super.partAdded(partName, instance);
+			if(connector)
+				connector.setToolPanel(parent);
 			
-			if(instance == toolCursorManager && addedToStage)
-			{
+			addedToStage = true;
+			
+			if(toolCursorManager)
 				toolCursorManager.tool = this;
-			}
+			
+			updateTool();
 		}
 		
-		override protected function partRemoved(partName:String, instance:Object):void
+		/**
+		 * Tool removed from stage handler 
+		 * @private
+		 */		
+		protected function removedFromStageHandler(event:Event):void
 		{
-			super.partRemoved(partName, instance);
+			addedToStage = false;
 			
-			if(instance == toolCursorManager)
-			{
+			if(toolCursorManager)
 				toolCursorManager.tool = null;
-			}
 		}
 		
-		private var validateControls:Boolean;
-		
-		override protected function commitProperties():void
+		/**
+		 * Connector data change handler.
+		 * Data is changed by target so we need to update transform tool.
+		 * @param event
+		 */		
+		private function dataChangeHendler(event:ConnectorEvent):void
 		{
-			super.commitProperties();
-			
-			
-			if(validateControls)
-			{
-				processParts(skin);
-				validateControls = false;
-			}
+			updateTool();
 		}
 		
+		
+		//------------------------------------------------
+		// Methods
+		//------------------------------------------------
+		
+		/**
+		 * @private 
+		 */		
 		private var _transforming:Boolean;
 
+		/**
+		 * Flag that indicate whether tyransforming is in progress. 
+		 */		
 		public function get transforming():Boolean
 		{
 			return _transforming;
 		}
 
+		/**
+		 * Start transformation (mouse down on control) 
+		 */		
 		public function startTransformation(control:Control):void
 		{
 			_transforming = true;
 		}
 		
+		/**
+		 * Transformation is in progress (mouse move on control) 
+		 */	
 		public function doTransformation(data:DisplayData):void
 		{
 			TransformUtil.applyData(this, connector.transfrom(data));
 		}
 		
+		/**
+		 * Transformation is finished  (mouse up on control)
+		 */		
 		public function endTransformation(data:DisplayData):void
 		{
 			TransformUtil.applyData(this, connector.transfrom(data));
@@ -182,6 +269,9 @@ package com.vstyran.transform.view
 			_transforming = false;
 		}
 		
+		/**
+		 * Upodate size, position, etc. of tool 
+		 */		
 		public function updateTool():void
 		{
 			var data:DisplayData = connector.getData();
