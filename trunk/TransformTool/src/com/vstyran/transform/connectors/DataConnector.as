@@ -9,6 +9,7 @@ package com.vstyran.transform.connectors
 	import flash.geom.Matrix;
 	
 	import mx.core.UIComponent;
+	import mx.utils.ObjectUtil;
 	
 	/**
 	 *  Dispatched when the data is changed and transform tool needs to be updated.
@@ -100,9 +101,12 @@ package com.vstyran.transform.connectors
 		 */
 		public function set data(value:DisplayData):void
 		{
-			_data = value;
-			
-			dispatchEvent(new ConnectorEvent(ConnectorEvent.DATA_CHANGE, _data));
+			if(ObjectUtil.compare(_data, value , 0) != 0)
+			{
+				_data = value;
+				
+				dispatchEvent(new ConnectorEvent(ConnectorEvent.DATA_CHANGE, _data));
+			}
 		}
 		
 		/**
