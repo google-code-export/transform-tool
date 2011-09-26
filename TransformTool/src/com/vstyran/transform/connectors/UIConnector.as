@@ -10,70 +10,102 @@ package com.vstyran.transform.connectors
 	
 	import mx.core.UIComponent;
 
+	/**
+	 * Connector class for connecting UIComponent with transfrom tool.
+	 * 
+	 * @author Volodymyr Styranivskyi
+	 */
 	public class UIConnector extends EventDispatcher implements IConnector
 	{
 		include "../Version.as";
 		
+		/**
+		 * Constructor. 
+		 */		
 		public function UIConnector()
 		{
 		}
 		
+		/**
+		 * @private
+		 * Data connector. 
+		 */		
 		private var dataConnector:DataConnector = new DataConnector();
 		
-		private var _uiTarget:UIComponent;
+		/**
+		 * @private 
+		 */		
+		private var _target:UIComponent;
 
-		public function get uiTarget():UIComponent
+		/**
+		 * Target of transformation. 
+		 */		
+		public function get target():UIComponent
 		{
-			return _uiTarget;
+			return _target;
 		}
 
-		public function set uiTarget(value:UIComponent):void
+		/**
+		 * @private 
+		 */	
+		public function set target(value:UIComponent):void
 		{
-			_uiTarget = value;
+			_target = value;
 			
-			if(_uiTarget.parent)
+			if(_target.parent)
 			{
-				dataConnector.panel = _uiTarget.parent as UIComponent;
+				dataConnector.panel = _target.parent as UIComponent;
 			
 				dispatchEvent(new ConnectorEvent(ConnectorEvent.DATA_CHANGE));
 			}
 			else
 			{
-				_uiTarget.addEventListener(Event.ADDED_TO_STAGE, addedHandler);
+				_target.addEventListener(Event.ADDED_TO_STAGE, addedHandler);
 			}
 		}
 		
+		/**
+		 * @private 
+		 * Target added to stage event handler.
+		 */		
 		protected function addedHandler(event:Event):void
 		{
-			_uiTarget.removeEventListener(Event.ADDED_TO_STAGE, addedHandler);
+			_target.removeEventListener(Event.ADDED_TO_STAGE, addedHandler);
 			
-			dataConnector.panel = _uiTarget.parent as UIComponent;
+			dataConnector.panel = _target.parent as UIComponent;
 			
 			dispatchEvent(new ConnectorEvent(ConnectorEvent.DATA_CHANGE));
 		}
 		
+		/**
+		 * @inheritDoc 
+		 */		
 		public function getData():DisplayData
 		{
-			if(uiTarget)
-				dataConnector.data = TransformUtil.createData(uiTarget);
+			if(target)
+				dataConnector.data = TransformUtil.createData(target);
 			
 			return dataConnector.getData();
 		}
 		
+		/**
+		 * @inheritDoc 
+		 */	
 		public function setToolPanel(toolPanel:DisplayObject):void
 		{
 			dataConnector.setToolPanel(toolPanel);
 		}
 		
+		/**
+		 * @inheritDoc 
+		 */	
 		public function transfrom(data:DisplayData):DisplayData
 		{
 			var data:DisplayData = dataConnector.transfrom(data);
 			
-			TransformUtil.applyData(uiTarget, dataConnector.data);
+			TransformUtil.applyData(target, dataConnector.data);
 			
 			return data;
 		}
-		
-		
 	}
 }
