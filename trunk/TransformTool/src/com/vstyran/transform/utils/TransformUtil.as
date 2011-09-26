@@ -97,37 +97,5 @@ package com.vstyran.transform.utils
 				target.maxHeight = !isNaN(data.maxHeight) ? data.maxHeight/target.scaleY : NaN;
 			}
 		}
-		
-	
-		
-		/*public static function getBoundsInContext(sourcePanel:DisplayObject, source:TargetData, context:DisplayObject=null):TargetData
-		{
-			var m:Matrix = getTransformationMatrix(sourcePanel, context);
-			
-			return getBoundsByMatrix(m, source);
-		}
-		
-		public static function getBoundsByMatrix(m:Matrix, source:TargetData):TargetData
-		{
-			var data:TargetData = new TargetData();
-			
-			
-			var topLeft:Point = m.transformPoint(new Point(source.x, source.y));
-			var topRight:Point = m.transformPoint(new Point(source.x+source.width,source.y));
-			var bottomRight:Point = m.transformPoint(new Point(source.x+source.width, source.y+source.height));
-			var bottomLeft:Point = m.transformPoint(new Point(source.x, source.y+source.height));
-			
-			var minX:Number = Math.min(topLeft.x, topRight.x, bottomRight.x, bottomLeft.x);
-			var minY:Number = Math.min(topLeft.y, topRight.y, bottomRight.y, bottomLeft.y);
-			var maxX:Number = Math.max(topLeft.x, topRight.x, bottomRight.x, bottomLeft.x);
-			var maxY:Number = Math.max(topLeft.y, topRight.y, bottomRight.y, bottomLeft.y);
-			
-			data.x = minX;
-			data.y = minY;
-			data.width = maxX - minX;
-			data.height = maxY - minY;
-			
-			return data;
-		}*/
 	}
 }
