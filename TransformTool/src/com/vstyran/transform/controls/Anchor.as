@@ -3,25 +3,49 @@ package com.vstyran.transform.controls
 	
 	import spark.components.supportClasses.SkinnableComponent;
 	
+	/**
+	 *  Normal State
+	 */
 	[SkinState("normal")]
+	
+	/**
+	 *  Active State
+	 */
 	[SkinState("active")]
 	
+	/**
+	 * Anchor component that used by operation as anchor point.
+	 * 
+	 * @author Volodymyr Styranivskyi
+	 */
 	public class Anchor extends SkinnableComponent implements IAnchor
 	{
 		include "../Version.as";
 		
+		/**
+		 * Constructor. 
+		 */		
 		public function Anchor()
 		{
 			super();
 		}
 		
+		/**
+		 * @private 
+		 */		
 		private var _anchorActivated:Boolean;
 
+		/**
+		 * Flag specifies whether anchor is currently used by operation. 
+		 */		
 		public function get anchorActivated():Boolean
 		{
 			return _anchorActivated;
 		}
 
+		/**
+		 * @inheritDoc 
+		 */		
 		public function activateAnchor():void
 		{
 			_anchorActivated = true;
@@ -29,6 +53,9 @@ package com.vstyran.transform.controls
 			invalidateSkinState();
 		}
 		
+		/**
+		 * @inheritDoc 
+		 */	
 		public function deactivateAnchor():void
 		{
 			_anchorActivated = false;
@@ -36,21 +63,12 @@ package com.vstyran.transform.controls
 			invalidateSkinState();
 		}
 
-		
+		/**
+		 * @inheritDoc 
+		 */	
 		override protected function getCurrentSkinState():String
 		{
 			return _anchorActivated ? "active" : "normal";
 		} 
-		
-		override protected function partAdded(partName:String, instance:Object) : void
-		{
-			super.partAdded(partName, instance);
-		}
-		
-		override protected function partRemoved(partName:String, instance:Object) : void
-		{
-			super.partRemoved(partName, instance);
-		}
-		
 	}
 }
