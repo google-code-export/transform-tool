@@ -9,10 +9,48 @@ package com.vstyran.transform.utils
 	import mx.core.UIComponent;
 	import mx.utils.MatrixUtil;
 	
+	/**
+	 * Utility class that has methods for transformation.
+	 * 
+	 * @author Volodymyr Styranivskyi
+	 */
 	public class TransformUtil
 	{
 		include "../Version.as";
 		
+		/**
+		 * Create transformation matrix from source panel to destination panel.
+		 *  
+		 * @param sourceContext Source coordinate space. If null then stage will be used.
+		 * @param destContext Destination coordinate space. If null then stage will be used.
+		 * @return transform matrix
+		 */		
+		public static function getMatrix(sourceContext:DisplayObject, destContext:DisplayObject):Matrix
+		{
+			var m:Matrix = new Matrix();
+			
+			if(sourceContext)
+				m = MatrixUtil.getConcatenatedMatrix(sourceContext, null);
+			
+			if(destContext)
+			{
+				var dm:Matrix = new Matrix();
+				dm = MatrixUtil.getConcatenatedMatrix(destContext, null);
+				dm.invert();
+				m.concat(dm);
+			}
+			
+			return m;
+		}
+		
+		/**
+		 * Transform data. Original data object will not be changed.
+		 *  
+		 * @param m Transformation matrix.
+		 * @param sourceData Data that will be transformed.
+		 * @return Transformed data.
+		 * 
+		 */		
 		public static function transformData(m:Matrix, sourceData:DisplayData):DisplayData
 		{
 			var data:DisplayData = new DisplayData();
@@ -34,68 +72,6 @@ package com.vstyran.transform.utils
 			data.maxHeight = !isNaN(sourceData.maxHeight) ? sourceData.maxHeight * components[4] : NaN;
 			
 			return data;
-		}
-		
-		public static function getTransformationMatrix(sourceContext:DisplayObject, destContext:DisplayObject):Matrix
-		{
-			var m:Matrix = new Matrix();
-			
-			if(sourceContext)
-				m = MatrixUtil.getConcatenatedMatrix(sourceContext, null);
-			
-			if(destContext)
-			{
-				var dm:Matrix = new Matrix();
-				dm = MatrixUtil.getConcatenatedMatrix(destContext, null);
-				dm.invert();
-				m.concat(dm);
-			}
-			
-			return m;
-		}
-		
-		public static function createData(target:UIComponent):DisplayData
-		{
-			var data:DisplayData = new DisplayData();
-			data.x = Math.round(target.x);
-			data.y = Math.round(target.y);
-			data.width = Math.round(target.width*target.scaleX);
-			data.height = Math.round(target.height*target.scaleY);
-			data.rotation = target.rotation;
-			
-			data.minWidth = !isNaN(target.minWidth) ? target.minWidth * target.scaleX : NaN;
-			data.minHeight = !isNaN(target.minHeight) ? target.minHeight * target.scaleY : NaN;
-			data.maxWidth = !isNaN(target.maxWidth) ? target.maxWidth * target.scaleX : NaN;
-			data.maxHeight = !isNaN(target.maxHeight) ? target.maxHeight * target.scaleY : NaN;
-			
-			return data;
-		}
-		
-		public static function createDataInContext(source:UIComponent, context:UIComponent):DisplayData
-		{
-			return createDataByMatrix(source, getTransformationMatrix(source.parent, context));
-		}
-		
-		public static function createDataByMatrix(source:UIComponent, matrix:Matrix):DisplayData
-		{
-			return transformData(matrix, createData(source));
-		}
-		
-		public static function applyData(target:UIComponent, data:DisplayData, applyMinMax:Boolean = false):void
-		{
-			target.x = data.x;
-			target.y = data.y;
-			target.width = data.width/target.scaleX;
-			target.height = data.height/target.scaleY;
-			target.rotation = data.rotation;
-			
-			if(applyMinMax)
-			{
-				target.minWidth = !isNaN(data.minWidth) ? data.minWidth/target.scaleX : NaN;
-				target.minHeight = !isNaN(data.minHeight) ? data.minHeight/target.scaleY : NaN;
-				target.maxWidth = !isNaN(data.maxWidth) ? data.maxWidth/target.scaleX : NaN;
-				target.maxHeight = !isNaN(data.maxHeight) ? data.maxHeight/target.scaleY : NaN;
-			}
 		}
 	}
 }
