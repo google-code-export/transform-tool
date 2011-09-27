@@ -7,7 +7,9 @@ package com.vstyran.transform.view
 	import com.vstyran.transform.managers.ICursorManager;
 	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.namespaces.tt_internal;
+	import com.vstyran.transform.skins.TransformToolSkin;
 	import com.vstyran.transform.utils.DataUtil;
+	import com.vstyran.transform.utils.SkinUtil;
 	import com.vstyran.transform.utils.TransformUtil;
 	
 	import flash.events.Event;
@@ -29,6 +31,9 @@ package com.vstyran.transform.view
 	public class TransformTool extends SkinnableComponent
 	{
 		include "../Version.as";
+		
+		// attach default skin
+		SkinUtil.attachSkin("com.vstyran.transform.view.TransformTool", TransformToolSkin);
 		
 		[SkinPart]
 		/**
