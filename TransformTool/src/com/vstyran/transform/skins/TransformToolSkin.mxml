@@ -6,7 +6,9 @@
 		xmlns:operations="com.vstyran.transform.operations.*" 
 		xmlns:raster="com.vstyran.transform.managers.raster.*" 
 		xmlns:layouts="com.vstyran.transform.layouts.*"
-		width="200" height="180" xmlns:vector="com.vstyran.transform.managers.vector.*" xmlns:cursors="com.vstyran.transform.managers.vector.cursors.*">
+		xmlns:vector="com.vstyran.transform.managers.vector.*"
+		xmlns:cursors="com.vstyran.transform.managers.vector.cursors.*"
+		width="200" height="180" >
 	<!-- host component -->
 	<fx:Metadata>
 		[HostComponent("com.vstyran.transform.view.TransformTool")]
@@ -64,60 +66,52 @@
 		</s:stroke>
 	</s:Line>
 	<controls:Control id="rotateControl" top="-26" horizontalCenter="0"
-					  skinClass="com.vstyran.transform.skins.ControlSkin" anchor="{centerAnchor}">
+					  anchor="{centerAnchor}">
 		<controls:operation>
 			<operations:RotateOperation/>
 		</controls:operation>
 	</controls:Control>
 	
-	<controls:Control id="topLeft" top="-6" left="-6" anchor="{bottomRight}"
-					  skinClass="com.vstyran.transform.skins.ControlSkin">
+	<controls:Control id="topLeft" top="-6" left="-6" anchor="{bottomRight}">
 		<controls:operation>
 			<operations:ResizeOperation/>
 		</controls:operation>
 	</controls:Control>
-	<controls:Control id="topMiddle" top="-6" horizontalCenter="0" anchor="{bottomMiddle}"
-					  skinClass="com.vstyran.transform.skins.ControlSkin">
+	<controls:Control id="topMiddle" top="-6" horizontalCenter="0" anchor="{bottomMiddle}">
 		<controls:operation>
 			<operations:ResizeOperation horizontalEnabled="false"/>
 		</controls:operation>
 	</controls:Control>
-	<controls:Control id="topRight" top="-6" right="-6" anchor="{bottomLeft}"
-					  skinClass="com.vstyran.transform.skins.ControlSkin">
+	<controls:Control id="topRight" top="-6" right="-6" anchor="{bottomLeft}">
 		<controls:operation>
 			<operations:ResizeOperation/>
 		</controls:operation>
 	</controls:Control>
-	<controls:Control id="middleRight" verticalCenter="0" right="-6" anchor="{middleLeft}" shiftAnchor="{centerAnchor}"
-					  skinClass="com.vstyran.transform.skins.ControlSkin">
+	<controls:Control id="middleRight" verticalCenter="0" right="-6" anchor="{middleLeft}" shiftAnchor="{centerAnchor}">
 		<controls:operation>
 			<operations:ResizeOperation verticalEnabled="false" maintainAspectRatio="true"/>
 		</controls:operation>
 	</controls:Control>
-	<controls:Control id="bottomRight" bottom="-6" right="-6" anchor="{topLeft}"
-					  skinClass="com.vstyran.transform.skins.ControlSkin">
+	<controls:Control id="bottomRight" bottom="-6" right="-6" anchor="{topLeft}">
 		<controls:operation>
 			<operations:ResizeOperation maintainAspectRatio="true"/>
 		</controls:operation>
 	</controls:Control>
-	<controls:Control id="bottomMiddle" bottom="-6" horizontalCenter="0" anchor="{topMiddle}"
-					  skinClass="com.vstyran.transform.skins.ControlSkin">
+	<controls:Control id="bottomMiddle" bottom="-6" horizontalCenter="0" anchor="{topMiddle}">
 		<controls:operation>
 			<operations:ResizeOperation horizontalEnabled="false"/>
 		</controls:operation>
 	</controls:Control>
-	<controls:Control id="bottomLeft" bottom="-6" left="-6" anchor="{topRight}"
-					  skinClass="com.vstyran.transform.skins.ControlSkin">
+	<controls:Control id="bottomLeft" bottom="-6" left="-6" anchor="{topRight}">
 		<controls:operation>
 			<operations:ResizeOperation/>
 		</controls:operation>
 	</controls:Control>
-	<controls:Control id="middleLeft" verticalCenter="0" left="-6" anchor="{middleRight}"
-					  skinClass="com.vstyran.transform.skins.ControlSkin">
+	<controls:Control id="middleLeft" verticalCenter="0" left="-6" anchor="{middleRight}">
 		<controls:operation>
 			<operations:ResizeOperation verticalEnabled="false"/>
 		</controls:operation>
 	</controls:Control>
 	
-	<controls:Anchor id="centerAnchor" verticalCenter="0" horizontalCenter="0" skinClass="com.vstyran.transform.skins.AnchorSkin"/>
+	<controls:Anchor id="centerAnchor" verticalCenter="0" horizontalCenter="0"/>
 </s:Skin>
