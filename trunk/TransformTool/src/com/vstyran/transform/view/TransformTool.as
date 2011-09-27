@@ -10,10 +10,8 @@ package com.vstyran.transform.view
 	import com.vstyran.transform.skins.TransformToolSkin;
 	import com.vstyran.transform.utils.DataUtil;
 	import com.vstyran.transform.utils.SkinUtil;
-	import com.vstyran.transform.utils.TransformUtil;
 	
 	import flash.events.Event;
-	import flash.geom.Matrix;
 	
 	import mx.core.IVisualElement;
 	import mx.core.IVisualElementContainer;
@@ -21,8 +19,8 @@ package com.vstyran.transform.view
 	
 	import spark.components.supportClasses.SkinnableComponent;
 	
-	
 	use namespace tt_internal;
+	
 	/**
 	 * Transfrom tool that can edit geometry properties of target object.
 	 * 
