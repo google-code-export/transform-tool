@@ -32,6 +32,9 @@
     <classEntry path="com.vstyran.transform.managers.vector.CursorItem"/>
     <classEntry path="com.vstyran.transform.utils.DataUtil"/>
     <classEntry path="com.vstyran.transform.utils.SkinUtil"/>
+    <classEntry path="com.vstyran.transform.view.SimpleTransformTool"/>
+    <classEntry path="com.vstyran.transform.view.DataTransformTool"/>
+    <classEntry path="com.vstyran.transform.view.UITransformTool"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
