@@ -108,5 +108,13 @@ package com.vstyran.transform.connectors
 			
 			return data;
 		}
+		
+		/**
+		 * @inheritDoc 
+		 */	
+		public function complete(data:DisplayData):DisplayData
+		{
+			return transfrom(data);
+		}
 	}
 }

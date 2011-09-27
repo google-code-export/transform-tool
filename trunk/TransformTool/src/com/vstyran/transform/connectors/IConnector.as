@@ -33,5 +33,13 @@ package com.vstyran.transform.connectors
 		 * @return Adjusted data in transform tool coordinate space
 		 */		
 		function transfrom(data:DisplayData):DisplayData;
+		
+		/**
+		 * Transformation complete.
+		 *  
+		 * @param data Data in transform tool coordinate space
+		 * @return Adjusted data in transform tool coordinate space
+		 */		
+		function complete(data:DisplayData):DisplayData;
 	}
 }
