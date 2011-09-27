@@ -6,8 +6,9 @@ package com.vstyran.transform.view
 	import com.vstyran.transform.events.ConnectorEvent;
 	import com.vstyran.transform.managers.ICursorManager;
 	import com.vstyran.transform.model.DisplayData;
-	import com.vstyran.transform.utils.TransformUtil;
 	import com.vstyran.transform.namespaces.tt_internal;
+	import com.vstyran.transform.utils.DataUtil;
+	import com.vstyran.transform.utils.TransformUtil;
 	
 	import flash.events.Event;
 	import flash.geom.Matrix;
@@ -258,7 +259,7 @@ package com.vstyran.transform.view
 		 */	
 		public function doTransformation(data:DisplayData):void
 		{
-			TransformUtil.applyData(this, connector.transfrom(data));
+			DataUtil.applyData(this, connector.transfrom(data));
 		}
 		
 		/**
@@ -266,7 +267,7 @@ package com.vstyran.transform.view
 		 */		
 		public function endTransformation(data:DisplayData):void
 		{
-			TransformUtil.applyData(this, connector.transfrom(data));
+			DataUtil.applyData(this, connector.transfrom(data));
 			
 			_transforming = false;
 		}
@@ -278,7 +279,7 @@ package com.vstyran.transform.view
 		{
 			var data:DisplayData = connector.getData();
 			if(data)
-				TransformUtil.applyData(this, data, true);
+				DataUtil.applyData(this, data, true);
 		}
 	}
 }

@@ -1,12 +1,13 @@
 package com.vstyran.transform.controls
 {
 	
+	import com.vstyran.transform.namespaces.tt_internal;
 	import com.vstyran.transform.operations.IAncorOperation;
 	import com.vstyran.transform.operations.IOperation;
+	import com.vstyran.transform.utils.DataUtil;
 	import com.vstyran.transform.utils.MathUtil;
 	import com.vstyran.transform.utils.TransformUtil;
 	import com.vstyran.transform.view.TransformTool;
-	import com.vstyran.transform.namespaces.tt_internal;
 	
 	import flash.display.DisplayObject;
 	import flash.events.MouseEvent;
@@ -212,7 +213,7 @@ package com.vstyran.transform.controls
 			if(!tool)
 				return;
 			
-			matrix = TransformUtil.getTransformationMatrix(null, tool);
+			matrix = TransformUtil.getMatrix(null, tool);
 			tool.startTransformation(this);
 			
 			if(operation is IAncorOperation)
@@ -230,7 +231,7 @@ package com.vstyran.transform.controls
 			}
 			
 			if(operation)
-				operation.initOperation(TransformUtil.createData(tool), matrix.transformPoint(new Point(event.stageX, event.stageY)));
+				operation.initOperation(DataUtil.createData(tool), matrix.transformPoint(new Point(event.stageX, event.stageY)));
 			
 			controlActivated = true;
 			invalidateSkinState();

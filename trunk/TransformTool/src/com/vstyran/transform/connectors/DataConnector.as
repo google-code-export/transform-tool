@@ -62,8 +62,8 @@ package com.vstyran.transform.connectors
 		{
 			_panel = value;
 			
-			matrix = TransformUtil.getTransformationMatrix(panel, toolPanel);
-			invertMatrix = TransformUtil.getTransformationMatrix(toolPanel, panel);
+			matrix = TransformUtil.getMatrix(panel, toolPanel);
+			invertMatrix = TransformUtil.getMatrix(toolPanel, panel);
 			dispatchEvent(new ConnectorEvent(ConnectorEvent.DATA_CHANGE));
 		}
 
@@ -79,8 +79,8 @@ package com.vstyran.transform.connectors
 		public function setToolPanel(toolPanel:DisplayObject):void
 		{
 			this.toolPanel = toolPanel;
-			matrix = TransformUtil.getTransformationMatrix(panel, toolPanel);
-			invertMatrix = TransformUtil.getTransformationMatrix(toolPanel, panel);
+			matrix = TransformUtil.getMatrix(panel, toolPanel);
+			invertMatrix = TransformUtil.getMatrix(toolPanel, panel);
 		}
 		
 		/**

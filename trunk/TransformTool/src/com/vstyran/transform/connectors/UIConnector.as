@@ -2,6 +2,7 @@ package com.vstyran.transform.connectors
 {
 	import com.vstyran.transform.events.ConnectorEvent;
 	import com.vstyran.transform.model.DisplayData;
+	import com.vstyran.transform.utils.DataUtil;
 	import com.vstyran.transform.utils.TransformUtil;
 	
 	import flash.display.DisplayObject;
@@ -83,7 +84,7 @@ package com.vstyran.transform.connectors
 		public function getData():DisplayData
 		{
 			if(target)
-				dataConnector.data = TransformUtil.createData(target);
+				dataConnector.data = DataUtil.createData(target);
 			
 			return dataConnector.getData();
 		}
@@ -103,7 +104,7 @@ package com.vstyran.transform.connectors
 		{
 			var data:DisplayData = dataConnector.transfrom(data);
 			
-			TransformUtil.applyData(target, dataConnector.data);
+			DataUtil.applyData(target, dataConnector.data);
 			
 			return data;
 		}
