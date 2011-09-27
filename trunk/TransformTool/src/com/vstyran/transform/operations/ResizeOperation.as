@@ -6,19 +6,41 @@ package com.vstyran.transform.operations
 	import flash.geom.Matrix;
 	import flash.geom.Point;
 
+	/**
+	 * Resize operation.
+	 * 
+	 * @author Volodymyr Styranivskyi
+	 */
 	public class ResizeOperation extends AnchorOperation
 	{
 		include "../Version.as";
 		
+		/**
+		 * Constructor. 
+		 */		
 		public function ResizeOperation()
 		{
 			super();
 		}
 		
+		/**
+		 * Flag that indicates whether vertical resizing is enebled. 
+		 */		
 		public var verticalEnabled:Boolean = true;
+		
+		/**
+		 * Flag that indicates whether horizontal resizing is enebled. 
+		 */
 		public var horizontalEnabled:Boolean = true;
+		
+		/**
+		 * Flag that indicates whether aspect ratio should be kept. 
+		 */
 		public var maintainAspectRatio:Boolean = false;
 		
+		/**
+		 * @inheritDoc 
+		 */		
 		override public function doOperation(point:Point):DisplayData
 		{
 			var data:DisplayData = startData.clone();
@@ -41,7 +63,7 @@ package com.vstyran.transform.operations
 				var horizontalFactor:Number = horizontalEnabled ? data.width/startData.width : 0;
 				var verticalFactor:Number = verticalEnabled ? data.height/startData.height : 0;
 				
-				var ratio:Number;// = Math.max(verticalFactor, horizontalFactor);
+				var ratio:Number;
 				
 				if(verticalFactor > horizontalFactor)
 					ratio = resolveSize(verticalFactor * startData.width, startData.minWidth, startData.maxWidth)/startData.width;
@@ -64,6 +86,9 @@ package com.vstyran.transform.operations
 			return data;
 		}
 		
+		/**
+		 * @private 
+		 */		
 		private function resolveSize(value:Number, min:Number, max:Number):Number 
 		{
 			min = !isNaN(min) ? min : value;

@@ -6,23 +6,45 @@ package com.vstyran.transform.operations
 	import flash.geom.Matrix;
 	import flash.geom.Point;
 	
+	/**
+	 * Move operation.
+	 * 
+	 * @author Volodymyr Styranivskyi
+	 */
 	public class MoveOperation implements IOperation
 	{
 		include "../Version.as";
 		
+		/**
+		 * Constructor. 
+		 */		
 		public function MoveOperation()
 		{
 		}
 		
+		/**
+		 * Data object of transform tool at the moment of starting transformation. 
+		 */		
 		protected var startData:DisplayData;
+		
+		/**
+		 * Mouse position in transform tool coordinate space 
+		 * at the moment of starting transformation.  
+		 */	
 		protected var startPoint:Point;
 		
+		/**
+		 * @inheritDoc 
+		 */		
 		public function initOperation(data:DisplayData, point:Point):void
 		{
 			startData = data;
 			startPoint = MathUtil.roundPoint(point);
 		}
 		
+		/**
+		 * @inheritDoc 
+		 */
 		public function doOperation(point:Point):DisplayData
 		{
 			var data:DisplayData = startData.clone();
