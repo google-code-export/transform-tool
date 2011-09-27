@@ -1,6 +1,9 @@
 package com.vstyran.transform.controls
 {
 	
+	import com.vstyran.transform.skins.AnchorSkin;
+	import com.vstyran.transform.utils.SkinUtil;
+	
 	import spark.components.supportClasses.SkinnableComponent;
 	
 	/**
@@ -21,6 +24,9 @@ package com.vstyran.transform.controls
 	public class Anchor extends SkinnableComponent implements IAnchor
 	{
 		include "../Version.as";
+		
+		// attach default skin
+		SkinUtil.attachSkin("com.vstyran.transform.controls.Anchor", AnchorSkin);
 		
 		/**
 		 * Constructor. 

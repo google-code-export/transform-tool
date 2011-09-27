@@ -4,8 +4,10 @@ package com.vstyran.transform.controls
 	import com.vstyran.transform.namespaces.tt_internal;
 	import com.vstyran.transform.operations.IAncorOperation;
 	import com.vstyran.transform.operations.IOperation;
+	import com.vstyran.transform.skins.ControlSkin;
 	import com.vstyran.transform.utils.DataUtil;
 	import com.vstyran.transform.utils.MathUtil;
+	import com.vstyran.transform.utils.SkinUtil;
 	import com.vstyran.transform.utils.TransformUtil;
 	import com.vstyran.transform.view.TransformTool;
 	
@@ -42,6 +44,9 @@ package com.vstyran.transform.controls
 	public class Control extends SkinnableComponent implements IAnchor
 	{
 		include "../Version.as";
+		
+		// attach default skin
+		SkinUtil.attachSkin("com.vstyran.transform.controls.Control", ControlSkin);
 		
 		/**
 		 * Constructor. 
