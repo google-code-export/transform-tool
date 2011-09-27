@@ -6,6 +6,7 @@ package com.vstyran.transform.controls
 	import com.vstyran.transform.utils.MathUtil;
 	import com.vstyran.transform.utils.TransformUtil;
 	import com.vstyran.transform.view.TransformTool;
+	import com.vstyran.transform.namespaces.tt_internal;
 	
 	import flash.display.DisplayObject;
 	import flash.events.MouseEvent;
@@ -15,20 +16,35 @@ package com.vstyran.transform.controls
 	
 	import spark.components.supportClasses.SkinnableComponent;
 	
+	use namespace tt_internal;
 	
+	/**
+	 * Normal skin state. 
+	 */	
 	[SkinState("normal")]
+	
+	/**
+	 * State when control used as anchor. 
+	 */
 	[SkinState("anchorActive")]
+	
+	/**
+	 * Control activated skin state. 
+	 */
 	[SkinState("controlActive")]
 	
+	/**
+	 * Control class for initiating transformation.
+	 * 
+	 * @author Volodymyr Styranivskyi
+	 */
 	public class Control extends SkinnableComponent implements IAnchor
 	{
 		include "../Version.as";
 		
-		public var anchor:DisplayObject;
-		public var shiftAnchor:DisplayObject;
-		public var altAnchor:DisplayObject;
-		public var ctrlAnchor:DisplayObject;
-		
+		/**
+		 * Constructor. 
+		 */		
 		public function Control()
 		{
 			super();
@@ -38,30 +54,89 @@ package com.vstyran.transform.controls
 			addEventListener(MouseEvent.MOUSE_OUT, outHandler);
 		}
 		
+		/**
+		 * Normal anchor. 
+		 */		
+		public var anchor:DisplayObject;
+		
+		/**
+		 * Anchor for transformation with shift key pressed. 
+		 */		
+		public var shiftAnchor:DisplayObject;
+		
+		/**
+		 * Anchor for transformation with alt key pressed. 
+		 */
+		public var altAnchor:DisplayObject;
+		
+		/**
+		 * Anchor for transformation with control key pressed. 
+		 */
+		public var ctrlAnchor:DisplayObject;
+		
+		/**
+		 * @private 
+		 */		
 		private var _anchorActivated:Boolean;
 		
+		/**
+		 * Flag specifies whether anchor is currently used by operation. 
+		 */		
 		public function get anchorActivated():Boolean
 		{
 			return _anchorActivated;
 		}
 		
-		public function activateAnchor():void
-		{
-			_anchorActivated = true;
-			
-			invalidateSkinState();
-		}
-		
-		public function deactivateAnchor():void
-		{
-			_anchorActivated = false;
-			
-			invalidateSkinState();
-		}
-		
-		
+		/**
+		 * @private
+		 * Flag specifies whether control is currently used by operation. 
+		 */		
 		private var controlActivated:Boolean;
 
+		/**
+		 * Transform tool 
+		 */		
+		tt_internal var tool:TransformTool;
+		
+		/**
+		 * Transform operation. 
+		 */		
+		public var operation:IOperation;
+		
+		/**
+		 * @private
+		 * Transformation matrix from global to transform tool coordinate 
+		 * space at the moment of activating control.  
+		 */		
+		private var matrix:Matrix;
+		
+		/**
+		 * @private
+		 * Current active anchor for this control 
+		 */		
+		private var activeAnchor:IAnchor;
+		
+		//------------------------------------------
+		// Life cycle
+		//------------------------------------------
+		/**
+		 * @inheritDoc
+		 */		
+		override protected function partAdded(partName:String, instance:Object) : void
+		{
+			super.partAdded(partName, instance);
+		}
+
+		/**
+		 * @inheritDoc
+		 */		
+		override protected function partRemoved(partName:String, instance:Object) : void
+		{
+			super.partRemoved(partName, instance);
+		}
+		/**
+		 * @inheritDoc 
+		 */		
 		override protected function getCurrentSkinState():String
 		{
 			if(_anchorActivated)
@@ -73,6 +148,33 @@ package com.vstyran.transform.controls
 			return "normal";
 		} 
 		
+		//------------------------------------------
+		// Methods
+		//------------------------------------------
+		/**
+		 * @inheritDoc
+		 */	
+		public function activateAnchor():void
+		{
+			_anchorActivated = true;
+			
+			invalidateSkinState();
+		}
+		
+		/**
+		 * @inheritDoc
+		 */	
+		public function deactivateAnchor():void
+		{
+			_anchorActivated = false;
+			
+			invalidateSkinState();
+		}
+		
+		/**
+		 * @private 
+		 * Convert from display object to anchor point
+		 */		
 		private function getAnchorPoint(anchor:DisplayObject):Point
 		{
 			if(!anchor)
@@ -81,10 +183,12 @@ package com.vstyran.transform.controls
 			var bounds:Rectangle = anchor.getBounds(tool);
 			
 			return new Point(bounds.x + bounds.width/2, bounds.y + bounds.height/2);
-			
-		//	return TransformUtil.getTransformationMatrix(anchor, tool).transformPoint(new Point(Math.floor(anchor.getBounds(/2), Math.floor(anchor.height/2)));
 		}
 		
+		/**
+		 * @private 
+		 * Get anchor depending on what buttons is pressed.
+		 */	
 		private function resolveAnchor(event:MouseEvent):DisplayObject
 		{
 			if(event.shiftKey && shiftAnchor)
@@ -97,10 +201,12 @@ package com.vstyran.transform.controls
 			return anchor;
 		}
 		
-		private var matrix:Matrix;
-		
-		private var activeAnchor:IAnchor;
-		
+		//------------------------------------------
+		// Methods
+		//------------------------------------------
+		/**
+		 * Mouse down handler 
+		 */		
 		protected function downHandler(event:MouseEvent):void
 		{
 			if(!tool)
@@ -133,6 +239,9 @@ package com.vstyran.transform.controls
 			systemManager.getSandboxRoot().addEventListener(MouseEvent.MOUSE_UP, upHandler);
 		}
 		
+		/**
+		 * Mouse move handler 
+		 */	
 		protected function moveHandler(event:MouseEvent):void
 		{
 			if(operation)
@@ -141,6 +250,9 @@ package com.vstyran.transform.controls
 			event.updateAfterEvent();
 		}
 		
+		/**
+		 * Mouse up handler 
+		 */	
 		protected function upHandler(event:MouseEvent):void
 		{
 			if(operation)
@@ -161,7 +273,9 @@ package com.vstyran.transform.controls
 			systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_UP, upHandler);
 		}
 		
-		
+		/**
+		 * Mouse roll over handler 
+		 */	
 		protected function overHandler(event:MouseEvent):void
 		{
 			if(tool.toolCursorManager && !tool.transforming)
@@ -169,26 +283,13 @@ package com.vstyran.transform.controls
 			
 		}
 		
+		/**
+		 * Mouse out handler 
+		 */	
 		protected function outHandler(event:MouseEvent):void
 		{
 			if(tool.toolCursorManager && !controlActivated && !tool.transforming)
 				tool.toolCursorManager.removeCursor(this);
 		}
-		
-		public var tool:TransformTool;
-		
-		public var operation:IOperation;
-	
-		
-		override protected function partAdded(partName:String, instance:Object) : void
-		{
-			super.partAdded(partName, instance);
-		}
-		
-		override protected function partRemoved(partName:String, instance:Object) : void
-		{
-			super.partRemoved(partName, instance);
-		}
-		
 	}
 }
