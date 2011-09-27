@@ -23,6 +23,13 @@ package com.vstyran.transform.connectors
 	[Event(name="transformation", type="com.vstyran.transform.events.ConnectorEvent")]
 	
 	/**
+	 *  Dispatched when transformation is complete.
+	 *
+	 *  @eventType com.vstyran.transform.events.ConnectorEvent.TRANSFORMATION_COMPLETE
+	 */
+	[Event(name="transformationComplete", type="com.vstyran.transform.events.ConnectorEvent")]
+	
+	/**
 	 * Simple connector class for connecting data with transfrom tool in case they are 
 	 * in the same coordinate space.
 	 * 
@@ -88,6 +95,18 @@ package com.vstyran.transform.connectors
 			dispatchEvent(new ConnectorEvent(ConnectorEvent.TRANSFORMATION));
 			
 			return _data;
+		}
+		
+		/**
+		 * @inheritDoc 
+		 */	
+		public function complete(data:DisplayData):DisplayData
+		{
+			_data = data;
+			
+			dispatchEvent(new ConnectorEvent(ConnectorEvent.TRANSFORMATION_COMPLETE, _data));
+			
+			return data;
 		}
 	}
 }

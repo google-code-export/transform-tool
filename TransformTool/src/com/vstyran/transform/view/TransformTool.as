@@ -270,7 +270,7 @@ package com.vstyran.transform.view
 		 */		
 		public function endTransformation(data:DisplayData):void
 		{
-			DataUtil.applyData(this, connector.transfrom(data));
+			DataUtil.applyData(this, connector.complete(data));
 			
 			_transforming = false;
 		}
