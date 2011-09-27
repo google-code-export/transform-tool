@@ -24,24 +24,54 @@ package com.vstyran.transform.managers.vector
 	use namespace tt_internal;
 	
 	[DefaultProperty("items")]
-	
+	/**
+	 * Cursor manager for vector transform tool cursors. 
+	 * This type of cursors can change their rotation depends on rotation of transform tool.
+	 * 
+	 * @author Volodymyr Styranivskyi
+	 */
 	public class CursorManager implements ICursorManager
 	{
 		include "../../Version.as";
 		
+		/**
+		 * Constructor. 
+		 */		
 		public function CursorManager()
 		{
 			cursorStage = FlexGlobals.topLevelApplication as IVisualElementContainer;
 		}
 		
+		/**
+		 * @private 
+		 * Panel there cursors will be placed.
+		 */		
 		private var cursorStage:IVisualElementContainer;
 		
+		/**
+		 * Flag that indicates whether system mouse cursor should be hidden. 
+		 */		
 		public var hideMouse:Boolean = true;
 		
-		
+		/**
+		 * @private 
+		 */		
 		private var _tool:TransformTool;
 		
+		/**
+		 * List of cursors. 
+		 */		
+		public var items:Vector.<CursorItem>;
+		
+		/**
+		 * @private
+		 * Flag that indicates whether cursors are added to stage.
+		 */		
 		private var cursorsAdded:Boolean;
+		
+		/**
+		 * @inheritDoc 
+		 */		
 		public function set tool(value:TransformTool):void
 		{
 			if(_tool != value)
@@ -56,6 +86,10 @@ package com.vstyran.transform.managers.vector
 			}
 		}
 		
+		/**
+		 * @private 
+		 * Add or remove cursors to stage.
+		 */		
 		private function addRemoveCursors(adding:Boolean = true):void
 		{
 			for each (var item:CursorItem in items) 
@@ -76,8 +110,15 @@ package com.vstyran.transform.managers.vector
 			cursorsAdded = adding;
 		}
 		
+		/**
+		 * Current active cursor. 
+		 */		
 		private var currentCursor:IVisualElement;
 		
+		/**
+		 * @private
+		 * Show cursor.
+		 */		
 		private function setCurrentCursor(value:IVisualElement):void
 		{
 			if(currentCursor != value)
@@ -92,6 +133,9 @@ package com.vstyran.transform.managers.vector
 			}
 		}
 		
+		/**
+		 * Mouse move event handler 
+		 */		
 		private function moveHandler(event:MouseEvent):void
 		{
 			if(currentCursor)
@@ -101,6 +145,9 @@ package com.vstyran.transform.managers.vector
 			}
 		}
 		
+		/**
+		 * @inheritDoc 
+		 */
 		public function setCursor(control:Control, stageX:Number, stageY:Number):void
 		{
 			var item:CursorItem = findItem(control);
@@ -139,11 +186,16 @@ package com.vstyran.transform.managers.vector
 					delta = new Point(currentCursor.width/2, currentCursor.height/2);
 				}
 				
+				delta.x = item.xOffset - delta.x;
+				delta.y = item.yOffset - delta.y;
 				
 				setCursorPosition(stageX, stageY);
 			}
 		}
 		
+		/**
+		 * @inheritDoc 
+		 */
 		public function removeCursor(control:Control):void
 		{
 			var item:CursorItem = findItem(control);
@@ -155,6 +207,11 @@ package com.vstyran.transform.managers.vector
 			}
 		}
 		
+		/**
+		 * @private
+		 * 
+		 * Find item that corresponds to control.  
+		 */		
 		private function findItem(control:Control):CursorItem
 		{
 			if(items)
@@ -169,18 +226,24 @@ package com.vstyran.transform.managers.vector
 			return null;
 		}
 		
-		public var items:Vector.<CursorItem>;
-		
+		/**
+		 * @private 
+		 * Current cursor delta position 
+		 */		
 		private var delta:Point;
 		
+		/**
+		 * @private 
+		 * 
+		 * Set current cursor position taking to account delta value
+		 */		
 		private function setCursorPosition(stageX:Number, stageY:Number):void
 		{
 			if(currentCursor)
 			{
-				currentCursor.x = stageX - delta.x;
-				currentCursor.y = stageY - delta.y;
+				currentCursor.x = stageX + delta.x;
+				currentCursor.y = stageY + delta.y;
 			}
 		}
-		
 	}
 }

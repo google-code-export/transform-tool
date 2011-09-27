@@ -4,7 +4,7 @@ package com.vstyran.transform.managers.raster
 	import com.vstyran.transform.namespaces.tt_internal;
 	
 	/**
-	 * Value object for cursor item.
+	 * Value object for bitmap cursor item.
 	 * 
 	 * @author Volodymyr Styranivskyi
 	 */
