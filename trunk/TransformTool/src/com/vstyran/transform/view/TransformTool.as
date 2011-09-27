@@ -7,6 +7,7 @@ package com.vstyran.transform.view
 	import com.vstyran.transform.managers.ICursorManager;
 	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.utils.TransformUtil;
+	import com.vstyran.transform.namespaces.tt_internal;
 	
 	import flash.events.Event;
 	import flash.geom.Matrix;
@@ -18,6 +19,7 @@ package com.vstyran.transform.view
 	import spark.components.supportClasses.SkinnableComponent;
 	
 	
+	use namespace tt_internal;
 	/**
 	 * Transfrom tool that can edit geometry properties of target object.
 	 * 
