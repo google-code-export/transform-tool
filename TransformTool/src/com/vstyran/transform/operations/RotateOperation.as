@@ -24,6 +24,11 @@ package com.vstyran.transform.operations
 		}
 		
 		/**
+		 *   The amount of degree that used as tep size for rotation. 
+		 */		
+		public var stepDegree:Number;
+		
+		/**
 		 * @inheritDoc 
 		 */		
 		override public function doOperation(point:Point):DisplayData
@@ -34,6 +39,11 @@ package com.vstyran.transform.operations
 			
 			var alpha:Number =  Math.atan2(point.y - startAnchor.y, point.x - startAnchor.x) * 180/Math.PI ;
 			data.rotation += alpha-initialAngle; 
+			
+			if(!isNaN(stepDegree) && stepDegree > 0)
+				data.rotation = Math.round(data.rotation/stepDegree)*stepDegree;
+			else
+				data.rotation = MathUtil.round(data.rotation, 2);
 			
 			// calculates anchor in tool panel space
 			var m:Matrix = new Matrix();
