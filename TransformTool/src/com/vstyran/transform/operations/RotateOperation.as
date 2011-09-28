@@ -24,7 +24,7 @@ package com.vstyran.transform.operations
 		}
 		
 		/**
-		 *   The amount of degree that used as tep size for rotation. 
+		 *   The amount of degree that used as step size for rotation. 
 		 */		
 		public var stepDegree:Number;
 		
