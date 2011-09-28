@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<flex-config xmlns="http://www.adobe.com/2006/flex-config">
+
+	<compiler>        
+        <source-path>
+            <path-element>src</path-element> 
+        </source-path>           
+    </compiler>
+    
+    <output>asdoc</output>
+	
+  	<exclude-dependencies>true</exclude-dependencies>
+  
+	<doc-classes>
+	    <class>com.vstyran.transform.connectors.DataConnector</class>  
+	    <class>com.vstyran.transform.connectors.IConnector</class>  
+	    <class>com.vstyran.transform.connectors.SimpleConnector</class>  
+	    <class>com.vstyran.transform.connectors.UIConnector</class>  
+	    <class>com.vstyran.transform.controls.Anchor</class>  
+	    <class>com.vstyran.transform.controls.Control</class>  
+	    <class>com.vstyran.transform.controls.IAnchor</class>  
+	    <class>com.vstyran.transform.events.ConnectorEvent</class>  
+	    <class>com.vstyran.transform.managers.ICursorManager</class>  
+	    <class>com.vstyran.transform.managers.raster.CursorItem</class>  
+	    <class>com.vstyran.transform.managers.raster.CursorManager</class>  
+	    <class>com.vstyran.transform.managers.raster.Cursors</class>  
+	    <class>com.vstyran.transform.model.DisplayData</class>  
+	    <class>com.vstyran.transform.namespaces.tt_internal</class>  
+	    <class>com.vstyran.transform.operations.AnchorOperation</class>  
+	    <class>com.vstyran.transform.operations.IAncorOperation</class>  
+	    <class>com.vstyran.transform.operations.IOperation</class>  
+	    <class>com.vstyran.transform.operations.MoveOperation</class>  
+	    <class>com.vstyran.transform.operations.ResizeOperation</class>  
+	    <class>com.vstyran.transform.operations.RotateOperation</class>  
+	    <class>com.vstyran.transform.skins.AnchorSkin</class>  
+	    <class>com.vstyran.transform.skins.ControlSkin</class>  
+	    <class>com.vstyran.transform.skins.MoveControlSkin</class>  
+	    <class>com.vstyran.transform.skins.TransformToolSkin</class>  
+	    <class>com.vstyran.transform.utils.MathUtil</class>  
+	    <class>com.vstyran.transform.utils.TransformUtil</class>  
+	    <class>com.vstyran.transform.view.TransformTool</class>  
+	    <class>com.vstyran.transform.managers.vector.CursorManager</class>  
+	    <class>com.vstyran.transform.managers.vector.CursorItem</class>  
+	    <class>com.vstyran.transform.utils.DataUtil</class>  
+	    <class>com.vstyran.transform.utils.SkinUtil</class>  
+	    <class>com.vstyran.transform.view.SimpleTransformTool</class>  
+	    <class>com.vstyran.transform.view.DataTransformTool</class>  
+	    <class>com.vstyran.transform.view.UITransformTool</class>  
+	</doc-classes>
+</flex-config>
