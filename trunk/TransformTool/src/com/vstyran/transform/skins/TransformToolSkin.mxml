@@ -87,14 +87,14 @@
 			<operations:ResizeOperation/>
 		</controls:operation>
 	</controls:Control>
-	<controls:Control id="middleRight" verticalCenter="0" right="-6" anchor="{middleLeft}" shiftAnchor="{centerAnchor}">
+	<controls:Control id="middleRight" verticalCenter="0" right="-6" anchor="{middleLeft}">
 		<controls:operation>
-			<operations:ResizeOperation verticalEnabled="false" maintainAspectRatio="true"/>
+			<operations:ResizeOperation verticalEnabled="false"/>
 		</controls:operation>
 	</controls:Control>
 	<controls:Control id="bottomRight" bottom="-6" right="-6" anchor="{topLeft}">
 		<controls:operation>
-			<operations:ResizeOperation maintainAspectRatio="true"/>
+			<operations:ResizeOperation/>
 		</controls:operation>
 	</controls:Control>
 	<controls:Control id="bottomMiddle" bottom="-6" horizontalCenter="0" anchor="{topMiddle}">
