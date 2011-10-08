@@ -1,6 +1,8 @@
 package com.vstyran.transform.operations
 {
+	import com.vstyran.transform.model.Bounds;
 	import com.vstyran.transform.model.DisplayData;
+	import com.vstyran.transform.model.GridData;
 	
 	import flash.geom.Point;
 
@@ -12,13 +14,15 @@ package com.vstyran.transform.operations
 	public interface IOperation
 	{
 		/**
-		 * Initiate operation, called when user starts transformation.
+		 * Start operation, called when user starts transformation.
 		 * 
 		 * @param data Initial data of transform tool on moment of starting transformation. 
 		 * @param point Initial mouse position in transform tool coordinate space
 		 * on moment of starting transformation
+		 * @param grid Grid that will be used as step size for operations. 
+		 * @param bounds Bounds that will boundaries for operations. 
 		 */		
-		function initOperation(data:DisplayData, point:Point):void;
+		function startOperation(data:DisplayData, point:Point, grid:GridData = null, bounds:Bounds = null):void;
 		
 		/**
 		 * Perform transformation.
@@ -27,5 +31,13 @@ package com.vstyran.transform.operations
 		 * @return New data of transform tool.
 		 */		
 		function doOperation(point:Point):DisplayData;
+		
+		/**
+		 * End transformation.
+		 *  
+		 * @param point Current mouse position in transform tool coordinate space
+		 * @return New data of transform tool.
+		 */		
+		function endOperation(point:Point):DisplayData;
 	}
 }

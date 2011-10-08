@@ -72,7 +72,7 @@
 		</controls:operation>
 	</controls:Control>
 	
-	<controls:Control id="topLeft" top="-6" left="-6" anchor="{bottomRight}">
+	<controls:Control id="topLeft" top="-6" left="-6" anchor="{bottomRight}" visible="false">
 		<controls:operation>
 			<operations:ResizeOperation/>
 		</controls:operation>
@@ -82,7 +82,7 @@
 			<operations:ResizeOperation horizontalEnabled="false"/>
 		</controls:operation>
 	</controls:Control>
-	<controls:Control id="topRight" top="-6" right="-6" anchor="{bottomLeft}">
+	<controls:Control id="topRight" top="-6" right="-6" anchor="{bottomLeft}" visible="false">
 		<controls:operation>
 			<operations:ResizeOperation/>
 		</controls:operation>
@@ -92,7 +92,7 @@
 			<operations:ResizeOperation verticalEnabled="false"/>
 		</controls:operation>
 	</controls:Control>
-	<controls:Control id="bottomRight" bottom="-6" right="-6" anchor="{topLeft}">
+	<controls:Control id="bottomRight" bottom="-6" right="-6" anchor="{topLeft}" visible="false">
 		<controls:operation>
 			<operations:ResizeOperation/>
 		</controls:operation>
@@ -102,7 +102,7 @@
 			<operations:ResizeOperation horizontalEnabled="false"/>
 		</controls:operation>
 	</controls:Control>
-	<controls:Control id="bottomLeft" bottom="-6" left="-6" anchor="{topRight}">
+	<controls:Control id="bottomLeft" bottom="-6" left="-6" anchor="{topRight}" visible="false">
 		<controls:operation>
 			<operations:ResizeOperation/>
 		</controls:operation>

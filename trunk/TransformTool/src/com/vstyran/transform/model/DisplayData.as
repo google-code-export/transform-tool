@@ -1,5 +1,7 @@
 package com.vstyran.transform.model
 {
+	import mx.utils.MatrixUtil;
+	
 	[Bindable]
 	/**
 	 * Value object of UI components that contains geometry info.
@@ -31,9 +33,26 @@ package com.vstyran.transform.model
 		public var height:Number = 0;
 		
 		/**
+		 * @private 
+		 */		
+		private var _rotation:Number = 0;
+
+		/**
 		 * Rotation of display object. 
 		 */
-		public var rotation:Number = 0;
+		public function get rotation():Number
+		{
+			return _rotation;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set rotation(value:Number):void
+		{
+			_rotation = MatrixUtil.clampRotation(value);
+		}
+
 		
 		/**
 		 * Minimum value for width. 

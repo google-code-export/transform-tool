@@ -5,7 +5,9 @@ package com.vstyran.transform.view
 	import com.vstyran.transform.controls.Control;
 	import com.vstyran.transform.events.ConnectorEvent;
 	import com.vstyran.transform.managers.ICursorManager;
+	import com.vstyran.transform.model.Bounds;
 	import com.vstyran.transform.model.DisplayData;
+	import com.vstyran.transform.model.GridData;
 	import com.vstyran.transform.namespaces.tt_internal;
 	import com.vstyran.transform.skins.TransformToolSkin;
 	import com.vstyran.transform.utils.DataUtil;
@@ -83,6 +85,16 @@ package com.vstyran.transform.view
 				updateTool();
 			}
 		}
+		
+		/**
+		 * Grid that will be used as step size for operations. 
+		 */		
+		public var grid:GridData;
+		
+		/**
+		 * Bounds that will be used position boundaries. 
+		 */		
+		public var bounds:Bounds;
 		
 		//------------------------------------------------
 		// Life cycle methods

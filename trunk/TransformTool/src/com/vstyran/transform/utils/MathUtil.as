@@ -60,5 +60,46 @@ package com.vstyran.transform.utils
 			var p:Number = Math.pow(10, precision);
 			return Math.floor(value*p)/p;
 		}
+		
+		/**
+		 * Convert degree to radians.
+		 *  
+		 * @param degree Rotation in degree
+		 * @return Rotation in radians
+		 */		
+		public static function degreeToRadian(degree:Number):Number 
+		{
+			return (degree * (Math.PI / 180));
+		}
+		
+		/**
+		 * Fit value into range and grid.
+		 * 
+		 * @param value Value to be fitted.
+		 * @param min Minimum value. Can be NaN.
+		 * @param max Maximum value. Can be NaN.
+		 * @param snapStart Step start value. Can be NaN.
+		 * @param snapStep Step size. Can be NaN.
+		 * @param snapFraction Max delta value that can be snapped.
+		 * @return Fitted value. Can be NaN.
+		 */		
+		public static function fitValue(value:Number, min:Number, max:Number, snapStart:Number, snapStep:Number, snapFraction:Number = NaN):Number 
+		{
+			if(!isNaN(snapStep) && snapStep > 0)
+			{
+				if(!isNaN(snapFraction))
+				{
+					var delta:Number = Math.abs(value%snapStep);
+					if(delta <= snapFraction || delta >= snapStep-snapFraction)
+						value = Math.round(value/snapStep)*snapStep;
+				}
+				value += !isNaN(snapStart) ? snapStart%snapStep : 0;
+			}
+			
+			min = !isNaN(min) ? min : value;
+			max = !isNaN(max) ? max : value;
+			
+			return  Math.max(min, Math.min(max, value));
+		}
 	}
 }
