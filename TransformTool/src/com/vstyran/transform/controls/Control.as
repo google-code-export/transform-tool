@@ -1,6 +1,7 @@
 package com.vstyran.transform.controls
 {
 	
+	import com.vstyran.transform.model.Bounds;
 	import com.vstyran.transform.namespaces.tt_internal;
 	import com.vstyran.transform.operations.IAncorOperation;
 	import com.vstyran.transform.operations.IOperation;
@@ -236,7 +237,7 @@ package com.vstyran.transform.controls
 			}
 			
 			if(operation)
-				operation.initOperation(DataUtil.createData(tool), matrix.transformPoint(new Point(event.stageX, event.stageY)));
+				operation.startOperation(DataUtil.createData(tool), matrix.transformPoint(new Point(event.stageX, event.stageY)), tool.grid, tool.bounds);
 			
 			controlActivated = true;
 			invalidateSkinState();
@@ -262,7 +263,7 @@ package com.vstyran.transform.controls
 		protected function upHandler(event:MouseEvent):void
 		{
 			if(operation)
-				tool.endTransformation(operation.doOperation( MathUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY)))));
+				tool.endTransformation(operation.endOperation( MathUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY)))));
 			
 			if(activeAnchor)
 				activeAnchor.deactivateAnchor();

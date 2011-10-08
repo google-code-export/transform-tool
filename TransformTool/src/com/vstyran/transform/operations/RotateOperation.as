@@ -1,6 +1,7 @@
 package com.vstyran.transform.operations
 {
 	import com.vstyran.transform.model.DisplayData;
+	import com.vstyran.transform.utils.DataUtil;
 	import com.vstyran.transform.utils.MathUtil;
 	
 	import flash.geom.Matrix;
@@ -61,6 +62,18 @@ package com.vstyran.transform.operations
 			
 			data.x = pos.x;
 			data.y = pos.y;
+			
+			return data;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */		
+		override public function endOperation(point:Point):DisplayData
+		{
+			var data:DisplayData = doOperation(point);
+			
+			DataUtil.fitPosition(data, null, bounds);
 			
 			return data;
 		}

@@ -5,6 +5,7 @@ package com.vstyran.transform.utils
 	import flash.display.DisplayObject;
 	import flash.geom.Matrix;
 	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	
 	import mx.core.UIComponent;
 	import mx.utils.MatrixUtil;
@@ -72,6 +73,36 @@ package com.vstyran.transform.utils
 			data.maxHeight = !isNaN(sourceData.maxHeight) ? sourceData.maxHeight * components[4] : NaN;
 			
 			return data;
+		}
+		
+		/**
+		 * Get bounding box that can be drawn around data with rotation 0. 
+		 * 
+		 * @param data Source object
+		 * @return Rectangle.
+		 */		
+		public static function getBoundingBox(data:DisplayData):Rectangle
+		{
+			var rect:Rectangle = new Rectangle();
+			
+			var m:Matrix = MatrixUtil.composeMatrix(data.x, data.y, 1, 1, data.rotation);
+			
+			var topLeft:Point = m.transformPoint(new Point(0, 0));
+			var topRight:Point = m.transformPoint(new Point(data.width, 0));
+			var bottomRight:Point = m.transformPoint(new Point(data.width, data.height));
+			var bottomLeft:Point = m.transformPoint(new Point(0, data.height));
+			
+			var minX:Number = Math.min(topLeft.x, topRight.x, bottomRight.x, bottomLeft.x);
+			var minY:Number = Math.min(topLeft.y, topRight.y, bottomRight.y, bottomLeft.y);
+			var maxX:Number = Math.max(topLeft.x, topRight.x, bottomRight.x, bottomLeft.x);
+			var maxY:Number = Math.max(topLeft.y, topRight.y, bottomRight.y, bottomLeft.y);
+			
+			rect.x = minX;
+			rect.y = minY;
+			rect.width = maxX - minX;
+			rect.height = maxY - minY;
+			
+			return rect;
 		}
 	}
 }
