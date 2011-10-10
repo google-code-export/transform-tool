@@ -26,8 +26,6 @@ package com.vstyran.transform.view
 	 */
 	public class SimpleTransformTool extends TransformTool
 	{
-		include "../Version.as";
-		
 		/**
 		 * Constructor. 
 		 */		

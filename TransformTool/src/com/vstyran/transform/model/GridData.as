@@ -9,8 +9,6 @@ package com.vstyran.transform.model
 	 */
 	public class GridData
 	{
-		include "../Version.as";
-		
 		/**
 		 * Constructor. 
 		 */		

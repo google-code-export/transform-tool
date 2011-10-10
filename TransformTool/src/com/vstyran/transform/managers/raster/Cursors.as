@@ -7,8 +7,6 @@ package com.vstyran.transform.managers.raster
 	 */
 	public class Cursors
 	{
-		include "../../Version.as";
-		
 		[Embed(source="resources/move.png")]
 		/**
 		 * Move cursor. 

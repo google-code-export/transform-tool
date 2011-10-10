@@ -18,8 +18,6 @@ package com.vstyran.transform.connectors
 	 */
 	public class UIConnector extends EventDispatcher implements IConnector
 	{
-		include "../Version.as";
-		
 		/**
 		 * Constructor. 
 		 */		

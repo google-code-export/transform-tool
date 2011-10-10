@@ -1,8 +1,15 @@
-
-import com.vstyran.transform.namespaces.tt_internal;
-
-/**
- *  @private
- *  Version string for this class.
- */
-tt_internal static const VERSION:String = "2.0";
+package com.vstyran.transform
+{
+	/**
+	 * Transfrom tool version.
+	 * 
+	 * @author Volodymyr Styranivskyi
+	 */
+	public class Version
+	{
+		/**
+		 *  Version string for transform tool.
+		 */
+		public static const VERSION:String = "2.1";
+	}
+}

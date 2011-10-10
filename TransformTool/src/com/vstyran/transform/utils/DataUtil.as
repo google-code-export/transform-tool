@@ -15,8 +15,6 @@ package com.vstyran.transform.utils
 	 */
 	public class DataUtil
 	{
-		include "../Version.as";
-		
 		/**
 		 * Create data from ui component.
 		 *  

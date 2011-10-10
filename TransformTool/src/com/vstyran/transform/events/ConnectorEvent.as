@@ -11,8 +11,6 @@ package com.vstyran.transform.events
 	 */
 	public class ConnectorEvent extends Event
 	{ 
-		include "../Version.as";
-		
 		/**
 		 *  The <code>ConnectorEvent.DATA_CHANGE</code> constant defines the value of the
 		 *  <code>type</code> property of the event object for an <code>dataChange</code> event.

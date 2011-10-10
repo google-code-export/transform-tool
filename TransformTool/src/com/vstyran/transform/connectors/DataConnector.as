@@ -40,8 +40,6 @@ package com.vstyran.transform.connectors
 	 */
 	public class DataConnector extends EventDispatcher implements IConnector
 	{
-		include "../Version.as";
-		
 		/**
 		 * Constructor. 
 		 */		

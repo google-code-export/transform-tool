@@ -16,8 +16,6 @@ package com.vstyran.transform.operations
 	 */
 	public class AnchorOperation implements IAncorOperation
 	{
-		include "../Version.as";
-		
 		[Bindable]
 		/**
 		 * Point in transform tool coordinate space that used as anchor. 

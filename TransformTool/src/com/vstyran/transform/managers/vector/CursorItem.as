@@ -15,8 +15,6 @@ package com.vstyran.transform.managers.vector
 	 */
 	public class CursorItem
 	{
-		include "../../Version.as";
-		
 		/**
 		 * Constructor. 
 		 */		

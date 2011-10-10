@@ -37,8 +37,6 @@ package com.vstyran.transform.connectors
 	 */
 	public class SimpleConnector extends EventDispatcher implements IConnector
 	{
-		include "../Version.as";
-		
 		/**
 		 * Constructor. 
 		 */		
