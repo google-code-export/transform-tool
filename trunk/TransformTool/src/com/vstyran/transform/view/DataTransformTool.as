@@ -27,8 +27,6 @@ package com.vstyran.transform.view
 	 */
 	public class DataTransformTool extends TransformTool
 	{
-		include "../Version.as";
-		
 		/**
 		 * Constructor. 
 		 */	

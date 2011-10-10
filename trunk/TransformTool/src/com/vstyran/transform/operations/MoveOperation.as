@@ -16,8 +16,6 @@ package com.vstyran.transform.operations
 	 */
 	public class MoveOperation implements IOperation
 	{
-		include "../Version.as";
-		
 		/**
 		 * Constructor. 
 		 */		

@@ -19,8 +19,6 @@ package com.vstyran.transform.managers.raster
 	public class CursorManager implements ICursorManager
 	{
 	
-		include "../../Version.as";
-		
 		/**
 		 * Constructor. 
 		 */		

@@ -10,8 +10,6 @@ package com.vstyran.transform.model
 	 */
 	public class DisplayData
 	{
-		include "../Version.as";
-		
 		/**
 		 * Position by X axis. 
 		 */		

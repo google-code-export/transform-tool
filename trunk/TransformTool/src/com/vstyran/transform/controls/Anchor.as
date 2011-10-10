@@ -23,8 +23,6 @@ package com.vstyran.transform.controls
 	 */
 	public class Anchor extends SkinnableComponent implements IAnchor
 	{
-		include "../Version.as";
-		
 		// attach default skin
 		SkinUtil.attachSkin("com.vstyran.transform.controls.Anchor", AnchorSkin);
 		

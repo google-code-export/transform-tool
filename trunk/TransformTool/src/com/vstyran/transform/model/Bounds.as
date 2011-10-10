@@ -10,8 +10,6 @@ package com.vstyran.transform.model
 	 */
 	public class Bounds extends Rectangle
 	{
-		include "../Version.as";
-		
 		/**
 		 * Constructor. 
 		 */		

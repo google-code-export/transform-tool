@@ -9,8 +9,6 @@ package com.vstyran.transform.utils
 	 */
 	public class MathUtil
 	{
-		include "../Version.as";
-		
 		/**
 		 * Round point. Doesn't change original point.
 		 *  

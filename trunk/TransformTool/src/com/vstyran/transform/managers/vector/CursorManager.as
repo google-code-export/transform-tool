@@ -33,8 +33,6 @@ package com.vstyran.transform.managers.vector
 	 */
 	public class CursorManager implements ICursorManager
 	{
-		include "../../Version.as";
-		
 		/**
 		 * Constructor. 
 		 */		

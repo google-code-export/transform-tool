@@ -12,8 +12,6 @@ package com.vstyran.transform.view
 	 */
 	public class UITransformTool extends TransformTool
 	{
-		include "../Version.as";
-		
 		/**
 		 * Constructor. 
 		 */	

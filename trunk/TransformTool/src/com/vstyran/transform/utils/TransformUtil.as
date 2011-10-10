@@ -17,8 +17,6 @@ package com.vstyran.transform.utils
 	 */
 	public class TransformUtil
 	{
-		include "../Version.as";
-		
 		/**
 		 * Create transformation matrix from source panel to destination panel.
 		 *  

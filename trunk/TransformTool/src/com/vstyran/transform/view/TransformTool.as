@@ -30,8 +30,6 @@ package com.vstyran.transform.view
 	 */
 	public class TransformTool extends SkinnableComponent
 	{
-		include "../Version.as";
-		
 		// attach default skin
 		SkinUtil.attachSkin("com.vstyran.transform.view.TransformTool", TransformToolSkin);
 		
