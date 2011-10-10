@@ -98,15 +98,19 @@ package com.vstyran.transform.utils
 		 */	
 		public static function snapValue(value:Number,snapStart:Number, snapStep:Number, snapFraction:Number = NaN):Number
 		{
+			snapStart ||= 0;
+			snapStep ||= 1;
+			var start:Number = snapStart%snapStep;
 			if(!isNaN(snapStep) && snapStep > 0)
 			{
 				if(!isNaN(snapFraction))
 				{
-					var delta:Number = Math.abs(value%snapStep);
+					var delta:Number = Math.abs(value%snapStep)- start;
 					if(delta <= snapFraction || delta >= snapStep-snapFraction)
-						value = Math.round(value/snapStep)*snapStep;
+					{
+						value = Math.round(value/snapStep)*snapStep + start;
+					}
 				}
-				value += !isNaN(snapStart) ? snapStart%snapStep : 0;
 			}
 			
 			return value;
