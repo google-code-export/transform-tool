@@ -63,60 +63,74 @@ package com.vstyran.transform.utils
 		}
 		
 		/**
-		 * Fit position of data into grid and bounds. 
+		 * Fit position of data into bounds. 
 		 *  
 		 * @param data Source data to be fitted. Will be changed.
-		 * @param grid Grid that will be used as step size.
 		 * @param bounds Bounds that will be used as fitting boundaries.
 		 * @return Data with fitted position.
 		 */		
-		public static function fitPosition(data:DisplayData, grid:GridData, bounds:Bounds):DisplayData 
+		public static function fitData(data:DisplayData, bounds:Bounds):DisplayData 
 		{
-			if(grid || bounds)
+			if(bounds)
 			{
 				var boundsRight:Number;
 				var boundsBottom:Number;
 				var box:Rectangle;
 				
-				if(bounds)
+				if(data.rotation == 0)
 				{
-					if(data.rotation == 0)
-					{
-						boundsRight =  bounds.right - data.width;
-						boundsBottom =  bounds.bottom - data.height;
-					}
-					else
-					{
-						box = TransformUtil.getBoundingBox(data);
-						
-						boundsRight =  bounds.right - box.width;
-						boundsBottom =  bounds.bottom - box.height;
-						
-						var newX:Number = MathUtil.fitValue(box.x, bounds.x, boundsRight, 
-							grid ? grid.x: NaN,
-							grid ? grid.cellWidth: NaN, 
-							grid ? grid.fraction: NaN);
-						var newY:Number = MathUtil.fitValue(box.y, bounds.y, boundsBottom, 
-							grid ? grid.y: NaN,
-							grid ? grid.cellHeight: NaN, 
-							grid ? grid.fraction: NaN);
-						
-						data.x = box ? MathUtil.round(newX + data.x - box.x, 2) : newX;
-						data.y = box ? MathUtil.round(newY + data.y - box.y, 2) : newY;
-						
-						return data;
-					}
+					boundsRight =  bounds.right - data.width;
+					boundsBottom =  bounds.bottom - data.height;
+				}
+				else
+				{
+					box = TransformUtil.getBoundingBox(data);
+					
+					boundsRight =  bounds.right - box.width;
+					boundsBottom =  bounds.bottom - box.height;
+					
+					var newX:Number = MathUtil.fitValue(box.x, bounds.x, boundsRight);
+					var newY:Number = MathUtil.fitValue(box.y, bounds.y, boundsBottom);
+					
+					data.x = MathUtil.round(newX + data.x - box.x, 2);
+					data.y =  MathUtil.round(newY + data.y - box.y, 2);
+					
+					return data;
 				}
 				
-				data.x = MathUtil.fitValue(data.x, bounds.x, boundsRight,
-					grid ? grid.x: NaN,
-					grid ? grid.cellWidth: NaN, 
-					grid ? grid.fraction: NaN);
-				
-				data.y = MathUtil.fitValue(data.y, bounds.y, boundsBottom,
-					grid ? grid.y: NaN,
-					grid ? grid.cellHeight: NaN, 
-					grid ? grid.fraction: NaN);
+				data.x = MathUtil.fitValue(data.x, bounds.x, boundsRight);
+				data.y = MathUtil.fitValue(data.y, bounds.y, boundsBottom);
+			}
+			
+			return data;
+		}
+		
+		/**
+		 * Snap position of data into grid. 
+		 *  
+		 * @param data Source data to be fitted. Will be changed.
+		 * @param grid Grid that will be used as step size.
+		 * @return Data with fitted position.
+		 */		
+		public static function snapData(data:DisplayData, grid:GridData):DisplayData 
+		{
+			if(grid)
+			{
+				if(data.rotation == 0)
+				{
+					data.x = MathUtil.snapValue(data.x, grid.x, grid.cellWidth, grid.fraction);
+					data.y = MathUtil.snapValue(data.y, grid.y, grid.cellHeight, grid.fraction);
+				}
+				else
+				{
+					var box:Rectangle = TransformUtil.getBoundingBox(data);
+					
+					var newX:Number = MathUtil.snapValue(box.x, grid.x, grid.cellWidth, grid.fraction);
+					var newY:Number = MathUtil.snapValue(box.y, grid.y, grid.cellWidth, grid.fraction);
+					
+					data.x = MathUtil.round(newX + data.x - box.x, 2);
+					data.y = MathUtil.round(newY + data.y - box.y, 2);
+				}
 			}
 			
 			return data;

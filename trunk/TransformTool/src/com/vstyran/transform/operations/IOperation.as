@@ -3,6 +3,7 @@ package com.vstyran.transform.operations
 	import com.vstyran.transform.model.Bounds;
 	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.model.GridData;
+	import com.vstyran.transform.model.Guideline;
 	
 	import flash.geom.Point;
 
@@ -20,9 +21,10 @@ package com.vstyran.transform.operations
 		 * @param point Initial mouse position in transform tool coordinate space
 		 * on moment of starting transformation
 		 * @param grid Grid that will be used as step size for operations. 
+		 * @param guidelines Guidelines that can make influence on transformation. 
 		 * @param bounds Bounds that will boundaries for operations. 
 		 */		
-		function startOperation(data:DisplayData, point:Point, grid:GridData = null, bounds:Bounds = null):void;
+		function startOperation(data:DisplayData, point:Point, grid:GridData = null, bounds:Bounds = null, guidelines:Vector.<Guideline> = null):void;
 		
 		/**
 		 * Perform transformation.

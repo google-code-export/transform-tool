@@ -71,17 +71,32 @@ package com.vstyran.transform.utils
 		}
 		
 		/**
-		 * Fit value into range and grid.
+		 * Fit value into range.
 		 * 
 		 * @param value Value to be fitted.
 		 * @param min Minimum value. Can be NaN.
 		 * @param max Maximum value. Can be NaN.
+		 * 
+		 * @return Fitted value.
+		 */		
+		public static function fitValue(value:Number, min:Number, max:Number):Number 
+		{
+			min = !isNaN(min) ? min : value;
+			max = !isNaN(max) ? max : value;
+			
+			return  Math.max(min, Math.min(max, value));
+		}
+		
+		/**
+		 * Fit value into grid.
+		 * 
+		 * @param value Value to be fitted.
 		 * @param snapStart Step start value. Can be NaN.
 		 * @param snapStep Step size. Can be NaN.
 		 * @param snapFraction Max delta value that can be snapped.
-		 * @return Fitted value. Can be NaN.
-		 */		
-		public static function fitValue(value:Number, min:Number, max:Number, snapStart:Number, snapStep:Number, snapFraction:Number = NaN):Number 
+		 * @return Fitted value.
+		 */	
+		public static function snapValue(value:Number,snapStart:Number, snapStep:Number, snapFraction:Number = NaN):Number
 		{
 			if(!isNaN(snapStep) && snapStep > 0)
 			{
@@ -94,10 +109,7 @@ package com.vstyran.transform.utils
 				value += !isNaN(snapStart) ? snapStart%snapStep : 0;
 			}
 			
-			min = !isNaN(min) ? min : value;
-			max = !isNaN(max) ? max : value;
-			
-			return  Math.max(min, Math.min(max, value));
+			return value;
 		}
 	}
 }

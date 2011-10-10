@@ -71,7 +71,7 @@ package com.vstyran.transform.operations
 		{
 			var data:DisplayData = doOperation(point);
 			
-			DataUtil.fitPosition(data, null, bounds);
+			DataUtil.fitData(data, bounds);
 			
 			return data;
 		}
