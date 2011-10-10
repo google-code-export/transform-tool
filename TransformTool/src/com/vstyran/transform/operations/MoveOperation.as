@@ -3,6 +3,7 @@ package com.vstyran.transform.operations
 	import com.vstyran.transform.model.Bounds;
 	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.model.GridData;
+	import com.vstyran.transform.model.Guideline;
 	import com.vstyran.transform.utils.DataUtil;
 	import com.vstyran.transform.utils.MathUtil;
 	
@@ -34,6 +35,11 @@ package com.vstyran.transform.operations
 		public var bounds:Bounds;
 		
 		/**
+		 * Guidelines that can make influence on transformation. 
+		 */		
+		public var guidelines:Vector.<Guideline>;
+		
+		/**
 		 * Flag indicates whether movement should be fitted into grid if it is specified. 
 		 */		
 		public var maintainGrid:Boolean = true;
@@ -42,6 +48,11 @@ package com.vstyran.transform.operations
 		 * Flag indicates whether movement should be fitted into bounds if it is specified. 
 		 */		
 		public var maintainBounds:Boolean = true;
+		
+		/**
+		 * Flag indicates whether guidelines should be taken into account. 
+		 */		
+		public var maintainGuidelines:Boolean = true;
 		
 		/**
 		 * Data object of transform tool at the moment of starting transformation. 
@@ -57,13 +68,16 @@ package com.vstyran.transform.operations
 		/**
 		 * @inheritDoc 
 		 */		
-		public function startOperation(data:DisplayData, point:Point, grid:GridData = null, bounds:Bounds = null):void
+		public function startOperation(data:DisplayData, point:Point, grid:GridData = null, bounds:Bounds = null, guidelines:Vector.<Guideline> = null):void
 		{
 			if(maintainGrid)
 				this.grid = grid;
 			
-			if(bounds)
+			if(maintainBounds)
 				this.bounds = bounds;
+			
+			if(maintainGuidelines)
+				this.guidelines = guidelines;
 			
 			startData = data;
 			startPoint = MathUtil.roundPoint(point);
@@ -82,7 +96,8 @@ package com.vstyran.transform.operations
 			data.x = startData.x + p.x;
 			data.y = startData.y + p.y;
 			
-			DataUtil.fitPosition(data, grid, bounds);
+			DataUtil.snapData(data, grid);
+			DataUtil.fitData(data, bounds);
 			
 			return data;
 		}

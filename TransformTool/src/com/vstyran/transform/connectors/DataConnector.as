@@ -106,7 +106,7 @@ package com.vstyran.transform.connectors
 		 */
 		public function set data(value:DisplayData):void
 		{
-			if(ObjectUtil.compare(_data, value , 0) != 0)
+			if(!_data || !_data.compare(value))
 			{
 				_data = value;
 				

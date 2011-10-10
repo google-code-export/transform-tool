@@ -34,7 +34,7 @@ package com.vstyran.transform.model
 		 * @private 
 		 */		
 		private var _rotation:Number = 0;
-
+		
 		/**
 		 * Rotation of display object. 
 		 */
@@ -42,7 +42,7 @@ package com.vstyran.transform.model
 		{
 			return _rotation;
 		}
-
+		
 		/**
 		 * @private
 		 */
@@ -50,7 +50,7 @@ package com.vstyran.transform.model
 		{
 			_rotation = MatrixUtil.clampRotation(value);
 		}
-
+		
 		
 		/**
 		 * Minimum value for width. 
@@ -92,6 +92,25 @@ package com.vstyran.transform.model
 			clone.maxHeight = maxHeight;
 			
 			return clone;
+		}
+		
+		/**
+		 * Compare data.
+		 *  
+		 * @return true id data is equals
+		 */		
+		public function compare(value:DisplayData):Boolean
+		{
+			return (value &&
+					value.x == x &&
+					value.y == y &&
+					value.width == width &&
+					value.height == height &&
+					value.rotation == rotation &&
+					value.minWidth == minWidth &&
+					value.minHeight == minHeight &&
+					value.maxWidth == maxWidth &&
+					value.maxHeight == maxHeight);
 		}
 	}
 }

@@ -8,6 +8,7 @@ package com.vstyran.transform.view
 	import com.vstyran.transform.model.Bounds;
 	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.model.GridData;
+	import com.vstyran.transform.model.Guideline;
 	import com.vstyran.transform.namespaces.tt_internal;
 	import com.vstyran.transform.skins.TransformToolSkin;
 	import com.vstyran.transform.utils.DataUtil;
@@ -93,6 +94,11 @@ package com.vstyran.transform.view
 		 * Bounds that will be used position boundaries. 
 		 */		
 		public var bounds:Bounds;
+		
+		/**
+		 * Guide lines. 
+		 */		
+		public var guidelines:Vector.<Guideline>;
 		
 		//------------------------------------------------
 		// Life cycle methods
