@@ -41,5 +41,10 @@ package com.vstyran.transform.operations
 		 * @return New data of transform tool.
 		 */		
 		function endOperation(point:Point):DisplayData;
+		
+		/**
+		 * Guidelines that currently active.
+		 */		
+		function get activeGuides():Vector.<Guideline>;
 	}
 }

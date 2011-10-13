@@ -38,6 +38,12 @@ package com.vstyran.transform.operations
 		 */		
 		public var guidelines:Vector.<Guideline>;
 		
+		[Bindable]
+		/**
+		 * Guidelines that currently active. 
+		 */	
+		public var activeGuides:Vector.<Guideline>
+		
 		/**
 		 * Anchor point at the moment of starting transformation. 
 		 */	
@@ -96,6 +102,9 @@ package com.vstyran.transform.operations
 				startAnchor =  MathUtil.floorPoint(anchorPoint.clone(), 2)
 			else
 				startAnchor =  MathUtil.floorPoint(new Point(startData.width/2, startData.height/2));	
+			
+			if(activeGuides)
+				activeGuides.length = 0;
 		}
 		
 		/**
