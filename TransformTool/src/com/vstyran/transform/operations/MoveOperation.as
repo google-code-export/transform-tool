@@ -39,6 +39,12 @@ package com.vstyran.transform.operations
 		 */		
 		public var guidelines:Vector.<Guideline>;
 		
+		[Bindable]
+		/**
+		 * Guidelines that currently active. 
+		 */	
+		public var activeGuides:Vector.<Guideline>
+		
 		/**
 		 * Flag indicates whether movement should be fitted into grid if it is specified. 
 		 */		
@@ -81,6 +87,9 @@ package com.vstyran.transform.operations
 			
 			startData = data;
 			startPoint = MathUtil.roundPoint(point);
+			
+			if(activeGuides)
+				activeGuides.length = 0;
 		}
 		
 		/**
@@ -96,7 +105,11 @@ package com.vstyran.transform.operations
 			data.x = startData.x + p.x;
 			data.y = startData.y + p.y;
 			
-			DataUtil.snapData(data, grid);
+			activeGuides = DataUtil.guideData(data, guidelines);
+			
+			if(activeGuides.length == 0)
+				DataUtil.snapData(data, grid);
+			
 			DataUtil.fitData(data, bounds);
 			
 			return data;

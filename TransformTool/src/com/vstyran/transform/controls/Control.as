@@ -1,6 +1,7 @@
 package com.vstyran.transform.controls
 {
 	
+	import com.vstyran.transform.events.GuidelineEvent;
 	import com.vstyran.transform.model.Bounds;
 	import com.vstyran.transform.namespaces.tt_internal;
 	import com.vstyran.transform.operations.IAncorOperation;
@@ -234,6 +235,9 @@ package com.vstyran.transform.controls
 				}
 			}
 			
+			if(operation.activeGuides)
+				operation.activeGuides.length = 0;
+			
 			if(operation)
 				operation.startOperation(DataUtil.createData(tool), 
 					matrix.transformPoint(new Point(event.stageX, event.stageY)), 
@@ -254,6 +258,9 @@ package com.vstyran.transform.controls
 			if(operation)
 				tool.doTransformation(operation.doOperation( MathUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY)))));
 		
+			if(operation.activeGuides && operation.activeGuides.length > 0)
+				tool.dispatchEvent(new GuidelineEvent(GuidelineEvent.GUIDELINES_UPDATE, operation.activeGuides));
+					
 			event.updateAfterEvent();
 		}
 		
@@ -264,6 +271,9 @@ package com.vstyran.transform.controls
 		{
 			if(operation)
 				tool.endTransformation(operation.endOperation( MathUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY)))));
+			
+			if(operation.activeGuides && operation.activeGuides.length > 0)
+				tool.dispatchEvent(new GuidelineEvent(GuidelineEvent.GUIDELINES_UPDATE, operation.activeGuides));
 			
 			if(activeAnchor)
 				activeAnchor.deactivateAnchor();

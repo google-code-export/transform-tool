@@ -25,6 +25,13 @@ package com.vstyran.transform.view
 	use namespace tt_internal;
 	
 	/**
+	 *  Dispatched when the guidelines is activated.
+	 *
+	 *  @eventType com.vstyran.transform.events.GuidelineEvent.GUIDELINES_UPDATE
+	 */
+	[Event(name="guidelinesUpdate", type="com.vstyran.transform.events.GuidelineEvent")]
+	
+	/**
 	 * Transfrom tool that can edit geometry properties of target object.
 	 * 
 	 * @author Volodymyr Styranivskyi

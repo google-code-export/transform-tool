@@ -3,6 +3,7 @@ package com.vstyran.transform.utils
 	import com.vstyran.transform.model.Bounds;
 	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.model.GridData;
+	import com.vstyran.transform.model.Guideline;
 	
 	import flash.geom.Rectangle;
 	
@@ -134,6 +135,55 @@ package com.vstyran.transform.utils
 			}
 			
 			return data;
+		}
+		
+		/**
+		 * Snap data into guidelines. 
+		 *  
+		 * @param data Source data to be fitted. Will be changed.
+		 * @param grid List of guidelines.
+		 * @return Subset of guidelines that currently active.
+		 */		
+		public static function guideData(data:DisplayData, guidelines:Vector.<Guideline>):Vector.<Guideline> 
+		{
+			var result:Vector.<Guideline> = new Vector.<Guideline>();
+			if(guidelines)
+			{
+				for each (var guideline:Guideline in guidelines) 
+				{
+					if(guideline.direction == Guideline.VERTICAL)
+					{
+						if(canUseGuideline(data.x, guideline.value, guideline.fraction))
+						{
+							data.x = guideline.value;
+							result.push(guideline);
+						}
+					}
+					else
+					{
+						if(canUseGuideline(data.y, guideline.value, guideline.fraction))
+						{
+							data.y = guideline.value;
+							result.push(guideline);
+						}
+					}
+				}
+			}
+			return result;
+		}
+		
+		
+		/**
+		 * Snap to guide value. 
+		 * 
+		 * @param value Value to be guided.
+		 * @param pos Guide position
+		 * @param fraction Max delta value that can be guided.
+		 * @return true if can be guided.
+		 */		
+		private static function canUseGuideline(value:Number, pos:Number, fraction:Number=0):Boolean
+		{
+			return Math.abs(value-pos) <= fraction;
 		}
 	}
 }

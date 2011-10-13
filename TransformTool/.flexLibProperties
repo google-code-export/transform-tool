@@ -36,6 +36,7 @@
     <classEntry path="com.vstyran.transform.view.DataTransformTool"/>
     <classEntry path="com.vstyran.transform.view.UITransformTool"/>
     <classEntry path="com.vstyran.transform.model.Guideline"/>
+    <classEntry path="com.vstyran.transform.events.GuidelineEvent"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
