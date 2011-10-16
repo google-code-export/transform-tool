@@ -207,6 +207,22 @@ package com.vstyran.transform.controls
 			return anchor;
 		}
 		
+		/**
+		 * @private 
+		 */		
+		private var guidelinesWasActive:Boolean;
+		
+		/**
+		 * Check whether active guidelines is changed and dispatch event if so. 
+		 */		
+		private function checkGuidelines():void
+		{
+			if(operation.activeGuides && (operation.activeGuides.length > 0 || guidelinesWasActive))
+			{
+				tool.dispatchEvent(new GuidelineEvent(GuidelineEvent.GUIDELINES_UPDATE, operation.activeGuides));
+				guidelinesWasActive = (operation.activeGuides.length > 0);
+			}
+		}
 		//------------------------------------------
 		// Methods
 		//------------------------------------------
@@ -258,9 +274,8 @@ package com.vstyran.transform.controls
 			if(operation)
 				tool.doTransformation(operation.doOperation( MathUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY)))));
 		
-			if(operation.activeGuides && operation.activeGuides.length > 0)
-				tool.dispatchEvent(new GuidelineEvent(GuidelineEvent.GUIDELINES_UPDATE, operation.activeGuides));
-					
+			checkGuidelines();
+				
 			event.updateAfterEvent();
 		}
 		
@@ -272,8 +287,10 @@ package com.vstyran.transform.controls
 			if(operation)
 				tool.endTransformation(operation.endOperation( MathUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY)))));
 			
-			if(operation.activeGuides && operation.activeGuides.length > 0)
-				tool.dispatchEvent(new GuidelineEvent(GuidelineEvent.GUIDELINES_UPDATE, operation.activeGuides));
+			if(operation.activeGuides)
+				operation.activeGuides.length = 0;
+				
+			checkGuidelines();
 			
 			if(activeAnchor)
 				activeAnchor.deactivateAnchor();

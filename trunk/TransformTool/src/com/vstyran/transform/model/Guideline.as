@@ -2,6 +2,7 @@ package com.vstyran.transform.model
 {
 	import flashx.textLayout.formats.Direction;
 
+	[Bindable]
 	/**
 	 * Value object for guideline.
 	 * 

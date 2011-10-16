@@ -105,6 +105,8 @@ package com.vstyran.transform.operations
 			data.x = startData.x + p.x;
 			data.y = startData.y + p.y;
 			
+			DataUtil.fitData(data, bounds);
+			
 			activeGuides = DataUtil.guideData(data, guidelines);
 			
 			if(activeGuides.length == 0)

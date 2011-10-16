@@ -147,24 +147,59 @@ package com.vstyran.transform.utils
 		public static function guideData(data:DisplayData, guidelines:Vector.<Guideline>):Vector.<Guideline> 
 		{
 			var result:Vector.<Guideline> = new Vector.<Guideline>();
+			var verticalFound:Boolean;
+			var horizontalFound:Boolean;
 			if(guidelines)
 			{
 				for each (var guideline:Guideline in guidelines) 
 				{
-					if(guideline.direction == Guideline.VERTICAL)
+					if(guideline.direction == Guideline.VERTICAL && !verticalFound)
 					{
 						if(canUseGuideline(data.x, guideline.value, guideline.fraction))
 						{
 							data.x = guideline.value;
 							result.push(guideline);
+							verticalFound = true;
+							continue;
+						}
+						if(canUseGuideline(data.x + data.width/2, guideline.value, guideline.fraction))
+						{
+							data.x = guideline.value - data.width/2;
+							result.push(guideline);
+							verticalFound = true;
+							continue;
+						}
+						if(canUseGuideline(data.x + data.width, guideline.value, guideline.fraction))
+						{
+							data.x = guideline.value - data.width;
+							result.push(guideline);
+							verticalFound = true;
+							continue;
 						}
 					}
-					else
+					
+					if(guideline.direction == Guideline.HORIZONTAL && !horizontalFound)
 					{
 						if(canUseGuideline(data.y, guideline.value, guideline.fraction))
 						{
 							data.y = guideline.value;
 							result.push(guideline);
+							horizontalFound = true;
+							continue;
+						}
+						if(canUseGuideline(data.y + data.height/2, guideline.value, guideline.fraction))
+						{
+							data.y = guideline.value - data.height/2;
+							result.push(guideline);
+							horizontalFound = true;
+							continue;
+						}
+						if(canUseGuideline(data.y + data.height, guideline.value, guideline.fraction))
+						{
+							data.y = guideline.value - data.height;
+							result.push(guideline);
+							horizontalFound = true;
+							continue;
 						}
 					}
 				}
