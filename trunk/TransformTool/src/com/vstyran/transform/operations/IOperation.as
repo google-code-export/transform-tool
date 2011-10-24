@@ -4,6 +4,7 @@ package com.vstyran.transform.operations
 	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.model.GridData;
 	import com.vstyran.transform.model.Guideline;
+	import com.vstyran.transform.model.GuidelineCross;
 	
 	import flash.geom.Point;
 
@@ -45,6 +46,6 @@ package com.vstyran.transform.operations
 		/**
 		 * Guidelines that currently active.
 		 */		
-		function get activeGuides():Vector.<Guideline>;
+		function get guideCross():GuidelineCross;
 	}
 }
