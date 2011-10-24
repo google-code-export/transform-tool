@@ -4,6 +4,7 @@ package com.vstyran.transform.operations
 	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.model.GridData;
 	import com.vstyran.transform.model.Guideline;
+	import com.vstyran.transform.model.GuidelineCross;
 	import com.vstyran.transform.utils.DataUtil;
 	import com.vstyran.transform.utils.MathUtil;
 	
@@ -41,9 +42,9 @@ package com.vstyran.transform.operations
 		
 		[Bindable]
 		/**
-		 * Guidelines that currently active. 
+		 * Cross of guidelines that currently active. 
 		 */	
-		public var activeGuides:Vector.<Guideline>
+		public var guideCross:GuidelineCross
 		
 		/**
 		 * Flag indicates whether movement should be fitted into grid if it is specified. 
@@ -88,8 +89,8 @@ package com.vstyran.transform.operations
 			startData = data;
 			startPoint = MathUtil.roundPoint(point);
 			
-			if(activeGuides)
-				activeGuides.length = 0;
+			if(guideCross)
+				guideCross = null;
 		}
 		
 		/**
@@ -107,17 +108,18 @@ package com.vstyran.transform.operations
 			
 			DataUtil.fitData(data, bounds);
 			
-			activeGuides = DataUtil.guideData(data, guidelines);
+			guideCross = DataUtil.guideData(data, guidelines);
 			
-			if(activeGuides.length == 0)
-				DataUtil.snapData(data, grid);
+			var snapX:Boolean = !(guideCross && guideCross.vGuideline); 
+			var snapY:Boolean = !(guideCross && guideCross.hGuideline); 
+			DataUtil.snapData(data, grid, snapX, snapY);
 			
 			DataUtil.fitData(data, bounds);
 			
 			return data;
 		}
 		
-		
+	
 		/**
 		 * @inheritDoc 
 		 */

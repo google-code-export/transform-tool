@@ -1,6 +1,7 @@
 package com.vstyran.transform.events
 {
 	import com.vstyran.transform.model.Guideline;
+	import com.vstyran.transform.model.GuidelineCross;
 	
 	import flash.events.Event;
 	
@@ -39,27 +40,27 @@ package com.vstyran.transform.events
 		/**
 		 * @private 
 		 */		
-		private var _guidelines:Vector.<Guideline>;
+		private var _cross:GuidelineCross;
 
 		/**
-		 * Guidelines that can make influence on transformation. 
+		 * Cross of guidelines that can make influence on transformation. 
 		 */
-		public function get guidelines():Vector.<Guideline>
+		public function get cross():GuidelineCross
 		{
-			return _guidelines;
+			return _cross;
 		}
 
 		/**
 		 * Constructor.
 		 *  
 		 * @param type The event type; indicates the action that caused the event.
-		 * @param guidelines List of active guidelines.
+		 * @param cross Cross of active guidelines.
 		 */		
-		public function GuidelineEvent(type:String, guidelines:Vector.<Guideline> = null)
+		public function GuidelineEvent(type:String, cross:GuidelineCross = null)
 		{
 			super(type);
 			
-			_guidelines = guidelines; 
+			_cross = cross; 
 		}
 	}
 }

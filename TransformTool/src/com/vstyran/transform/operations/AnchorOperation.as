@@ -4,6 +4,7 @@ package com.vstyran.transform.operations
 	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.model.GridData;
 	import com.vstyran.transform.model.Guideline;
+	import com.vstyran.transform.model.GuidelineCross;
 	import com.vstyran.transform.utils.MathUtil;
 	import com.vstyran.transform.utils.TransformUtil;
 	
@@ -40,9 +41,9 @@ package com.vstyran.transform.operations
 		
 		[Bindable]
 		/**
-		 * Guidelines that currently active. 
+		 * Cross of guidelines that currently active. 
 		 */	
-		public var activeGuides:Vector.<Guideline>
+		public var guideCross:GuidelineCross;
 		
 		/**
 		 * Anchor point at the moment of starting transformation. 
@@ -103,8 +104,8 @@ package com.vstyran.transform.operations
 			else
 				startAnchor =  MathUtil.floorPoint(new Point(startData.width/2, startData.height/2));	
 			
-			if(activeGuides)
-				activeGuides.length = 0;
+			if(guideCross)
+				guideCross = null;
 		}
 		
 		/**

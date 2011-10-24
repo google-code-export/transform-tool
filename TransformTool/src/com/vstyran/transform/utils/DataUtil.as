@@ -4,10 +4,12 @@ package com.vstyran.transform.utils
 	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.model.GridData;
 	import com.vstyran.transform.model.Guideline;
+	import com.vstyran.transform.model.GuidelineCross;
 	
 	import flash.geom.Rectangle;
 	
 	import mx.core.UIComponent;
+	import mx.events.SandboxMouseEvent;
 	
 	/**
 	 * Utility class that has methods for manipulating display data.
@@ -74,33 +76,15 @@ package com.vstyran.transform.utils
 		{
 			if(bounds)
 			{
-				var boundsRight:Number;
-				var boundsBottom:Number;
-				var box:Rectangle;
+				var box:Rectangle = TransformUtil.getBoundingBox(data);
+				var boundsRight:Number = bounds.right - box.width;
+				var boundsBottom:Number = bounds.bottom - box.height;
 				
-				if(data.rotation == 0)
-				{
-					boundsRight =  bounds.right - data.width;
-					boundsBottom =  bounds.bottom - data.height;
-				}
-				else
-				{
-					box = TransformUtil.getBoundingBox(data);
-					
-					boundsRight =  bounds.right - box.width;
-					boundsBottom =  bounds.bottom - box.height;
-					
-					var newX:Number = MathUtil.fitValue(box.x, bounds.x, boundsRight);
-					var newY:Number = MathUtil.fitValue(box.y, bounds.y, boundsBottom);
-					
-					data.x = MathUtil.round(newX + data.x - box.x, 2);
-					data.y =  MathUtil.round(newY + data.y - box.y, 2);
-					
-					return data;
-				}
+				var newX:Number = MathUtil.fitValue(box.x, bounds.x, boundsRight);
+				var newY:Number = MathUtil.fitValue(box.y, bounds.y, boundsBottom);
 				
-				data.x = MathUtil.fitValue(data.x, bounds.x, boundsRight);
-				data.y = MathUtil.fitValue(data.y, bounds.y, boundsBottom);
+				data.x = MathUtil.round(newX + data.x - box.x, 2);
+				data.y =  MathUtil.round(newY + data.y - box.y, 2);
 			}
 			
 			return data;
@@ -111,25 +95,25 @@ package com.vstyran.transform.utils
 		 *  
 		 * @param data Source data to be fitted. Will be changed.
 		 * @param grid Grid that will be used as step size.
+		 * @param snapX Snap by X axis.
+		 * @param snapY Snap by Y axis.
 		 * @return Data with fitted position.
 		 */		
-		public static function snapData(data:DisplayData, grid:GridData):DisplayData 
+		public static function snapData(data:DisplayData, grid:GridData, snapX:Boolean, snapY:Boolean):DisplayData 
 		{
 			if(grid)
 			{
-				if(data.rotation == 0)
+				var box:Rectangle = TransformUtil.getBoundingBox(data);
+				
+				if(snapX)
 				{
-					data.x = MathUtil.snapValue(data.x, grid.x, grid.cellWidth, grid.fraction);
-					data.y = MathUtil.snapValue(data.y, grid.y, grid.cellHeight, grid.fraction);
-				}
-				else
-				{
-					var box:Rectangle = TransformUtil.getBoundingBox(data);
-					
 					var newX:Number = MathUtil.snapValue(box.x, grid.x, grid.cellWidth, grid.fraction);
-					var newY:Number = MathUtil.snapValue(box.y, grid.y, grid.cellWidth, grid.fraction);
-					
 					data.x = MathUtil.round(newX + data.x - box.x, 2);
+				}
+				
+				if(snapY)
+				{
+					var newY:Number = MathUtil.snapValue(box.y, grid.y, grid.cellWidth, grid.fraction);
 					data.y = MathUtil.round(newY + data.y - box.y, 2);
 				}
 			}
@@ -142,71 +126,70 @@ package com.vstyran.transform.utils
 		 *  
 		 * @param data Source data to be fitted. Will be changed.
 		 * @param grid List of guidelines.
-		 * @return Subset of guidelines that currently active.
+		 * @return Cross of guidelines that currently active.
 		 */		
-		public static function guideData(data:DisplayData, guidelines:Vector.<Guideline>):Vector.<Guideline> 
+		public static function guideData(data:DisplayData, guidelines:Vector.<Guideline>):GuidelineCross 
 		{
-			var result:Vector.<Guideline> = new Vector.<Guideline>();
-			var verticalFound:Boolean;
-			var horizontalFound:Boolean;
+			var result:GuidelineCross = new GuidelineCross();
+			
+			var box:Rectangle = TransformUtil.getBoundingBox(data);
 			if(guidelines)
 			{
 				for each (var guideline:Guideline in guidelines) 
 				{
-					if(guideline.direction == Guideline.VERTICAL && !verticalFound)
+					if(guideline.direction == Guideline.VERTICAL && !result.vGuideline)
 					{
-						if(canUseGuideline(data.x, guideline.value, guideline.fraction))
+						// check left adge
+						if(canUseGuideline(box.x, guideline.value, guideline.fraction))
 						{
-							data.x = guideline.value;
-							result.push(guideline);
-							verticalFound = true;
+							data.x = guideline.value + data.x - box.x;
+							result.vGuideline = guideline;
 							continue;
 						}
-						if(canUseGuideline(data.x + data.width/2, guideline.value, guideline.fraction))
+						// check center
+						if(canUseGuideline(box.x + box.width/2, guideline.value, guideline.fraction))
 						{
-							data.x = guideline.value - data.width/2;
-							result.push(guideline);
-							verticalFound = true;
+							data.x = guideline.value - box.width/2 + data.x - box.x;
+							result.vGuideline = guideline;
 							continue;
 						}
-						if(canUseGuideline(data.x + data.width, guideline.value, guideline.fraction))
+						// check right adge
+						if(canUseGuideline(box.x + box.width, guideline.value, guideline.fraction))
 						{
-							data.x = guideline.value - data.width;
-							result.push(guideline);
-							verticalFound = true;
+							data.x = guideline.value - box.width + data.x - box.x;
+							result.vGuideline = guideline;
 							continue;
 						}
 					}
 					
-					if(guideline.direction == Guideline.HORIZONTAL && !horizontalFound)
+					if(guideline.direction == Guideline.HORIZONTAL && !result.hGuideline)
 					{
-						if(canUseGuideline(data.y, guideline.value, guideline.fraction))
+						// check top adge
+						if(canUseGuideline(box.y, guideline.value, guideline.fraction))
 						{
-							data.y = guideline.value;
-							result.push(guideline);
-							horizontalFound = true;
+							data.y = guideline.value + data.y - box.y;
+							result.hGuideline = guideline;
 							continue;
 						}
-						if(canUseGuideline(data.y + data.height/2, guideline.value, guideline.fraction))
+						// check center
+						if(canUseGuideline(box.y + box.height/2, guideline.value, guideline.fraction))
 						{
-							data.y = guideline.value - data.height/2;
-							result.push(guideline);
-							horizontalFound = true;
+							data.y = guideline.value - box.height/2 + data.y - box.y;;
+							result.hGuideline = guideline;
 							continue;
 						}
-						if(canUseGuideline(data.y + data.height, guideline.value, guideline.fraction))
+						// check bottom adge
+						if(canUseGuideline(box.y + box.height, guideline.value, guideline.fraction))
 						{
-							data.y = guideline.value - data.height;
-							result.push(guideline);
-							horizontalFound = true;
+							data.y = guideline.value - box.height + data.y - box.y;;
+							result.hGuideline = guideline;
 							continue;
 						}
 					}
 				}
 			}
-			return result;
+			return (result.vGuideline || result.hGuideline) ? result : null;
 		}
-		
 		
 		/**
 		 * Snap to guide value. 
