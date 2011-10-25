@@ -101,19 +101,14 @@ package com.vstyran.transform.utils
 			snapStart ||= 0;
 			if(!isNaN(snapStep) && snapStep > 0)
 			{
-				var start:Number = snapStart%snapStep;
 				if(!isNaN(fraction))
 				{
-					var delta:Number = Math.abs(value%snapStep)- start;
-					if(delta <= fraction || delta >= snapStep-fraction)
-					{
-						value = Math.round(value/snapStep)*snapStep + start;
-					}
+					var delta:Number = (value-snapStart)%snapStep;
+					if(delta <= 0 || (delta > fraction && delta < snapStep-fraction))
+						return value;
 				}
-				else
-				{
-					value = Math.round(value/snapStep)*snapStep + start;
-				}
+				
+				value = Math.round((value-snapStart)/snapStep)*snapStep + snapStart;
 			}
 			
 			return value;
