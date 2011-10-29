@@ -25,11 +25,13 @@ package com.vstyran.transform.model
 		 *  
 		 * @param direction Guideline direction
 		 * @param value position
+		 * @param fraction Max delta value that can be guided.
 		 */			
-		public function Guideline(direction:String = "horizontal", value:Number = 0)
+		public function Guideline(direction:String = "horizontal", value:Number = 0, fraction:Number = 0)
 		{
 			this.direction = direction;
 			this.value = value;
+			this.fraction = fraction;
 		}
 		
 		/**
