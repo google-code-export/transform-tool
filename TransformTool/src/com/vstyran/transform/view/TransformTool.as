@@ -15,6 +15,7 @@ package com.vstyran.transform.view
 	import com.vstyran.transform.utils.SkinUtil;
 	
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	
 	import mx.core.IVisualElement;
 	import mx.core.IVisualElementContainer;
@@ -46,6 +47,12 @@ package com.vstyran.transform.view
 		 * Manager for managing cursors under controls. 
 		 */		
 		public var toolCursorManager:ICursorManager;
+		
+		[SkinPart]
+		/**
+		 * Move control. 
+		 */		
+		public var moveControl:Control;
 		
 		/**
 		 * Constructor. 
@@ -306,6 +313,20 @@ package com.vstyran.transform.view
 			var data:DisplayData = connector.getData();
 			if(data)
 				DataUtil.applyData(this, data, true);
+		}
+		
+		/**
+		 * Start moving.
+		 * 
+		 * @param mouseEvent Mouse down event.
+		 */		
+		public function startMoving(mouseEvent:MouseEvent):void
+		{
+			validateNow();
+			if(moveControl && mouseEvent && mouseEvent.type == MouseEvent.MOUSE_DOWN && mouseEvent.buttonDown)
+			{
+				moveControl.startTransformation(mouseEvent);
+			}
 		}
 	}
 }
