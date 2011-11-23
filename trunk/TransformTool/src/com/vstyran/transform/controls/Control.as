@@ -216,6 +216,21 @@ package com.vstyran.transform.controls
 		// Methods
 		//------------------------------------------
 		/**
+		 * Start transformation.
+		 * 
+		 * @param event Mouse down event.
+		 */		
+		public function startTransformation(event:MouseEvent):void
+		{
+			if(this.hitTestPoint(event.stageX, event.stageY))
+			{
+				if(tool.toolCursorManager && !tool.transforming)
+					tool.toolCursorManager.setCursor(this, event.stageX, event.stageY);
+			}
+			
+			downHandler(event);
+		}
+		/**
 		 * Mouse down handler 
 		 */		
 		protected function downHandler(event:MouseEvent):void
