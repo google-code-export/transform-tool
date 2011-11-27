@@ -17,8 +17,8 @@
 		<s:stroke>
 			<s:SolidColorStroke />
 		</s:stroke>
-		<s:fill>
+	<!--	<s:fill>
 			<s:SolidColor color="#FFFFFF" alpha="0"/>
-		</s:fill>
+		</s:fill>-->
 	</s:Rect>
 </s:Skin>
