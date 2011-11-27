@@ -29,7 +29,7 @@ package com.vstyran.transform.connectors
 		 * @private
 		 * Data connector. 
 		 */		
-		private var dataConnector:DataConnector = new DataConnector();
+		protected var dataConnector:DataConnector = new DataConnector();
 		
 		/**
 		 * @private 
