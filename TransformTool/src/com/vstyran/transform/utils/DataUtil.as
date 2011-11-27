@@ -66,6 +66,21 @@ package com.vstyran.transform.utils
 		}
 		
 		/**
+		 * Apply data on ui component scaling rather than changing size. 
+		 * 
+		 * @param target UI component to which the data will be applied.
+		 * @param data Display data.
+		 */		
+		public static function applyScaledData(target:UIComponent, data:DisplayData):void
+		{
+			target.x = data.x;
+			target.y = data.y;
+			target.scaleX = data.width/target.width;
+			target.scaleY = data.height/target.height;
+			target.rotation = data.rotation;
+		}
+		
+		/**
 		 * Fit position of data into bounds. 
 		 *  
 		 * @param data Source data to be fitted. Will be changed.
