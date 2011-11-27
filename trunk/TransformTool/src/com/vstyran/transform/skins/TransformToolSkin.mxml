@@ -29,23 +29,23 @@
 	
 	<fx:Declarations>
 		<!--<raster:CursorManager id="toolCursorManager">
-			<raster:CursorItem control="{moveControl}" cursor="{Cursors.MoveCursor}" xOffset="-11" yOffset="-11"/>
-			<raster:CursorItem control="{middleLeft}" cursor="{Cursors.HResizeCursor}" xOffset="-11" yOffset="-5"/>
-			<raster:CursorItem control="{middleRight}" cursor="{Cursors.HResizeCursor}" xOffset="-11" yOffset="-5"/>
-			<raster:CursorItem control="{topMiddle}" cursor="{Cursors.VResizeCursor}" xOffset="-5" yOffset="-11"/>
-			<raster:CursorItem control="{bottomMiddle}" cursor="{Cursors.VResizeCursor}" xOffset="-5" yOffset="-11"/>
-			<raster:CursorItem control="{topLeft}" cursor="{Cursors.TLResizeCursor}" xOffset="-8" yOffset="-8"/>
-			<raster:CursorItem control="{bottomRight}" cursor="{Cursors.TLResizeCursor}" xOffset="-8" yOffset="-8"/>
-			<raster:CursorItem control="{topRight}" cursor="{Cursors.TRResizeCursor}" xOffset="-8" yOffset="-8"/>
-			<raster:CursorItem control="{bottomLeft}" cursor="{Cursors.TRResizeCursor}" xOffset="-8" yOffset="-8"/>
-			<raster:CursorItem control="{rotateControl}" cursor="{Cursors.RotateCursor}" xOffset="-9" yOffset="-9"/>
+		<raster:CursorItem control="{moveControl}" cursor="{Cursors.MoveCursor}" xOffset="-11" yOffset="-11"/>
+		<raster:CursorItem control="{middleLeft}" cursor="{Cursors.HResizeCursor}" xOffset="-11" yOffset="-5"/>
+		<raster:CursorItem control="{middleRight}" cursor="{Cursors.HResizeCursor}" xOffset="-11" yOffset="-5"/>
+		<raster:CursorItem control="{topMiddle}" cursor="{Cursors.VResizeCursor}" xOffset="-5" yOffset="-11"/>
+		<raster:CursorItem control="{bottomMiddle}" cursor="{Cursors.VResizeCursor}" xOffset="-5" yOffset="-11"/>
+		<raster:CursorItem control="{topLeft}" cursor="{Cursors.TLResizeCursor}" xOffset="-8" yOffset="-8"/>
+		<raster:CursorItem control="{bottomRight}" cursor="{Cursors.TLResizeCursor}" xOffset="-8" yOffset="-8"/>
+		<raster:CursorItem control="{topRight}" cursor="{Cursors.TRResizeCursor}" xOffset="-8" yOffset="-8"/>
+		<raster:CursorItem control="{bottomLeft}" cursor="{Cursors.TRResizeCursor}" xOffset="-8" yOffset="-8"/>
+		<raster:CursorItem control="{rotateControl}" cursor="{Cursors.RotateCursor}" xOffset="-9" yOffset="-9"/>
 		</raster:CursorManager>-->
 		
 		<cursors:ResizeCursor id="resizeCursor" rotation="45" mouseChildren="false" mouseEnabled="false"/>
 		
 		<vector:CursorManager id="toolCursorManager">
 			<vector:CursorItem control="{moveControl}">
-					<cursors:MoveCursor mouseChildren="false" mouseEnabled="false"/>
+				<cursors:MoveCursor mouseChildren="false" mouseEnabled="false"/>
 			</vector:CursorItem>
 			<vector:CursorItem control="{topMiddleControl}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="90"/>
 			<vector:CursorItem control="{bottomMiddleControl}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="90"/>
@@ -62,10 +62,8 @@
 	</fx:Declarations>
 	
 	<controls:Control id="moveControl" top="0" left="0" right="0" bottom="0"
-		skinClass="com.vstyran.transform.skins.MoveControlSkin">
-		<controls:operation>
-			<operations:MoveOperation/>
-		</controls:operation>
+					  skinClass="com.vstyran.transform.skins.MoveControlSkin">
+		<operations:MoveOperation/>
 	</controls:Control>
 	
 	<s:Line yFrom="-26" yTo="0" horizontalCenter="0">
@@ -75,50 +73,32 @@
 	</s:Line>
 	<controls:Control id="rotateControl" top="-26" horizontalCenter="0"
 					  anchor="{centerAnchorControl}">
-		<controls:operation>
-			<operations:RotateOperation/>
-		</controls:operation>
+		<operations:RotateOperation/>
 	</controls:Control>
 	
 	<controls:Control id="topLeftControl" top="-6" left="-6" anchor="{bottomRightControl}">
-		<controls:operation>
-			<operations:ResizeOperation/>
-		</controls:operation>
+		<operations:ResizeOperation/>
 	</controls:Control>
 	<controls:Control id="topMiddleControl" top="-6" horizontalCenter="0" anchor="{bottomMiddleControl}">
-		<controls:operation>
-			<operations:ResizeOperation horizontalEnabled="false"/>
-		</controls:operation>
+		<operations:ResizeOperation horizontalEnabled="false"/>
 	</controls:Control>
 	<controls:Control id="topRightControl" top="-6" right="-6" anchor="{bottomLeftControl}">
-		<controls:operation>
-			<operations:ResizeOperation/>
-		</controls:operation>
+		<operations:ResizeOperation/>
 	</controls:Control>
 	<controls:Control id="middleRightControl" verticalCenter="0" right="-6" anchor="{middleLeftControl}">
-		<controls:operation>
-			<operations:ResizeOperation verticalEnabled="false"/>
-		</controls:operation>
+		<operations:ResizeOperation verticalEnabled="false"/>
 	</controls:Control>
 	<controls:Control id="bottomRightControl" bottom="-6" right="-6" anchor="{topLeftControl}">
-		<controls:operation>
-			<operations:ResizeOperation/>
-		</controls:operation>
+		<operations:ResizeOperation/>
 	</controls:Control>
 	<controls:Control id="bottomMiddleControl" bottom="-6" horizontalCenter="0" anchor="{topMiddleControl}">
-		<controls:operation>
-			<operations:ResizeOperation horizontalEnabled="false"/>
-		</controls:operation>
+		<operations:ResizeOperation horizontalEnabled="false"/>
 	</controls:Control>
 	<controls:Control id="bottomLeftControl" bottom="-6" left="-6" anchor="{topRightControl}">
-		<controls:operation>
-			<operations:ResizeOperation/>
-		</controls:operation>
+		<operations:ResizeOperation/>
 	</controls:Control>
 	<controls:Control id="middleLeftControl" verticalCenter="0" left="-6" anchor="{middleRightControl}">
-		<controls:operation>
-			<operations:ResizeOperation verticalEnabled="false"/>
-		</controls:operation>
+		<operations:ResizeOperation verticalEnabled="false"/>
 	</controls:Control>
 	
 	<controls:Anchor id="centerAnchorControl" verticalCenter="0" horizontalCenter="0"/>

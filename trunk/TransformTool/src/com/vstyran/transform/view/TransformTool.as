@@ -53,6 +53,8 @@ package com.vstyran.transform.view
 	 */	
 	[SkinState("altPressed")]
 	
+	[DefaultProperty("connector")]
+	
 	/**
 	 * Transfrom tool that can edit geometry properties of target object.
 	 * 
