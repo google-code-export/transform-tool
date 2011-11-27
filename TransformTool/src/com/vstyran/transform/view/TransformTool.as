@@ -33,6 +33,26 @@ package com.vstyran.transform.view
 	[Event(name="guidelinesUpdate", type="com.vstyran.transform.events.GuidelineEvent")]
 	
 	/**
+	 * Normal state. 
+	 */	
+	[SkinState("normal")]
+	
+	/**
+	 * Shift key pressed state. 
+	 */	
+	[SkinState("shiftPressed")]
+	
+	/**
+	 * Ctrl key pressed state. 
+	 */	
+	[SkinState("ctrlPressed")]
+	
+	/**
+	 * Alt key pressed state. 
+	 */	
+	[SkinState("altPressed")]
+	
+	/**
 	 * Transfrom tool that can edit geometry properties of target object.
 	 * 
 	 * @author Volodymyr Styranivskyi
@@ -65,6 +85,8 @@ package com.vstyran.transform.view
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			addEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
+			addEventListener(MouseEvent.MOUSE_DOWN, downHandler, true);
+			addEventListener(MouseEvent.MOUSE_UP, upHandler, true);
 		}
 		
 		/**
@@ -114,9 +136,41 @@ package com.vstyran.transform.view
 		 */		
 		public var guidelines:Vector.<Guideline>;
 		
+		/**
+		 * Shift key pressed. 
+		 */		
+		private var shiftPressed:Boolean;
+		
+		/**
+		 * Ctrl key pressed. 
+		 */
+		private var ctrlPressed:Boolean;
+		
+		/**
+		 * Alt key pressed. 
+		 */
+		private var altPressed:Boolean;
+		
 		//------------------------------------------------
 		// Life cycle methods
 		//------------------------------------------------
+		/**
+		 * @inheritDoc 
+		 */
+		override protected function getCurrentSkinState():String
+		{
+			if(shiftPressed)
+				return "shiftPressed";
+			
+			if(ctrlPressed)
+				return "ctrlPressed";
+			
+			if(altPressed)
+				return "altPressed";
+			
+			return "normal";
+		}
+		
 		/**
 		 * @inheritDoc 
 		 */		
@@ -261,6 +315,27 @@ package com.vstyran.transform.view
 			updateTool();
 		}
 		
+		/**
+		 * Mouse down handler. 
+		 */		
+		protected function downHandler(event:MouseEvent):void
+		{
+			shiftPressed = event.shiftKey;
+			ctrlPressed = event.ctrlKey;
+			altPressed = event.altKey;
+			invalidateSkinState();
+		}
+		
+		/**
+		 * Mouse up handler. 
+		 */
+		protected function upHandler(event:MouseEvent):void
+		{
+			shiftPressed = false;
+			ctrlPressed = false;
+			altPressed = false;
+			invalidateSkinState();
+		}
 		
 		//------------------------------------------------
 		// Methods

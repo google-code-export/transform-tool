@@ -66,21 +66,6 @@ package com.vstyran.transform.controls
 		public var anchor:DisplayObject;
 		
 		/**
-		 * Anchor for transformation with shift key pressed. 
-		 */		
-		public var shiftAnchor:DisplayObject;
-		
-		/**
-		 * Anchor for transformation with alt key pressed. 
-		 */
-		public var altAnchor:DisplayObject;
-		
-		/**
-		 * Anchor for transformation with control key pressed. 
-		 */
-		public var ctrlAnchor:DisplayObject;
-		
-		/**
 		 * @private 
 		 */		
 		private var _anchorActivated:Boolean;
@@ -193,22 +178,6 @@ package com.vstyran.transform.controls
 		
 		/**
 		 * @private 
-		 * Get anchor depending on what buttons is pressed.
-		 */	
-		private function resolveAnchor(event:MouseEvent):DisplayObject
-		{
-			if(event.shiftKey && shiftAnchor)
-				return shiftAnchor;
-			if(event.ctrlKey && ctrlAnchor)
-				return ctrlAnchor;
-			if(event.altKey && altAnchor)
-				return altAnchor;
-			
-			return anchor;
-		}
-		
-		/**
-		 * @private 
 		 */		
 		private var guidelinesWasActive:Boolean;
 		
@@ -238,18 +207,19 @@ package com.vstyran.transform.controls
 			if(!tool)
 				return;
 			
+			tool.validateNow();
+			
 			matrix = TransformUtil.getMatrix(null, tool);
 			tool.startTransformation(this);
 			
 			if(operation is IAncorOperation)
 			{
-				var resolvedAnchor:DisplayObject = resolveAnchor(event);
-				if(resolvedAnchor)
+				if(anchor)
 				{
-					(operation as IAncorOperation).anchorPoint = getAnchorPoint(resolvedAnchor); 
-					if(resolvedAnchor is IAnchor)
+					(operation as IAncorOperation).anchorPoint = getAnchorPoint(anchor); 
+					if(anchor is IAnchor)
 					{
-						activeAnchor = resolvedAnchor as IAnchor;
+						activeAnchor = anchor as IAnchor;
 						activeAnchor.activateAnchor();
 					}
 				}

@@ -13,6 +13,14 @@
 	<fx:Metadata>
 		[HostComponent("com.vstyran.transform.view.TransformTool")]
 	</fx:Metadata>
+	
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="shiftPressed"/>
+		<s:State name="ctrlPressed"/>
+		<s:State name="altPressed"/>
+	</s:states>
+	
 	<fx:Script>
 		<![CDATA[
 			import com.vstyran.transform.managers.raster.Cursors;
