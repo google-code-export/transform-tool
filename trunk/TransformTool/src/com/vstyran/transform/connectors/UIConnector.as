@@ -12,6 +12,27 @@ package com.vstyran.transform.connectors
 	import mx.core.UIComponent;
 
 	/**
+	 *  Dispatched when the data is changed and transform tool needs to be updated.
+	 *
+	 *  @eventType com.vstyran.transform.events.ConnectorEvent.DATA_CHANGE
+	 */
+	[Event(name="dataChange", type="com.vstyran.transform.events.ConnectorEvent")]
+	
+	/**
+	 *  Dispatched when transformation is in progress.
+	 *
+	 *  @eventType com.vstyran.transform.events.ConnectorEvent.TRANSFORMATION
+	 */
+	[Event(name="transformation", type="com.vstyran.transform.events.ConnectorEvent")]
+	
+	/**
+	 *  Dispatched when transformation is complete.
+	 *
+	 *  @eventType com.vstyran.transform.events.ConnectorEvent.TRANSFORMATION_COMPLETE
+	 */
+	[Event(name="transformationComplete", type="com.vstyran.transform.events.ConnectorEvent")]
+	
+	/**
 	 * Connector class for connecting UIComponent with transfrom tool.
 	 * 
 	 * @author Volodymyr Styranivskyi
@@ -100,9 +121,11 @@ package com.vstyran.transform.connectors
 		 */	
 		public function transfrom(data:DisplayData):DisplayData
 		{
-			var data:DisplayData = dataConnector.transfrom(data);
+			data = dataConnector.transfrom(data);
 			
 			DataUtil.applyData(target, dataConnector.data);
+			
+			dispatchEvent(new ConnectorEvent(ConnectorEvent.TRANSFORMATION, data));
 			
 			return data;
 		}
@@ -112,7 +135,13 @@ package com.vstyran.transform.connectors
 		 */	
 		public function complete(data:DisplayData):DisplayData
 		{
-			return transfrom(data);
+			data = dataConnector.transfrom(data);
+			
+			DataUtil.applyData(target, dataConnector.data);
+			
+			dispatchEvent(new ConnectorEvent(ConnectorEvent.TRANSFORMATION_COMPLETE, data));
+			
+			return data;
 		}
 	}
 }
