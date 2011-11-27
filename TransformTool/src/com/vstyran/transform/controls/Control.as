@@ -40,6 +40,8 @@ package com.vstyran.transform.controls
 	 */
 	[SkinState("controlActive")]
 	
+	[DefaultProperty("operation")]
+	
 	/**
 	 * Control class for initiating transformation.
 	 * 
