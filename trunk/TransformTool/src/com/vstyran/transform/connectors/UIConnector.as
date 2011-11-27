@@ -16,7 +16,7 @@ package com.vstyran.transform.connectors
 	 * 
 	 * @author Volodymyr Styranivskyi
 	 */
-	public class UIConnector extends EventDispatcher implements IConnector
+	public class UIConnector extends EventDispatcher implements IUIConnector
 	{
 		/**
 		 * Constructor. 

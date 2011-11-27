@@ -2,6 +2,7 @@ package com.vstyran.transform.view
 {
 	
 	import com.vstyran.transform.connectors.IConnector;
+	import com.vstyran.transform.connectors.IUIConnector;
 	import com.vstyran.transform.controls.Control;
 	import com.vstyran.transform.events.ConnectorEvent;
 	import com.vstyran.transform.managers.ICursorManager;
@@ -196,6 +197,11 @@ package com.vstyran.transform.view
 			{
 				toolCursorManager.tool = this;
 			}
+			else if(instance == moveControl)
+			{
+				if(connector is IUIConnector && moveControl)
+					moveControl.uiTarget = (connector as IUIConnector).target;
+			}
 		}
 		
 		/**
@@ -208,6 +214,10 @@ package com.vstyran.transform.view
 			if(instance == toolCursorManager)
 			{
 				toolCursorManager.tool = null;
+			}
+			else if(instance == moveControl)
+			{
+				moveControl.uiTarget = null;
 			}
 		}
 		
@@ -312,6 +322,9 @@ package com.vstyran.transform.view
 		 */		
 		private function dataChangeHendler(event:ConnectorEvent):void
 		{
+			if(connector is IUIConnector && moveControl)
+				moveControl.uiTarget = (connector as IUIConnector).target;
+			
 			updateTool();
 		}
 		

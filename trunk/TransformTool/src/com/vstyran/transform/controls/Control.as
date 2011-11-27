@@ -19,6 +19,8 @@ package com.vstyran.transform.controls
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	
+	import mx.core.UIComponent;
+	
 	import spark.components.supportClasses.SkinnableComponent;
 	
 	use namespace tt_internal;
@@ -107,6 +109,36 @@ package com.vstyran.transform.controls
 		 */		
 		private var activeAnchor:IAnchor;
 		
+		/**
+		 * @private 
+		 */		
+		protected var _uiTarget:UIComponent;
+
+		/**
+		 * UI target of transformation. 
+		 */		
+		tt_internal function set uiTarget(value:UIComponent):void
+		{
+			if(_uiTarget == value)
+				return;
+			
+			if(_uiTarget)
+			{
+				_uiTarget.removeEventListener(MouseEvent.MOUSE_DOWN, downHandler);
+				_uiTarget.removeEventListener(MouseEvent.ROLL_OVER, overHandler);
+				_uiTarget.removeEventListener(MouseEvent.MOUSE_OUT, outHandler);
+			}
+			
+			_uiTarget = value;
+			
+			if(_uiTarget)
+			{
+				_uiTarget.addEventListener(MouseEvent.MOUSE_DOWN, downHandler);
+				_uiTarget.addEventListener(MouseEvent.ROLL_OVER, overHandler);
+				_uiTarget.addEventListener(MouseEvent.MOUSE_OUT, outHandler);
+			}
+		}
+
 		//------------------------------------------
 		// Life cycle
 		//------------------------------------------
@@ -191,7 +223,8 @@ package com.vstyran.transform.controls
 		 */		
 		public function startTransformation(event:MouseEvent):void
 		{
-			if(this.hitTestPoint(event.stageX, event.stageY))
+			if(this.hitTestPoint(event.stageX, event.stageY) ||
+			  (_uiTarget && _uiTarget.hitTestPoint(event.stageX, event.stageY, true)))
 			{
 				if(tool.toolCursorManager && !tool.transforming)
 					tool.toolCursorManager.setCursor(this, event.stageX, event.stageY);
@@ -276,7 +309,8 @@ package com.vstyran.transform.controls
 			controlActivated = false;
 			invalidateSkinState();
 			
-			if(tool.toolCursorManager && !hitTestPoint(event.stageX, event.stageY, true))
+			if(tool.toolCursorManager && !hitTestPoint(event.stageX, event.stageY, true) &&
+				!(_uiTarget && _uiTarget.hitTestPoint(event.stageX, event.stageY, true)))
 				tool.toolCursorManager.removeCursor(this);
 			
 			systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_MOVE, moveHandler);
