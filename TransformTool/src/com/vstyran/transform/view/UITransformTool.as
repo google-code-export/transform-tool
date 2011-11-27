@@ -2,9 +2,24 @@ package com.vstyran.transform.view
 {
 	import com.vstyran.transform.connectors.IConnector;
 	import com.vstyran.transform.connectors.UIConnector;
+	import com.vstyran.transform.events.ConnectorEvent;
 	
 	import mx.core.UIComponent;
 
+	/**
+	 *  Dispatched when transformation is in progress.
+	 *
+	 *  @eventType com.vstyran.transform.events.ConnectorEvent.TRANSFORMATION
+	 */
+	[Event(name="transformation", type="com.vstyran.transform.events.ConnectorEvent")]
+	
+	/**
+	 *  Dispatched when transformation is complete.
+	 *
+	 *  @eventType com.vstyran.transform.events.ConnectorEvent.TRANSFORMATION_COMPLETE
+	 */
+	[Event(name="transformationComplete", type="com.vstyran.transform.events.ConnectorEvent")]
+	
 	/**
 	 * Transform tool that contains UIConnector.
 	 * 
@@ -19,6 +34,9 @@ package com.vstyran.transform.view
 		{
 			super();
 			super.connector = new UIConnector();
+			
+			connector.addEventListener(ConnectorEvent.TRANSFORMATION, connectorEventHandler);
+			connector.addEventListener(ConnectorEvent.TRANSFORMATION_COMPLETE, connectorEventHandler);
 		}
 		
 		/**
@@ -44,6 +62,14 @@ package com.vstyran.transform.view
 		public function set target(value:UIComponent):void
 		{
 			(connector as UIConnector).target = value;
+		}
+		
+		/**
+		 * Connector events handler. 
+		 */	
+		private function connectorEventHandler(event:ConnectorEvent):void
+		{
+			dispatchEvent(event);
 		}
 	}
 }
