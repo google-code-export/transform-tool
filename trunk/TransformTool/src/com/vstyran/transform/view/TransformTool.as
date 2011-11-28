@@ -5,6 +5,7 @@ package com.vstyran.transform.view
 	import com.vstyran.transform.connectors.IUIConnector;
 	import com.vstyran.transform.controls.Control;
 	import com.vstyran.transform.events.ConnectorEvent;
+	import com.vstyran.transform.events.TransformEvent;
 	import com.vstyran.transform.managers.ICursorManager;
 	import com.vstyran.transform.model.Bounds;
 	import com.vstyran.transform.model.DisplayData;
@@ -15,14 +16,17 @@ package com.vstyran.transform.view
 	import com.vstyran.transform.utils.DataUtil;
 	import com.vstyran.transform.utils.SkinUtil;
 	
+	import flash.display.BitmapData;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.geom.Matrix;
 	
 	import mx.core.IVisualElement;
 	import mx.core.IVisualElementContainer;
 	import mx.core.UIComponent;
 	
 	import spark.components.supportClasses.SkinnableComponent;
+	import spark.primitives.BitmapImage;
 	
 	use namespace tt_internal;
 	
@@ -32,6 +36,27 @@ package com.vstyran.transform.view
 	 *  @eventType com.vstyran.transform.events.GuidelineEvent.GUIDELINES_UPDATE
 	 */
 	[Event(name="guidelinesUpdate", type="com.vstyran.transform.events.GuidelineEvent")]
+	
+	/**
+	 *  Dispatched when transformation is in progress.
+	 *
+	 *  @eventType com.vstyran.transform.events.TransformEvent.TRANSFORMATION_START
+	 */
+	[Event(name="transformationStart", type="com.vstyran.transform.events.TransformEvent")]
+	
+	/**
+	 *  Dispatched when transformation is in progress.
+	 *
+	 *  @eventType com.vstyran.transform.events.TransformEvent.TRANSFORMATION
+	 */
+	[Event(name="transformation", type="com.vstyran.transform.events.TransformEvent")]
+	
+	/**
+	 *  Dispatched when transformation is complete.
+	 *
+	 *  @eventType com.vstyran.transform.events.TransformEvent.TRANSFORMATION_COMPLETE
+	 */
+	[Event(name="transformationComplete", type="com.vstyran.transform.events.TransformEvent")]
 	
 	/**
 	 * Normal state. 
@@ -76,6 +101,18 @@ package com.vstyran.transform.view
 		 * Move control. 
 		 */		
 		public var moveControl:Control;
+		
+		[SkinPart]
+		/**
+		 * Preview image element. 
+		 */		
+		public var preview:BitmapImage;
+		
+		[SkinPart]
+		/**
+		 * Preview cover element. 
+		 */		
+		public var previewCover:IVisualElement;
 		
 		/**
 		 * Constructor. 
@@ -125,6 +162,31 @@ package com.vstyran.transform.view
 		}
 		
 		/**
+		 * @private 
+		 */		
+		private var _uiTarget:UIComponent;
+
+		/**
+		 * UI target of transformation. Used as event dispather for moving control. 
+		 */		
+		public function get uiTarget():UIComponent
+		{
+			return _uiTarget;
+		}
+
+		/**
+		 * @private 
+		 */		
+		public function set uiTarget(value:UIComponent):void
+		{
+			_uiTarget = value;
+			
+			if(moveControl)
+				moveControl.uiTarget = _uiTarget;
+		}
+
+		
+		/**
 		 * Grid that will be used as step size for operations. 
 		 */		
 		public var grid:GridData;
@@ -138,6 +200,11 @@ package com.vstyran.transform.view
 		 * Guide lines. 
 		 */		
 		public var guidelines:Vector.<Guideline>;
+		
+		/**
+		 * Flag that indicates whether preview cover should be shown instead of preview.
+		 */		
+		public var showPreviewCover:Boolean;
 		
 		/**
 		 * Shift key pressed. 
@@ -195,14 +262,33 @@ package com.vstyran.transform.view
 		{
 			super.partAdded(partName, instance);
 			
-			if(instance == toolCursorManager && addedToStage)
+			switch(instance)
 			{
-				toolCursorManager.tool = this;
-			}
-			else if(instance == moveControl)
-			{
-				if(connector is IUIConnector && moveControl)
-					moveControl.uiTarget = (connector as IUIConnector).target;
+				case toolCursorManager:
+				{
+					if(addedToStage)
+						toolCursorManager.tool = this;
+					break;
+				}
+				case moveControl:
+				{
+					moveControl.uiTarget = uiTarget;
+					break;
+				}
+				case preview:
+				{
+					preview.visible = false;
+					break;
+				}
+				case previewCover:
+				{
+					previewCover.visible = false;
+					break;
+				}
+				default:
+				{
+					break;
+				}
 			}
 		}
 		
@@ -324,8 +410,8 @@ package com.vstyran.transform.view
 		 */		
 		private function dataChangeHendler(event:ConnectorEvent):void
 		{
-			if(connector is IUIConnector && moveControl)
-				moveControl.uiTarget = (connector as IUIConnector).target;
+			if(connector is IUIConnector)
+				uiTarget = (connector as IUIConnector).target;
 			
 			updateTool();
 		}
@@ -374,7 +460,21 @@ package com.vstyran.transform.view
 		 */		
 		public function startTransformation(control:Control):void
 		{
+			if(preview && !showPreviewCover)
+			{
+				var bd:BitmapData = new BitmapData( _uiTarget.width, _uiTarget.height);
+				bd.draw( _uiTarget, new Matrix());
+				
+				preview.source = bd;
+				preview.visible = true;
+			}
+			
+			if(previewCover)
+				previewCover.visible = showPreviewCover;
+			
 			_transforming = true;
+			
+			dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION_START));
 		}
 		
 		/**
@@ -382,7 +482,11 @@ package com.vstyran.transform.view
 		 */	
 		public function doTransformation(data:DisplayData):void
 		{
-			DataUtil.applyData(this, connector.transfrom(data));
+			DataUtil.applyData(this, data);
+			
+			data = connector.transfrom(data)
+				
+			dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION, data));
 		}
 		
 		/**
@@ -390,9 +494,19 @@ package com.vstyran.transform.view
 		 */		
 		public function endTransformation(data:DisplayData):void
 		{
-			DataUtil.applyData(this, connector.complete(data));
+			DataUtil.applyData(this, data);
+			
+			data = connector.complete(data);
+			
+			if(preview)
+				preview.visible = false;
+			
+			if(previewCover)
+				previewCover.visible = false;
 			
 			_transforming = false;
+			
+			dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION_COMPLETE, data));
 		}
 		
 		/**

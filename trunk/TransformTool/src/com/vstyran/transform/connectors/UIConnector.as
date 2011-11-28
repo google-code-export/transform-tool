@@ -19,20 +19,6 @@ package com.vstyran.transform.connectors
 	[Event(name="dataChange", type="com.vstyran.transform.events.ConnectorEvent")]
 	
 	/**
-	 *  Dispatched when transformation is in progress.
-	 *
-	 *  @eventType com.vstyran.transform.events.ConnectorEvent.TRANSFORMATION
-	 */
-	[Event(name="transformation", type="com.vstyran.transform.events.ConnectorEvent")]
-	
-	/**
-	 *  Dispatched when transformation is complete.
-	 *
-	 *  @eventType com.vstyran.transform.events.ConnectorEvent.TRANSFORMATION_COMPLETE
-	 */
-	[Event(name="transformationComplete", type="com.vstyran.transform.events.ConnectorEvent")]
-	
-	/**
 	 * Connector class for connecting UIComponent with transfrom tool.
 	 * 
 	 * @author Volodymyr Styranivskyi
@@ -44,6 +30,7 @@ package com.vstyran.transform.connectors
 		 */		
 		public function UIConnector()
 		{
+			super();
 		}
 		
 		/**
@@ -85,6 +72,12 @@ package com.vstyran.transform.connectors
 		}
 		
 		/**
+		 * Flag that indicates whether target should be updated during transformation.
+		 * If false then target will be updated only on mouse up. 
+		 */		
+		public var liveTransformation:Boolean = true; 
+		
+		/**
 		 * @private 
 		 * Target added to stage event handler.
 		 */		
@@ -123,9 +116,8 @@ package com.vstyran.transform.connectors
 		{
 			data = dataConnector.transfrom(data);
 			
-			DataUtil.applyData(target, dataConnector.data);
-			
-			dispatchEvent(new ConnectorEvent(ConnectorEvent.TRANSFORMATION, data));
+			if(liveTransformation)
+				DataUtil.applyData(target, dataConnector.data);
 			
 			return data;
 		}
@@ -138,8 +130,6 @@ package com.vstyran.transform.connectors
 			data = dataConnector.transfrom(data);
 			
 			DataUtil.applyData(target, dataConnector.data);
-			
-			dispatchEvent(new ConnectorEvent(ConnectorEvent.TRANSFORMATION_COMPLETE, data));
 			
 			return data;
 		}

@@ -7,20 +7,6 @@ package com.vstyran.transform.view
 	import mx.core.UIComponent;
 
 	/**
-	 *  Dispatched when transformation is in progress.
-	 *
-	 *  @eventType com.vstyran.transform.events.ConnectorEvent.TRANSFORMATION
-	 */
-	[Event(name="transformation", type="com.vstyran.transform.events.ConnectorEvent")]
-	
-	/**
-	 *  Dispatched when transformation is complete.
-	 *
-	 *  @eventType com.vstyran.transform.events.ConnectorEvent.TRANSFORMATION_COMPLETE
-	 */
-	[Event(name="transformationComplete", type="com.vstyran.transform.events.ConnectorEvent")]
-	
-	/**
 	 * Transform tool that contains DataConnector.
 	 * 
 	 * @author Volodymyr Styranivskyi

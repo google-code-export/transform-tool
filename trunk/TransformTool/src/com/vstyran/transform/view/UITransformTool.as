@@ -7,20 +7,6 @@ package com.vstyran.transform.view
 	import mx.core.UIComponent;
 
 	/**
-	 *  Dispatched when transformation is in progress.
-	 *
-	 *  @eventType com.vstyran.transform.events.ConnectorEvent.TRANSFORMATION
-	 */
-	[Event(name="transformation", type="com.vstyran.transform.events.ConnectorEvent")]
-	
-	/**
-	 *  Dispatched when transformation is complete.
-	 *
-	 *  @eventType com.vstyran.transform.events.ConnectorEvent.TRANSFORMATION_COMPLETE
-	 */
-	[Event(name="transformationComplete", type="com.vstyran.transform.events.ConnectorEvent")]
-	
-	/**
 	 * Transform tool that contains UIConnector.
 	 * 
 	 * @author Volodymyr Styranivskyi
@@ -33,10 +19,8 @@ package com.vstyran.transform.view
 		public function UITransformTool()
 		{
 			super();
-			super.connector = new UIConnector();
 			
-			connector.addEventListener(ConnectorEvent.TRANSFORMATION, connectorEventHandler);
-			connector.addEventListener(ConnectorEvent.TRANSFORMATION_COMPLETE, connectorEventHandler);
+			super.connector = new UIConnector();
 		}
 		
 		/**
@@ -65,11 +49,21 @@ package com.vstyran.transform.view
 		}
 		
 		/**
-		 * Connector events handler. 
-		 */	
-		private function connectorEventHandler(event:ConnectorEvent):void
+		 * Flag that indicates whether target should be updated during transformation.
+		 * If false then target will be updated only on mouse up. 
+		 */		
+		public function get liveTransformation():Boolean
 		{
-			dispatchEvent(event);
+			return (connector as UIConnector).liveTransformation;
 		}
+
+		/**
+		 * @private 
+		 */	
+		public function set liveTransformation(value:Boolean):void
+		{
+			(connector as UIConnector).liveTransformation = value;
+		}
+
 	}
 }

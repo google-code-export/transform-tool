@@ -22,6 +22,7 @@ package com.vstyran.transform.controls
 	import mx.core.UIComponent;
 	
 	import spark.components.supportClasses.SkinnableComponent;
+	import spark.primitives.BitmapImage;
 	
 	use namespace tt_internal;
 	

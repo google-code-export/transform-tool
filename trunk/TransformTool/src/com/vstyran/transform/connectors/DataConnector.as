@@ -19,20 +19,6 @@ package com.vstyran.transform.connectors
 	[Event(name="dataChange", type="com.vstyran.transform.events.ConnectorEvent")]
 	
 	/**
-	 *  Dispatched when transformation is in progress.
-	 *
-	 *  @eventType com.vstyran.transform.events.ConnectorEvent.TRANSFORMATION
-	 */
-	[Event(name="transformation", type="com.vstyran.transform.events.ConnectorEvent")]
-	
-	/**
-	 *  Dispatched when transformation is complete.
-	 *
-	 *  @eventType com.vstyran.transform.events.ConnectorEvent.TRANSFORMATION_COMPLETE
-	 */
-	[Event(name="transformationComplete", type="com.vstyran.transform.events.ConnectorEvent")]
-	
-	/**
 	 * Connector class for connecting data from specified panel coordinate 
 	 * space with transfrom tool.
 	 * 
@@ -45,6 +31,7 @@ package com.vstyran.transform.connectors
 		 */		
 		public function DataConnector()
 		{
+			super();
 		}
 		
 		/**
@@ -110,7 +97,7 @@ package com.vstyran.transform.connectors
 			{
 				_data = value;
 				
-				dispatchEvent(new ConnectorEvent(ConnectorEvent.DATA_CHANGE, _data));
+				dispatchEvent(new ConnectorEvent(ConnectorEvent.DATA_CHANGE));
 			}
 		}
 		
@@ -144,11 +131,9 @@ package com.vstyran.transform.connectors
 		 */	
 		public function transfrom(data:DisplayData):DisplayData
 		{
-			_data = TransformUtil.transformData(invertMatrix, data);
+			this.data = TransformUtil.transformData(invertMatrix, data);
 			
-			dispatchEvent(new ConnectorEvent(ConnectorEvent.TRANSFORMATION, _data));
-			
-			return data;
+			return this.data;
 		}
 		
 		/**
@@ -156,11 +141,9 @@ package com.vstyran.transform.connectors
 		 */	
 		public function complete(data:DisplayData):DisplayData
 		{
-			_data = TransformUtil.transformData(invertMatrix, data);
+			this.data = TransformUtil.transformData(invertMatrix, data);
 			
-			dispatchEvent(new ConnectorEvent(ConnectorEvent.TRANSFORMATION_COMPLETE, _data));
-			
-			return data;
+			return this.data;
 		}
 	}
 }
