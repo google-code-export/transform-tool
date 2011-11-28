@@ -6,20 +6,6 @@ package com.vstyran.transform.view
 	import com.vstyran.transform.model.DisplayData;
 
 	/**
-	 *  Dispatched when transformation is in progress.
-	 *
-	 *  @eventType com.vstyran.transform.events.ConnectorEvent.TRANSFORMATION
-	 */
-	[Event(name="transformation", type="com.vstyran.transform.events.ConnectorEvent")]
-	
-	/**
-	 *  Dispatched when transformation is complete.
-	 *
-	 *  @eventType com.vstyran.transform.events.ConnectorEvent.TRANSFORMATION_COMPLETE
-	 */
-	[Event(name="transformationComplete", type="com.vstyran.transform.events.ConnectorEvent")]
-	
-	/**
 	 * Transform tool that contains SimpleConnector.
 	 * 
 	 * @author Volodymyr Styranivskyi

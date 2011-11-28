@@ -16,20 +16,6 @@ package com.vstyran.transform.connectors
 	[Event(name="dataChange", type="com.vstyran.transform.events.ConnectorEvent")]
 	
 	/**
-	 *  Dispatched when transformation is in progress.
-	 *
-	 *  @eventType com.vstyran.transform.events.ConnectorEvent.TRANSFORMATION
-	 */
-	[Event(name="transformation", type="com.vstyran.transform.events.ConnectorEvent")]
-	
-	/**
-	 *  Dispatched when transformation is complete.
-	 *
-	 *  @eventType com.vstyran.transform.events.ConnectorEvent.TRANSFORMATION_COMPLETE
-	 */
-	[Event(name="transformationComplete", type="com.vstyran.transform.events.ConnectorEvent")]
-	
-	/**
 	 * Simple connector class for connecting data with transfrom tool in case they are 
 	 * in the same coordinate space.
 	 * 
@@ -42,6 +28,7 @@ package com.vstyran.transform.connectors
 		 */		
 		public function SimpleConnector()
 		{
+			super();
 		}
 		
 		/**
@@ -90,8 +77,6 @@ package com.vstyran.transform.connectors
 		{
 			_data = data;
 			
-			dispatchEvent(new ConnectorEvent(ConnectorEvent.TRANSFORMATION));
-			
 			return _data;
 		}
 		
@@ -101,8 +86,6 @@ package com.vstyran.transform.connectors
 		public function complete(data:DisplayData):DisplayData
 		{
 			_data = data;
-			
-			dispatchEvent(new ConnectorEvent(ConnectorEvent.TRANSFORMATION_COMPLETE, _data));
 			
 			return data;
 		}

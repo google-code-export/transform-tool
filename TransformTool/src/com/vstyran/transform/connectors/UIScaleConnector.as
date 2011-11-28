@@ -29,8 +29,6 @@ package com.vstyran.transform.connectors
 			
 			DataUtil.applyScaledData(target, dataConnector.data);
 			
-			dispatchEvent(new ConnectorEvent(ConnectorEvent.TRANSFORMATION, data));
-			
 			return data;
 		}
 		
@@ -42,8 +40,6 @@ package com.vstyran.transform.connectors
 			data = dataConnector.transfrom(data);
 			
 			DataUtil.applyScaledData(target, dataConnector.data);
-			
-			dispatchEvent(new ConnectorEvent(ConnectorEvent.TRANSFORMATION_COMPLETE, data));
 			
 			return data;
 		}
