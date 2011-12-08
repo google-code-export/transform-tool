@@ -171,6 +171,34 @@ package com.vstyran.transform.model
 		// Additional properties
 		//
 		//------------------------------------------------------------------
+		
+		public function get size():Point
+		{
+			return new Point(width, height);
+		}
+		
+		public function set size(value:Point):void
+		{
+			_width = value.x;
+			_height = value.x;
+			
+			invalidate();
+		}
+		
+		public function get position():Point
+		{
+			return new Point(x, y);
+		}
+
+		public function set position(value:Point):void
+		{
+			_x = value.x;
+			_y = value.x;
+			
+			invalidate();
+		}
+
+		
 		private var _topCenter:Point;
 		public function get topCenter():Point
 		{
@@ -449,7 +477,7 @@ package com.vstyran.transform.model
 		{
 			return null;
 		}
-		public function unionArray(data:Vector.<DisplayData>):DisplayData
+		public function unionArray(data:Array):DisplayData
 		{
 			return null;
 		}
