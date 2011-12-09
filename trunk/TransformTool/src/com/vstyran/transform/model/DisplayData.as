@@ -209,7 +209,7 @@ package com.vstyran.transform.model
 				else				
 					_topCenter = matrix.transformPoint(new Point(width/2, 0));
 			}
-			return _topCenter;
+			return _topCenter.clone();
 		}
 		
 		private var _bottomCenter:Point;
@@ -222,7 +222,7 @@ package com.vstyran.transform.model
 				else				
 					_bottomCenter = matrix.transformPoint(new Point(width/2, height/2));
 			}
-			return _bottomCenter;
+			return _bottomCenter.clone();
 		}
 		
 		private var _middleLeft:Point;
@@ -235,7 +235,7 @@ package com.vstyran.transform.model
 				else				
 					_middleLeft = matrix.transformPoint(new Point(0, height/2));
 			}
-			return _middleLeft;
+			return _middleLeft.clone();
 		}
 		
 		private var _middleRight:Point;
@@ -248,7 +248,7 @@ package com.vstyran.transform.model
 				else				
 					_middleRight = matrix.transformPoint(new Point(width, height/2));
 			}
-			return _middleRight;
+			return _middleRight.clone();
 		}
 		
 		private var _topLeft:Point;
@@ -258,7 +258,7 @@ package com.vstyran.transform.model
 			{
 				_topLeft = new Point(x, y);
 			}
-			return _topLeft;
+			return _topLeft.clone();
 		}
 		
 		private var _topRight:Point;
@@ -271,7 +271,7 @@ package com.vstyran.transform.model
 				else
 					_topRight = matrix.transformPoint(new Point(width, 0));
 			}
-			return _topRight;
+			return _topRight.clone();
 		}
 		
 		private var _bottomLeft:Point;
@@ -284,7 +284,7 @@ package com.vstyran.transform.model
 				else				
 					_bottomLeft = matrix.transformPoint(new Point(0, height));
 			}
-			return _bottomLeft;
+			return _bottomLeft.clone();
 		}
 		
 		private var _bottomRight:Point;
@@ -297,7 +297,7 @@ package com.vstyran.transform.model
 				else
 					_bottomRight = matrix.transformPoint(new Point(width, height));
 			}
-			return _bottomRight;
+			return _bottomRight.clone();
 		}
 		
 		private var _matrix:Matrix;
@@ -306,7 +306,7 @@ package com.vstyran.transform.model
 			if(!_matrix)
 				_matrix = MatrixUtil.composeMatrix(x, y, 1, 1, rotation);
 			
-			return _matrix;
+			return _matrix.clone();
 		}
 		
 		//------------------------------------------------------------------
@@ -321,7 +321,7 @@ package com.vstyran.transform.model
 			if(!rect)
 				_rect = new Rectangle(x, y, width, height);
 			
-			return _rect;
+			return _rect.clone();
 		}
 
 		protected function invalidate():void
@@ -421,9 +421,27 @@ package com.vstyran.transform.model
 				return  new Rectangle(minX, minY, maxX - minX, maxY - minY);
 			}	
 		}
-		public function setOuterBoundingBox(rect:Rectangle):void
+		public function setOuterBoundingBox(newRect:Rectangle):void
 		{
+			var currentBox:Rectangle = getOuterBoundingBox();
+			var deltWidth:Number = newRect.width - currentBox.width;
+			var deltHeight:Number = newRect.height - currentBox.height;
 			
+			if(rotation == 0)
+			{
+				rect.inflate(deltWidth, deltHeight);
+				setTo(rect.x, rect.height, rect.width, rect.height, rotation);
+			}
+			else
+			{
+				/*var m:Matrix = matrix
+				m.scale(currentBox.width/newRect.width, currentBox.height/newRect.height);
+				var tl:Point = m.transformPoint(new Point(0,0));
+				var br:Point = m.transformPoint(new Point(width,height));*/
+				
+			}
+			
+				
 			
 		}
 		public function getInnerBoundingBox():Rectangle
