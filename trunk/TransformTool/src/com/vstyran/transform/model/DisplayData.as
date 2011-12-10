@@ -4,7 +4,10 @@ package com.vstyran.transform.model
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	
+	import mx.effects.Fade;
 	import mx.utils.MatrixUtil;
+	
+	import spark.primitives.Rect;
 	
 	/**
 	 * Value object of UI components that contains geometry info.
@@ -137,9 +140,6 @@ package com.vstyran.transform.model
 			if(_rotation == value) return;
 			_rotation = value;
 			invalidate();
-			
-			var r:Rectangle;
-			r.topLeft = new Point(10,20);
 		}
 		
 		[Bindable]
@@ -179,25 +179,21 @@ package com.vstyran.transform.model
 		
 		public function set size(value:Point):void
 		{
-			_width = value.x;
-			_height = value.x;
-			
-			invalidate();
+			width = value.x;
+			height = value.x;
 		}
 		
 		public function get position():Point
 		{
 			return new Point(x, y);
 		}
-
+		
 		public function set position(value:Point):void
 		{
-			_x = value.x;
-			_y = value.x;
-			
-			invalidate();
+			x = value.x;
+			y = value.x;
 		}
-
+		
 		
 		private var _topCenter:Point;
 		public function get topCenter():Point
@@ -220,7 +216,7 @@ package com.vstyran.transform.model
 				if(rotation == 0)
 					_bottomCenter = new Point(x + width/2, y + height);
 				else				
-					_bottomCenter = matrix.transformPoint(new Point(width/2, height/2));
+					_bottomCenter = matrix.transformPoint(new Point(width/2, height));
 			}
 			return _bottomCenter.clone();
 		}
@@ -300,6 +296,90 @@ package com.vstyran.transform.model
 			return _bottomRight.clone();
 		}
 		
+		private var _top:Point;
+		public function get top():Point
+		{
+			if(!_top)
+			{
+				if(rotation == 0)
+					_top = new Point(x, y);
+				else
+				{
+					_top = topLeft;
+					if(_top.y > topRight.y)
+						_top = topRight;
+					if(_top.y > bottomRight.y)
+						_top = bottomRight;
+					if(_top.y > bottomLeft.y)
+						_top = bottomLeft;
+				}
+			}
+			return _top.clone();
+		}
+		
+		private var _bottom:Point;
+		public function get bottom():Point
+		{
+			if(!_bottom)
+			{
+				if(rotation == 0)
+					_bottom = new Point(x + width, y + height);
+				else
+				{
+					_bottom = topLeft;
+					if(_bottom.y < topRight.y)
+						_bottom = topRight;
+					if(_bottom.y < bottomRight.y)
+						_bottom = bottomRight;
+					if(_bottom.y < bottomLeft.y)
+						_bottom = bottomLeft;
+				}
+			}
+			return _bottom.clone();
+		}
+		
+		private var _left:Point;
+		public function get left():Point
+		{
+			if(!_left)
+			{
+				if(rotation == 0)
+					_left = new Point(x, y);
+				else
+				{
+					_left = topLeft;
+					if(_left.x > topRight.x)
+						_left = topRight;
+					if(_left.x > bottomRight.x)
+						_left = bottomRight;
+					if(_left.x > bottomLeft.x)
+						_left = bottomLeft;
+				}
+			}
+			return _left.clone();
+		}
+		
+		private var _right:Point;
+		public function get right():Point
+		{
+			if(!_right)
+			{
+				if(rotation == 0)
+					_right = new Point(x + width, y + height);
+				else
+				{
+					_right = topLeft;
+					if(_right.x < topRight.x)
+						_right = topRight;
+					if(_right.x < bottomRight.x)
+						_right = bottomRight;
+					if(_right.x < bottomLeft.x)
+						_right = bottomLeft;
+				}
+			}
+			return _right.clone();
+		}
+		
 		private var _matrix:Matrix;
 		public function get matrix():Matrix
 		{
@@ -315,15 +395,15 @@ package com.vstyran.transform.model
 		//
 		//------------------------------------------------------------------
 		private var _rect:Rectangle;
-
+		
 		protected function get rect():Rectangle
 		{
-			if(!rect)
+			if(!_rect)
 				_rect = new Rectangle(x, y, width, height);
 			
 			return _rect.clone();
 		}
-
+		
 		protected function invalidate():void
 		{
 			_topCenter = null;
@@ -334,6 +414,10 @@ package com.vstyran.transform.model
 			_topRight = null;
 			_bottomLeft = null;
 			_bottomRight = null;
+			_left = null;
+			_right = null;
+			_top = null;
+			_bottom = null;
 			_matrix = null;
 			_rect = null;
 		}
@@ -349,7 +433,7 @@ package com.vstyran.transform.model
 			{
 				return rect.intersects(new Rectangle(data.x, data.y, data.width, data.height));
 			}
-					
+			
 			return false;
 		}
 		
@@ -374,38 +458,44 @@ package com.vstyran.transform.model
 			x += !isNaN(dx) ? dx : 0;
 			y += !isNaN(dy) ? dy : 0;
 		}
-		public function inflate(dx:Number, dy:Number):void
+		
+		public function inflate(dx:Number, dy:Number, anchor:Point=null):void
 		{
-			if(rotation == 0)
-			{
-				rect.inflate(dx, dy);
-				_x = rect.x;
-				_y = rect.y;
-				_width = rect.width;
-				_height = rect.height;
-			}
+			anchor ||= new Point(width/2, height/2);
 			
-			invalidate()
+			var newSize:Point = (new Point(width + dx, height + dy));
+			
+			var m:Matrix =  new Matrix();
+			m.rotate(rotation / 180 * Math.PI);
+			var deltPos:Point = m.transformPoint(new Point(newSize.x*anchor.x/width - anchor.x, newSize.y*anchor.y/height-anchor.y));
+			
+			setTo(x - deltPos.x, y - deltPos.y, newSize.x ,newSize.y, rotation);
 		}
-		public function inflateAroundPoint(centerPoint:Point, dx:Number, dy:Number):void
+		
+		
+		public function resolveMinMax(size:Point):Point
 		{
+			var minW:Number = isNaN(minWidth) ? Number.MIN_VALUE : minWidth;
+			var minH:Number = isNaN(minHeight) ? Number.MIN_VALUE : minHeight;
+			var maxW:Number = isNaN(maxWidth) ? Number.MAX_VALUE : maxWidth;
+			var maxH:Number = isNaN(maxHeight) ? Number.MAX_VALUE : maxHeight;
 			
+			return new Point(Math.max(Math.min(maxW, size.x), minW), Math.max(Math.min(maxH, size.y), minH));
 		}
+		
 		public function setEmpty():void
 		{
-			_x = 0;
-			_y = 0;
-			_width = 0;
-			_height = 0;
-			_rotation = 0;
+			x = 0;
+			y = 0;
+			width = 0;
+			height = 0;
+			rotation = 0;
 			minWidth = 0;
 			minHeight = 0;
 			maxWidth = 0;
 			maxHeight = 0;
-			
-			invalidate();
 		}
-		public function getOuterBoundingBox():Rectangle
+		public function getBoundingBox():Rectangle
 		{
 			if(rotation == 0)
 			{
@@ -421,48 +511,43 @@ package com.vstyran.transform.model
 				return  new Rectangle(minX, minY, maxX - minX, maxY - minY);
 			}	
 		}
-		public function setOuterBoundingBox(newRect:Rectangle):void
+		
+		public function setBoundingWidth(w:Number, anchor:Point=null):void
 		{
-			var currentBox:Rectangle = getOuterBoundingBox();
-			var deltWidth:Number = newRect.width - currentBox.width;
-			var deltHeight:Number = newRect.height - currentBox.height;
+			var delta:Point = getDeltaByRotation(w - getBoundingBox().width, 0);
 			
-			if(rotation == 0)
+			if(width + delta.x < 0 || height + delta.y < 0) 
 			{
-				rect.inflate(deltWidth, deltHeight);
-				setTo(rect.x, rect.height, rect.width, rect.height, rotation);
-			}
-			else
-			{
-				/*var m:Matrix = matrix
-				m.scale(currentBox.width/newRect.width, currentBox.height/newRect.height);
-				var tl:Point = m.transformPoint(new Point(0,0));
-				var br:Point = m.transformPoint(new Point(width,height));*/
-				
+				delta.x = -width;  
+				delta.y = -height;  
 			}
 			
-				
+			inflate(delta.x, delta.y, anchor);
+		}
+		
+		public function setBoundingHeight(h:Number, anchor:Point=null):void
+		{
+			var delta:Point = getDeltaByRotation(0, h - getBoundingBox().height);
 			
-		}
-		public function getInnerBoundingBox():Rectangle
-		{
-			if(rotation == 0)
+			if(width + delta.x < 0 || height + delta.y < 0) 
 			{
-				return new Rectangle(x, y, width, height);
+				delta.x = -width;  
+				delta.y = -height;  
 			}
-			else
-			{
-				var minX:Number = Math.min(topCenter.x, middleRight.x, bottomCenter.x, middleLeft.x);
-				var minY:Number = Math.min(topCenter.y, middleRight.y, bottomCenter.y, middleLeft.y);
-				var maxX:Number = Math.max(topCenter.x, middleRight.x, bottomCenter.x, middleLeft.x);
-				var maxY:Number = Math.max(topCenter.y, middleRight.y, bottomCenter.y, middleLeft.y);
-				
-				return  new Rectangle(minX, minY, maxX - minX, maxY - minY);
-			}	
+			
+			inflate(delta.x, delta.y, anchor);
 		}
-		public function setInnerBoundingBox(rect:Rectangle):void
+		
+		private function getDeltaByRotation(dx:Number, dy:Number):Point
 		{
+			var cos:Number = Math.cos(rotation / 180 * Math.PI);
+			var sin:Number = Math.sin(rotation / 180 * Math.PI);
+			var deltaWidth:Number =  cos*dx + sin*dy;
+			var deltaHeight:Number = sin*dx + cos*dy;
+			
+			return new Point(deltaWidth, deltaHeight);
 		}
+		
 		public function getNaturalSize():Point
 		{
 			return isNaturalInvertion() ? new Point(height, width) : new Point(width, height);
@@ -471,10 +556,8 @@ package com.vstyran.transform.model
 		public function setNaturalSize(size:Point):void
 		{
 			var inversion:Boolean = isNaturalInvertion();
-			_width = inversion ? size.y : size.x;
-			_height = inversion ? size.x : size.y;
-			
-			invalidate();
+			width = inversion ? size.y : size.x;
+			height = inversion ? size.x : size.y;
 		}
 		
 		public function isNaturalInvertion():Boolean
@@ -503,13 +586,11 @@ package com.vstyran.transform.model
 		
 		public function setTo(x:Number, y:Number, width:Number, height:Number, rotation:Number):void
 		{
-			_x = x;
-			_y = y;
-			_width = width;
-			_height = height;
-			_rotation = rotation;
-			
-			invalidate();
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
+			this.rotation = rotation;
 		}
 		
 		/**
