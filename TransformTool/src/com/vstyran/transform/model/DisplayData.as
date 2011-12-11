@@ -1,5 +1,7 @@
 package com.vstyran.transform.model
 {
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
@@ -14,7 +16,7 @@ package com.vstyran.transform.model
 	 * 
 	 * @author Volodymyr Styranivskyi
 	 */
-	public class DisplayData
+	public class DisplayData extends EventDispatcher
 	{
 		//------------------------------------------------------------------
 		//
@@ -26,13 +28,13 @@ package com.vstyran.transform.model
 		 */
 		private var _x:Number = 0;
 		
-		[Bindable]
+		[Bindable("xChanged")]
 		/**
 		 * Position by X axis. 
 		 */
 		public function get x():Number
 		{
-			return _x;
+			return round(_x);
 		}
 		
 		/**
@@ -43,6 +45,7 @@ package com.vstyran.transform.model
 			if(_x == value) return;
 			_x = value;
 			invalidate();
+			dispatchEvent(new Event("xChanged"));
 		}
 		
 		/**
@@ -50,13 +53,13 @@ package com.vstyran.transform.model
 		 */
 		private var _y:Number = 0;
 		
-		[Bindable]
+		[Bindable("yChanged")]
 		/**
 		 * Position by Y axis. 
 		 */
 		public function get y():Number
 		{
-			return _y;
+			return round(_y);
 		}
 		
 		/**
@@ -67,6 +70,7 @@ package com.vstyran.transform.model
 			if(_y == value) return;
 			_y = value;
 			invalidate();
+			dispatchEvent(new Event("xChanged"));
 		}
 		
 		/**
@@ -74,13 +78,13 @@ package com.vstyran.transform.model
 		 */
 		private var _width:Number = 0;
 		
-		[Bindable]
+		[Bindable("widthChanged")]
 		/**
 		 * Width of display object. 
 		 */
 		public function get width():Number
 		{
-			return _width;
+			return round(_width);
 		}
 		
 		/**
@@ -91,6 +95,7 @@ package com.vstyran.transform.model
 			if(_width == value) return;
 			_width = value;
 			invalidate();
+			dispatchEvent(new Event("widthChanged"));
 		}
 		
 		/**
@@ -98,13 +103,13 @@ package com.vstyran.transform.model
 		 */
 		private var _height:Number = 0;
 		
-		[Bindable]
+		[Bindable("heightChanged")]
 		/**
 		 * Height of display object. 
 		 */
 		public function get height():Number
 		{
-			return _height;
+			return round(_height);
 		}
 		
 		/**
@@ -115,6 +120,7 @@ package com.vstyran.transform.model
 			if(_height == value) return;
 			_height = value;
 			invalidate();
+			dispatchEvent(new Event("heightChanged"));
 		}
 		
 		/**
@@ -122,13 +128,13 @@ package com.vstyran.transform.model
 		 */		
 		private var _rotation:Number = 0;
 		
-		[Bindable]
+		[Bindable("rotationChanged")]
 		/**
 		 * Rotation of display object clamped between -180 and 180 degreeds. 
 		 */
 		public function get rotation():Number
 		{
-			return _rotation;
+			return round(_rotation);
 		}
 		
 		/**
@@ -140,37 +146,113 @@ package com.vstyran.transform.model
 			if(_rotation == value) return;
 			_rotation = value;
 			invalidate();
+			dispatchEvent(new Event("rotationChanged"));
 		}
 		
+		private var _minWidth:Number;
+
 		[Bindable]
 		/**
 		 * Minimum value for width. 
 		 */
-		public var minWidth:Number;
+		public function get minWidth():Number
+		{
+			return round(_minWidth);
+		}
+
+		/**
+		 * @private
+		 */
+		public function set minWidth(value:Number):void
+		{
+			_minWidth = value;
+		}
+
 		
+		private var _minHeight:Number;
+
 		[Bindable]
 		/**
 		 * Minimum value for height. 
 		 */
-		public var minHeight:Number;
+		public function get minHeight():Number
+		{
+			return round(_minHeight);
+		}
+
+		/**
+		 * @private
+		 */
+		public function set minHeight(value:Number):void
+		{
+			_minHeight = value;
+		}
+
 		
+		private var _maxWidth:Number;
+
 		[Bindable]
 		/**
 		 * Maximum value for width. 
 		 */
-		public var maxWidth:Number;
+		public function get maxWidth():Number
+		{
+			return round(_maxWidth);
+		}
+
+		/**
+		 * @private
+		 */
+		public function set maxWidth(value:Number):void
+		{
+			_maxWidth = value;
+		}
+
 		
+		private var _maxHeight:Number;
+
 		[Bindable]
 		/**
 		 * Maximum value for height. 
 		 */
-		public var maxHeight:Number;
+		public function get maxHeight():Number
+		{
+			return round(_maxHeight);
+		}
+
+		/**
+		 * @private
+		 */
+		public function set maxHeight(value:Number):void
+		{
+			_maxHeight = value;
+		}
+
 		
 		//------------------------------------------------------------------
 		//
 		// Additional properties
 		//
 		//------------------------------------------------------------------
+		
+		private var _precisionValue:uint = 0;
+		private var _precision:int = -1;
+
+		[Bindable]
+		public function get precision():int
+		{
+			return _precision;
+		}
+
+		public function set precision(value:int):void
+		{
+			if(_precision == value) return;
+			
+			_precision = Math.min(value, 14);
+			
+			_precisionValue = _precision >= 0 ? Math.pow(10, precision) : 0;
+		}
+
 		
 		public function get size():Point
 		{
@@ -179,8 +261,13 @@ package com.vstyran.transform.model
 		
 		public function set size(value:Point):void
 		{
-			width = value.x;
-			height = value.x;
+			_width = value.x;
+			_height = value.y;
+			
+			invalidate();
+			
+			dispatchEvent(new Event("widthChanged"));
+			dispatchEvent(new Event("heightChanged"));
 		}
 		
 		public function get position():Point
@@ -190,12 +277,18 @@ package com.vstyran.transform.model
 		
 		public function set position(value:Point):void
 		{
-			x = value.x;
-			y = value.x;
+			_x = value.x;
+			_y = value.y;
+			
+			invalidate();
+			
+			dispatchEvent(new Event("xChanged"));
+			dispatchEvent(new Event("yChanged"));
 		}
 		
 		
 		private var _topCenter:Point;
+		[Bindable("invalidated")]
 		public function get topCenter():Point
 		{
 			if(!_topCenter)
@@ -205,10 +298,11 @@ package com.vstyran.transform.model
 				else				
 					_topCenter = matrix.transformPoint(new Point(width/2, 0));
 			}
-			return _topCenter.clone();
+			return new Point(round(_topCenter.x), round(_topCenter.y));
 		}
 		
 		private var _bottomCenter:Point;
+		[Bindable("invalidated")]
 		public function get bottomCenter():Point
 		{
 			if(!_bottomCenter)
@@ -218,10 +312,11 @@ package com.vstyran.transform.model
 				else				
 					_bottomCenter = matrix.transformPoint(new Point(width/2, height));
 			}
-			return _bottomCenter.clone();
+			return new Point(round(_bottomCenter.x), round(_bottomCenter.y));
 		}
 		
 		private var _middleLeft:Point;
+		[Bindable("invalidated")]
 		public function get middleLeft():Point
 		{
 			if(!_middleLeft)
@@ -231,10 +326,11 @@ package com.vstyran.transform.model
 				else				
 					_middleLeft = matrix.transformPoint(new Point(0, height/2));
 			}
-			return _middleLeft.clone();
+			return new Point(round(_middleLeft.x), round(_middleLeft.y));
 		}
 		
 		private var _middleRight:Point;
+		[Bindable("invalidated")]
 		public function get middleRight():Point
 		{
 			if(!_middleRight)
@@ -244,20 +340,22 @@ package com.vstyran.transform.model
 				else				
 					_middleRight = matrix.transformPoint(new Point(width, height/2));
 			}
-			return _middleRight.clone();
+			return new Point(round(_middleRight.x), round(_middleRight.y));
 		}
 		
 		private var _topLeft:Point;
+		[Bindable("invalidated")]
 		public function get topLeft():Point
 		{
 			if(!_topLeft)
 			{
 				_topLeft = new Point(x, y);
 			}
-			return _topLeft.clone();
+			return new Point(round(_topLeft.x), round(_topLeft.y));
 		}
 		
 		private var _topRight:Point;
+		[Bindable("invalidated")]
 		public function get topRight():Point
 		{
 			if(!_topRight)
@@ -267,10 +365,11 @@ package com.vstyran.transform.model
 				else
 					_topRight = matrix.transformPoint(new Point(width, 0));
 			}
-			return _topRight.clone();
+			return new Point(round(_topRight.x), round(_topRight.y));
 		}
 		
 		private var _bottomLeft:Point;
+		[Bindable("invalidated")]
 		public function get bottomLeft():Point
 		{
 			if(!_bottomLeft)
@@ -280,10 +379,11 @@ package com.vstyran.transform.model
 				else				
 					_bottomLeft = matrix.transformPoint(new Point(0, height));
 			}
-			return _bottomLeft.clone();
+			return new Point(round(_bottomLeft.x), round(_bottomLeft.y));
 		}
 		
 		private var _bottomRight:Point;
+		[Bindable("invalidated")]
 		public function get bottomRight():Point
 		{
 			if(!_bottomRight)
@@ -293,10 +393,11 @@ package com.vstyran.transform.model
 				else
 					_bottomRight = matrix.transformPoint(new Point(width, height));
 			}
-			return _bottomRight.clone();
+			return new Point(round(_bottomRight.x), round(_bottomRight.y));
 		}
 		
 		private var _top:Point;
+		[Bindable("invalidated")]
 		public function get top():Point
 		{
 			if(!_top)
@@ -314,10 +415,11 @@ package com.vstyran.transform.model
 						_top = bottomLeft;
 				}
 			}
-			return _top.clone();
+			return new Point(round(_top.x), round(_top.y));
 		}
 		
 		private var _bottom:Point;
+		[Bindable("invalidated")]
 		public function get bottom():Point
 		{
 			if(!_bottom)
@@ -335,10 +437,11 @@ package com.vstyran.transform.model
 						_bottom = bottomLeft;
 				}
 			}
-			return _bottom.clone();
+			return new Point(round(_bottom.x), round(_bottom.y));
 		}
 		
 		private var _left:Point;
+		[Bindable("invalidated")]
 		public function get left():Point
 		{
 			if(!_left)
@@ -356,10 +459,11 @@ package com.vstyran.transform.model
 						_left = bottomLeft;
 				}
 			}
-			return _left.clone();
+			return new Point(round(_left.x), round(_left.y));
 		}
 		
 		private var _right:Point;
+		[Bindable("invalidated")]
 		public function get right():Point
 		{
 			if(!_right)
@@ -377,10 +481,11 @@ package com.vstyran.transform.model
 						_right = bottomLeft;
 				}
 			}
-			return _right.clone();
+			return new Point(round(_right.x), round(_right.y));
 		}
 		
 		private var _matrix:Matrix;
+		[Bindable("invalidated")]
 		public function get matrix():Matrix
 		{
 			if(!_matrix)
@@ -420,6 +525,24 @@ package com.vstyran.transform.model
 			_bottom = null;
 			_matrix = null;
 			_rect = null;
+			
+			dispatchEvent(new Event("invalidated"));
+		}
+		
+		override public function dispatchEvent(event:Event):Boolean
+		{
+			if(hasEventListener(event.type))
+				return super.dispatchEvent(event);
+			else
+				return false;
+		}
+		
+		private function round(value:Number):Number
+		{
+			if(_precisionValue > 0)
+				return Math.round(value*_precisionValue)/_precisionValue;
+			else
+				return value;
 		}
 		
 		//------------------------------------------------------------------
@@ -429,10 +552,14 @@ package com.vstyran.transform.model
 		//------------------------------------------------------------------
 		public function intersects(data:DisplayData):Boolean
 		{
-			if(rotation == 0 && data.rotation == 0)
-			{
-				return rect.intersects(new Rectangle(data.x, data.y, data.width, data.height));
-			}
+			return (contains(data.topLeft.x, data.topLeft.y) ||
+				contains(data.topRight.x, data.topRight.y) ||
+				contains(data.bottomRight.x, data.bottomRight.y) ||
+				contains(data.bottomLeft.x, data.bottomLeft.y) ||
+				data.contains(topLeft.x, topLeft.y) ||
+				data.contains(topRight.x, topRight.y) ||
+				data.contains(bottomRight.x, bottomRight.y) ||
+				data.contains(bottomLeft.x, bottomLeft.y));
 			
 			return false;
 		}
@@ -443,20 +570,31 @@ package com.vstyran.transform.model
 			{
 				return rect.contains(x, y);
 			}
-			return false;
+			else
+			{
+				var m:Matrix = matrix;
+				m.invert();
+				var localPoint:Point = m.transformPoint(new Point(x, y));
+				
+				return rect.contains(localPoint.x, localPoint.y)
+			}
 		}
 		public function containsData(data:DisplayData):Boolean
 		{
-			if(rotation == 0 && data.rotation == 0)
-			{
-				return rect.containsRect(new Rectangle(data.x, data.y, data.width, data.height));
-			}
-			return false;
+			return (contains(data.topLeft.x, data.topLeft.y) &&
+					contains(data.topRight.x, data.topRight.y) &&
+					contains(data.bottomRight.x, data.bottomRight.y) &&
+					contains(data.bottomLeft.x, data.bottomLeft.y));
 		}
 		public function offset(dx:Number, dy:Number):void
 		{
-			x += !isNaN(dx) ? dx : 0;
-			y += !isNaN(dy) ? dy : 0;
+			_x += !isNaN(dx) ? dx : 0;
+			_y += !isNaN(dy) ? dy : 0;
+			
+			invalidate();
+			
+			dispatchEvent(new Event("xChanged"));
+			dispatchEvent(new Event("yChanged"));
 		}
 		
 		public function inflate(dx:Number, dy:Number, anchor:Point=null):void
@@ -485,16 +623,25 @@ package com.vstyran.transform.model
 		
 		public function setEmpty():void
 		{
-			x = 0;
-			y = 0;
-			width = 0;
-			height = 0;
-			rotation = 0;
 			minWidth = 0;
 			minHeight = 0;
 			maxWidth = 0;
 			maxHeight = 0;
+			
+			setTo(0, 0, 0, 0, 0);
 		}
+		public function rotate(angle:Number, anchor:Point):void
+		{
+			anchor ||= new Point(width/2, height/2);
+			
+			var m:Matrix = matrix;
+			m.translate(-anchor.x, -anchor.y);
+			m.rotate(angle*Math.PI/180);
+			m.translate(anchor.x, anchor.y);
+			
+			position = m.transformPoint(new Point(0, 0));
+		}
+		
 		public function getBoundingBox():Rectangle
 		{
 			if(rotation == 0)
@@ -512,30 +659,35 @@ package com.vstyran.transform.model
 			}	
 		}
 		
+		public function setBoundingPosition(x:Number, y:Number):void
+		{
+			var currentBox:Rectangle = getBoundingBox();
+			offset(x - currentBox.x, y - currentBox.y);
+		}
+		
 		public function setBoundingWidth(w:Number, anchor:Point=null):void
 		{
 			var delta:Point = getDeltaByRotation(w - getBoundingBox().width, 0);
 			
-			if(width + delta.x < 0 || height + delta.y < 0) 
-			{
-				delta.x = -width;  
-				delta.y = -height;  
-			}
-			
-			inflate(delta.x, delta.y, anchor);
+			setBoundingSizeInternal(delta.x, delta.y, anchor);
 		}
 		
 		public function setBoundingHeight(h:Number, anchor:Point=null):void
 		{
 			var delta:Point = getDeltaByRotation(0, h - getBoundingBox().height);
 			
-			if(width + delta.x < 0 || height + delta.y < 0) 
+			setBoundingSizeInternal(delta.x, delta.y, anchor);
+		}
+		
+		public function setBoundingSizeInternal(w:Number, h:Number, anchor:Point=null):void
+		{
+			if(width + w < 0 || height + h < 0) 
 			{
-				delta.x = -width;  
-				delta.y = -height;  
+				w = -width;  
+				h = -height;  
 			}
 			
-			inflate(delta.x, delta.y, anchor);
+			inflate(w, h, anchor);
 		}
 		
 		private function getDeltaByRotation(dx:Number, dy:Number):Point
@@ -556,8 +708,13 @@ package com.vstyran.transform.model
 		public function setNaturalSize(size:Point):void
 		{
 			var inversion:Boolean = isNaturalInvertion();
-			width = inversion ? size.y : size.x;
-			height = inversion ? size.x : size.y;
+			_width = inversion ? size.y : size.x;
+			_height = inversion ? size.x : size.y;
+			
+			invalidate();
+			
+			dispatchEvent(new Event("widthChanged"));
+			dispatchEvent(new Event("heightChanged"));
 		}
 		
 		public function isNaturalInvertion():Boolean
@@ -565,32 +722,56 @@ package com.vstyran.transform.model
 			return (Math.abs(rotation) > 45 && Math.abs(rotation) < 135);
 		}
 		
-		public function toString():String
+		override public function toString():String
 		{
 			return "x: " + x + " y: " + y + " width: " + width + " height: " + height + " rotation: " + rotation +
 				" minWidth: " + minWidth + " minHeight: " + minHeight + " maxWidth: " + maxWidth + " maxHeight: " + maxHeight;	
 		}
-		public function union(data:DisplayData, ...params):DisplayData
+		public function union(data:DisplayData, ...params):Rectangle
 		{
-			return null;
+			params ||= new Array();
+			params.push(data);
+			
+			return unionArray(params);
 		}
-		public function unionVector(data:Vector.<DisplayData>):DisplayData
+		
+		public function unionVector(list:Vector.<DisplayData>):Rectangle
 		{
-			return null;
+			var union:Rectangle = getBoundingBox();
+			for each (var data:DisplayData in list) 
+			{
+				union.union(data.getBoundingBox());
+			}
+			
+			return union;
 		}
-		public function unionArray(data:Array):DisplayData
+		public function unionArray(list:Array):Rectangle
 		{
-			return null;
+			var union:Rectangle = getBoundingBox();
+			for each (var data:DisplayData in list) 
+			{
+				union.union(data.getBoundingBox());
+			}
+			
+			return union;
 		}
 		
 		
 		public function setTo(x:Number, y:Number, width:Number, height:Number, rotation:Number):void
 		{
-			this.x = x;
-			this.y = y;
-			this.width = width;
-			this.height = height;
-			this.rotation = rotation;
+			_x = x;
+			_y = y;
+			_width = width;
+			_height = height;
+			_rotation = rotation;
+			
+			invalidate();
+			
+			dispatchEvent(new Event("xChanged"));
+			dispatchEvent(new Event("yChanged"));
+			dispatchEvent(new Event("widthChanged"));
+			dispatchEvent(new Event("heightChanged"));
+			dispatchEvent(new Event("rotationChanged"));
 		}
 		
 		/**
@@ -611,6 +792,8 @@ package com.vstyran.transform.model
 			clone.minHeight = minHeight;
 			clone.maxWidth = maxWidth;
 			clone.maxHeight = maxHeight;
+			
+			clone.precision = precision;
 			
 			return clone;
 		}
