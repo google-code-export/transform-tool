@@ -235,20 +235,20 @@ package com.vstyran.transform.model
 		//
 		//------------------------------------------------------------------
 		
-		private var _precisionValue:uint = 0;
-		private var _precision:int = -1;
+		private var _precisionValue:uint = 100000;
+		private var _precision:uint = 5;
 
 		[Bindable]
-		public function get precision():int
+		public function get precision():uint
 		{
 			return _precision;
 		}
 
-		public function set precision(value:int):void
+		public function set precision(value:uint):void
 		{
 			if(_precision == value) return;
 			
-			_precision = Math.min(value, 14);
+			_precision = Math.min(value, 10);
 			
 			_precisionValue = _precision >= 0 ? Math.pow(10, precision) : 0;
 		}
@@ -407,11 +407,11 @@ package com.vstyran.transform.model
 				else
 				{
 					_top = topLeft;
-					if(_top.y > topRight.y)
+					if(_top.y > topRight.y || (_top.y == topRight.y && _top.x > topRight.x))
 						_top = topRight;
-					if(_top.y > bottomRight.y)
+					if(_top.y > bottomRight.y || (_top.y == bottomRight.y && _top.x > bottomRight.x))
 						_top = bottomRight;
-					if(_top.y > bottomLeft.y)
+					if(_top.y > bottomLeft.y || (_top.y == bottomLeft.y && _top.x > bottomLeft.x))
 						_top = bottomLeft;
 				}
 			}
@@ -429,11 +429,11 @@ package com.vstyran.transform.model
 				else
 				{
 					_bottom = topLeft;
-					if(_bottom.y < topRight.y)
+					if(_bottom.y < topRight.y || (_bottom.y == topRight.y && _bottom.x < topRight.x))
 						_bottom = topRight;
-					if(_bottom.y < bottomRight.y)
+					if(_bottom.y < bottomRight.y || (_bottom.y == bottomRight.y && _bottom.x < bottomRight.x))
 						_bottom = bottomRight;
-					if(_bottom.y < bottomLeft.y)
+					if(_bottom.y < bottomLeft.y || (_bottom.y == bottomLeft.y && _bottom.x < bottomLeft.x))
 						_bottom = bottomLeft;
 				}
 			}
@@ -451,11 +451,11 @@ package com.vstyran.transform.model
 				else
 				{
 					_left = topLeft;
-					if(_left.x > topRight.x)
+					if(_left.x > topRight.x || (_left.x == topRight.x && _left.y > topRight.y))
 						_left = topRight;
-					if(_left.x > bottomRight.x)
+					if(_left.x > bottomRight.x || (_left.x == bottomRight.x && _left.y > bottomRight.y))
 						_left = bottomRight;
-					if(_left.x > bottomLeft.x)
+					if(_left.x > bottomLeft.x || (_left.x == bottomLeft.x && _left.y > bottomLeft.y))
 						_left = bottomLeft;
 				}
 			}
@@ -473,11 +473,11 @@ package com.vstyran.transform.model
 				else
 				{
 					_right = topLeft;
-					if(_right.x < topRight.x)
+					if(_right.x < topRight.x || (_right.x == topRight.x && _right.y < topRight.y))
 						_right = topRight;
-					if(_right.x < bottomRight.x)
+					if(_right.x < bottomRight.x || (_right.x == bottomRight.x && _right.y < bottomRight.y))
 						_right = bottomRight;
-					if(_right.x < bottomLeft.x)
+					if(_right.x < bottomLeft.x || (_right.x == bottomLeft.x && _right.y < bottomLeft.y))
 						_right = bottomLeft;
 				}
 			}
