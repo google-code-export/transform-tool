@@ -38,6 +38,9 @@
     <classEntry path="com.vstyran.transform.model.Guideline"/>
     <classEntry path="com.vstyran.transform.events.GuidelineEvent"/>
     <classEntry path="com.vstyran.transform.model.GuidelineCross"/>
+    <classEntry path="com.vstyran.transform.connectors.IUIConnector"/>
+    <classEntry path="com.vstyran.transform.connectors.UIScaleConnector"/>
+    <classEntry path="com.vstyran.transform.events.TransformEvent"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
