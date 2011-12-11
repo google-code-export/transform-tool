@@ -6,6 +6,7 @@ package com.vstyran.transform.model
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	
+	import mx.core.UIComponent;
 	import mx.effects.Fade;
 	import mx.utils.MatrixUtil;
 	
@@ -248,7 +249,7 @@ package com.vstyran.transform.model
 		{
 			if(_precision == value) return;
 			
-			_precision = Math.min(value, 10);
+			_precision = Math.min(value, 5);
 			
 			_precisionValue = _precision >= 0 ? Math.pow(10, precision) : 0;
 		}
@@ -630,16 +631,24 @@ package com.vstyran.transform.model
 			
 			setTo(0, 0, 0, 0, 0);
 		}
-		public function rotate(angle:Number, anchor:Point):void
+		public function rotate(angle:Number, anchor:Point = null):void
 		{
 			anchor ||= new Point(width/2, height/2);
 			
-			var m:Matrix = matrix;
-			m.translate(-anchor.x, -anchor.y);
-			m.rotate(angle*Math.PI/180);
-			m.translate(anchor.x, anchor.y);
+			var m:Matrix =  MatrixUtil.composeMatrix(x, y, 1, 1, rotation + angle, anchor.x, anchor.y);
+			/*m.translate(-anchor.x, -anchor.y);
+			m.rotate((angle + rotation)*Math.PI/180);
+			m.translate(anchor.x + x, anchor.y + y);*/
 			
+			rotation += angle;
 			position = m.transformPoint(new Point(0, 0));
+			
+			
+	/*		m.translate(-transformX, -transformY);
+			m.scale(scaleX, scaleY);
+			if (rotation != 0) 
+				m.rotate(rotation / 180 * Math.PI);
+			m.translate(transformX + x, transformY + y);*/
 		}
 		
 		public function getBoundingBox():Rectangle
@@ -665,39 +674,16 @@ package com.vstyran.transform.model
 			offset(x - currentBox.x, y - currentBox.y);
 		}
 		
-		public function setBoundingWidth(w:Number, anchor:Point=null):void
+		public function setBoundingSize(w:Number, h:Number, anchor:Point=null):void
 		{
-			var delta:Point = getDeltaByRotation(w - getBoundingBox().width, 0);
+			var minW:Number = isNaN(maxWidth) ? Number.MIN_VALUE : minWidth;
+			var minH:Number = isNaN(minHeight) ? Number.MIN_VALUE : minHeight;
+			var maxW:Number = isNaN(maxWidth) ? Number.MAX_VALUE : maxWidth;
+			var maxH:Number = isNaN(maxHeight) ? Number.MAX_VALUE : maxHeight;
 			
-			setBoundingSizeInternal(delta.x, delta.y, anchor);
-		}
-		
-		public function setBoundingHeight(h:Number, anchor:Point=null):void
-		{
-			var delta:Point = getDeltaByRotation(0, h - getBoundingBox().height);
+			var size:Point = MatrixUtil.fitBounds(w, h, matrix, width, height, NaN, NaN, minW, minH, maxW, maxH);
 			
-			setBoundingSizeInternal(delta.x, delta.y, anchor);
-		}
-		
-		public function setBoundingSizeInternal(w:Number, h:Number, anchor:Point=null):void
-		{
-			if(width + w < 0 || height + h < 0) 
-			{
-				w = -width;  
-				h = -height;  
-			}
-			
-			inflate(w, h, anchor);
-		}
-		
-		private function getDeltaByRotation(dx:Number, dy:Number):Point
-		{
-			var cos:Number = Math.cos(rotation / 180 * Math.PI);
-			var sin:Number = Math.sin(rotation / 180 * Math.PI);
-			var deltaWidth:Number =  cos*dx + sin*dy;
-			var deltaHeight:Number = sin*dx + cos*dy;
-			
-			return new Point(deltaWidth, deltaHeight);
+			inflate(size.x - width, size.y - height);
 		}
 		
 		public function getNaturalSize():Point
