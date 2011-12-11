@@ -635,20 +635,17 @@ package com.vstyran.transform.model
 		{
 			anchor ||= new Point(width/2, height/2);
 			
-			var m:Matrix =  MatrixUtil.composeMatrix(x, y, 1, 1, rotation + angle, anchor.x, anchor.y);
-			/*m.translate(-anchor.x, -anchor.y);
-			m.rotate((angle + rotation)*Math.PI/180);
-			m.translate(anchor.x + x, anchor.y + y);*/
+			// calculates anchor in data coordinate space
+			var globalAnchor:Point = matrix.transformPoint(anchor);	
+			
+			// calculates position
+			var m:Matrix = new Matrix();
+			m.translate(-anchor.x, -anchor.y);
+			m.rotate((rotation + angle)*Math.PI/180);
+			m.translate(globalAnchor.x, globalAnchor.y);
 			
 			rotation += angle;
 			position = m.transformPoint(new Point(0, 0));
-			
-			
-	/*		m.translate(-transformX, -transformY);
-			m.scale(scaleX, scaleY);
-			if (rotation != 0) 
-				m.rotate(rotation / 180 * Math.PI);
-			m.translate(transformX + x, transformY + y);*/
 		}
 		
 		public function getBoundingBox():Rectangle
