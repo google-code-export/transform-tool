@@ -150,6 +150,9 @@ package com.vstyran.transform.model
 			dispatchEvent(new Event("rotationChanged"));
 		}
 		
+		/**
+		 * @private
+		 */
 		private var _minWidth:Number;
 
 		[Bindable]
@@ -189,7 +192,9 @@ package com.vstyran.transform.model
 			_minHeight = value;
 		}
 
-		
+		/**
+		 * @private
+		 */
 		private var _maxWidth:Number;
 
 		[Bindable]
@@ -209,7 +214,9 @@ package com.vstyran.transform.model
 			_maxWidth = value;
 		}
 
-		
+		/**
+		 * @private
+		 */
 		private var _maxHeight:Number;
 
 		[Bindable]
@@ -235,16 +242,30 @@ package com.vstyran.transform.model
 		// Additional properties
 		//
 		//------------------------------------------------------------------
-		
+		/**
+		 * @private
+		 */
 		private var _precisionValue:uint = 100000;
+		
+		/**
+		 * @private
+		 */
 		private var _precision:uint = 5;
 
 		[Bindable]
+		/**
+		 *  Number of decimal places to include in the output values.
+		 *  For example, if the "x" value is 1.453 and precision is 1 than 
+		 *  getter for "x" property returns rounded value of 1.5.
+		 */		
 		public function get precision():uint
 		{
 			return _precision;
 		}
 
+		/**
+		 * @private
+		 */
 		public function set precision(value:uint):void
 		{
 			if(_precision == value) return;
@@ -254,12 +275,17 @@ package com.vstyran.transform.model
 			_precisionValue = _precision >= 0 ? Math.pow(10, precision) : 0;
 		}
 
-		
+		/**
+		 * Data size. 
+		 */		
 		public function get size():Point
 		{
 			return new Point(width, height);
 		}
 		
+		/**
+		 * @private
+		 */
 		public function set size(value:Point):void
 		{
 			_width = value.x;
@@ -271,11 +297,17 @@ package com.vstyran.transform.model
 			dispatchEvent(new Event("heightChanged"));
 		}
 		
+		/**
+		 * Data position. 
+		 */
 		public function get position():Point
 		{
 			return new Point(x, y);
 		}
 		
+		/**
+		 * @private
+		 */
 		public function set position(value:Point):void
 		{
 			_x = value.x;
@@ -287,9 +319,17 @@ package com.vstyran.transform.model
 			dispatchEvent(new Event("yChanged"));
 		}
 		
-		
+		/**
+		 * @private
+		 */
 		private var _topCenter:Point;
+		
 		[Bindable("invalidated")]
+		/**
+		 * Top center point in data holders' coordinate space. 
+		 * </br>
+		 * For rotation 0 will be (x + width/2, y).
+		 */		
 		public function get topCenter():Point
 		{
 			if(!_topCenter)
@@ -302,8 +342,17 @@ package com.vstyran.transform.model
 			return new Point(round(_topCenter.x), round(_topCenter.y));
 		}
 		
+		/**
+		 * @private
+		 */
 		private var _bottomCenter:Point;
+		
 		[Bindable("invalidated")]
+		/**
+		 * Bottom center point in data holders' coordinate space. 
+		 * </br>
+		 * For rotation 0 will be (x + width/2, y + height).
+		 */	
 		public function get bottomCenter():Point
 		{
 			if(!_bottomCenter)
@@ -316,8 +365,17 @@ package com.vstyran.transform.model
 			return new Point(round(_bottomCenter.x), round(_bottomCenter.y));
 		}
 		
+		/**
+		 * @private
+		 */
 		private var _middleLeft:Point;
+		
 		[Bindable("invalidated")]
+		/**
+		 * Middle left point in data holders' coordinate space. 
+		 * </br>
+		 * For rotation 0 will be (x, y + height/2).
+		 */	
 		public function get middleLeft():Point
 		{
 			if(!_middleLeft)
@@ -330,8 +388,17 @@ package com.vstyran.transform.model
 			return new Point(round(_middleLeft.x), round(_middleLeft.y));
 		}
 		
+		/**
+		 * @private
+		 */
 		private var _middleRight:Point;
+		
 		[Bindable("invalidated")]
+		/**
+		 * Middle right point in data holders' coordinate space. 
+		 * </br>
+		 * For rotation 0 will be (x + width, y + height/2).
+		 */	
 		public function get middleRight():Point
 		{
 			if(!_middleRight)
@@ -344,8 +411,17 @@ package com.vstyran.transform.model
 			return new Point(round(_middleRight.x), round(_middleRight.y));
 		}
 		
+		/**
+		 * @private
+		 */
 		private var _topLeft:Point;
+		
 		[Bindable("invalidated")]
+		/**
+		 * Top left point in data holders' coordinate space. 
+		 * </br>
+		 * Will be always (x, y).
+		 */	
 		public function get topLeft():Point
 		{
 			if(!_topLeft)
@@ -355,8 +431,17 @@ package com.vstyran.transform.model
 			return new Point(round(_topLeft.x), round(_topLeft.y));
 		}
 		
+		/**
+		 * @private
+		 */
 		private var _topRight:Point;
+		
 		[Bindable("invalidated")]
+		/**
+		 * Top right point in data holders' coordinate space. 
+		 * </br>
+		 * For rotation 0 will be (x + width, y).
+		 */	
 		public function get topRight():Point
 		{
 			if(!_topRight)
@@ -369,8 +454,17 @@ package com.vstyran.transform.model
 			return new Point(round(_topRight.x), round(_topRight.y));
 		}
 		
+		/**
+		 * @private
+		 */
 		private var _bottomLeft:Point;
+		
 		[Bindable("invalidated")]
+		/**
+		 * Bottom left point in data holders' coordinate space. 
+		 * </br>
+		 * For rotation 0 will be (x, y + height).
+		 */	
 		public function get bottomLeft():Point
 		{
 			if(!_bottomLeft)
@@ -383,8 +477,17 @@ package com.vstyran.transform.model
 			return new Point(round(_bottomLeft.x), round(_bottomLeft.y));
 		}
 		
+		/**
+		 * @private
+		 */
 		private var _bottomRight:Point;
+		
 		[Bindable("invalidated")]
+		/**
+		 * Bottom right point in data holders' coordinate space. 
+		 * </br>
+		 * For rotation 0 will be (x + width, y + height).
+		 */	
 		public function get bottomRight():Point
 		{
 			if(!_bottomRight)
@@ -397,8 +500,17 @@ package com.vstyran.transform.model
 			return new Point(round(_bottomRight.x), round(_bottomRight.y));
 		}
 		
+		/**
+		 * @private
+		 */
 		private var _top:Point;
+		
 		[Bindable("invalidated")]
+		/**
+		 * Visually the highest corner of data.
+		 * </br> 
+		 * For rotation 0, 90, 180, 270, etc. will be highest left point.  
+		 */		
 		public function get top():Point
 		{
 			if(!_top)
@@ -419,8 +531,17 @@ package com.vstyran.transform.model
 			return new Point(round(_top.x), round(_top.y));
 		}
 		
+		/**
+		 * @private
+		 */
 		private var _bottom:Point;
+		
 		[Bindable("invalidated")]
+		/**
+		 * Visually the lowest corner of data.
+		 * </br> 
+		 * For rotation 0, 90, 180, 270, etc. will be lowest right point.  
+		 */	
 		public function get bottom():Point
 		{
 			if(!_bottom)
@@ -441,8 +562,17 @@ package com.vstyran.transform.model
 			return new Point(round(_bottom.x), round(_bottom.y));
 		}
 		
+		/**
+		 * @private
+		 */
 		private var _left:Point;
+		
 		[Bindable("invalidated")]
+		/**
+		 * Visually the most left corner of data.
+		 * </br> 
+		 * For rotation 0, 90, 180, 270, etc. will be highest left point.  
+		 */	
 		public function get left():Point
 		{
 			if(!_left)
@@ -463,8 +593,17 @@ package com.vstyran.transform.model
 			return new Point(round(_left.x), round(_left.y));
 		}
 		
+		/**
+		 * @private
+		 */
 		private var _right:Point;
+		
 		[Bindable("invalidated")]
+		/**
+		 * Visually the most left corner of data.
+		 * </br> 
+		 * For rotation 0, 90, 180, 270, etc. will be lowest right point.  
+		 */	
 		public function get right():Point
 		{
 			if(!_right)
@@ -485,6 +624,9 @@ package com.vstyran.transform.model
 			return new Point(round(_right.x), round(_right.y));
 		}
 		
+		/**
+		 * @private
+		 */
 		private var _matrix:Matrix;
 		[Bindable("invalidated")]
 		public function get matrix():Matrix
