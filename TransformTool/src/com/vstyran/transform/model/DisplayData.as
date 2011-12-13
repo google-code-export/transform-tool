@@ -641,62 +641,85 @@ package com.vstyran.transform.model
 			return _matrix.clone();
 		}
 		
-		//------------------------------------------------------------------
-		//
-		// Private Methods
-		//
-		//------------------------------------------------------------------
-		private var _rect:Rectangle;
-		
-		protected function get rect():Rectangle
-		{
-			if(!_rect)
-				_rect = new Rectangle(x, y, width, height);
-			
-			return _rect.clone();
-		}
-		
-		protected function invalidate():void
-		{
-			_topCenter = null;
-			_bottomCenter = null;
-			_middleLeft = null;
-			_middleRight = null;
-			_topLeft = null;
-			_topRight = null;
-			_bottomLeft = null;
-			_bottomRight = null;
-			_left = null;
-			_right = null;
-			_top = null;
-			_bottom = null;
-			_matrix = null;
-			_rect = null;
-			
-			dispatchEvent(new Event("invalidated"));
-		}
-		
-		override public function dispatchEvent(event:Event):Boolean
-		{
-			if(hasEventListener(event.type))
-				return super.dispatchEvent(event);
-			else
-				return false;
-		}
-		
-		private function round(value:Number):Number
-		{
-			if(_precisionValue > 0)
-				return Math.round(value*_precisionValue)/_precisionValue;
-			else
-				return value;
-		}
 		
 		//------------------------------------------------------------------
 		//
 		// Methods
 		//
 		//------------------------------------------------------------------
+		/**
+		 * Rotate data around anchor point. 
+		 *  
+		 * @param angle Rotate angle.
+		 * @param anchor Anchor point should be set in data coordinate space. 
+		 * If not specified than Point(width/2, height/2).
+		 */
+		public function rotate(angle:Number, anchor:Point = null):void
+		{
+			anchor ||= new Point(width/2, height/2);
+			
+			// calculates anchor in data coordinate space
+			var globalAnchor:Point = matrix.transformPoint(anchor);	
+			
+			// calculates position
+			var m:Matrix = new Matrix();
+			m.translate(-anchor.x, -anchor.y);
+			m.rotate((rotation + angle)*Math.PI/180);
+			m.translate(globalAnchor.x, globalAnchor.y);
+			
+			rotation += angle;
+			position = m.transformPoint(new Point(0, 0));
+		}
+		
+		/**
+		 * Set data properties.
+		 *  
+		 * @param x Position by X axis
+		 * @param y Position by Y axis
+		 * @param width Width of display object
+		 * @param height Height of display object
+		 * @param rotation Rotation of display object
+		 */		
+		public function setTo(x:Number, y:Number, width:Number, height:Number, rotation:Number):void
+		{
+			_x = x;
+			_y = y;
+			_width = width;
+			_height = height;
+			_rotation = rotation;
+			
+			invalidate();
+			
+			dispatchEvent(new Event("xChanged"));
+			dispatchEvent(new Event("yChanged"));
+			dispatchEvent(new Event("widthChanged"));
+			dispatchEvent(new Event("heightChanged"));
+			dispatchEvent(new Event("rotationChanged"));
+		}
+		
+		/**
+		 * Adjusts the location of the DisplayData object, as determined by its top-left corner, by the specified amounts.
+		 * 
+		 * @param dx Moves the x value of the DisplayData object by this amount.
+		 * @param dy Moves the y value of the DisplayData object by this amount.
+		 */		
+		public function offset(dx:Number, dy:Number):void
+		{
+			_x += !isNaN(dx) ? dx : 0;
+			_y += !isNaN(dy) ? dy : 0;
+			
+			invalidate();
+			
+			dispatchEvent(new Event("xChanged"));
+			dispatchEvent(new Event("yChanged"));
+		}
+		
+		/**
+		 * Determines whether the object specified in the data parameter intersects with this DisplayData object.
+		 * 
+		 * @param data The DisplayData object to compare against this DisplayData object.
+		 * @return A value of true if the specified object intersects with this DisplayData object; otherwise false.
+		 */		
 		public function intersects(data:DisplayData):Boolean
 		{
 			return (contains(data.topLeft.x, data.topLeft.y) ||
@@ -711,6 +734,13 @@ package com.vstyran.transform.model
 			return false;
 		}
 		
+		/**
+		 * Determines whether the specified point is contained within the rectangular region defined by this DisplayData object.
+		 * 
+		 * @param x The x coordinate (horizontal position) of the point.
+		 * @param y The y coordinate (vertical position) of the point.
+		 * @return A value of true if the DisplayData object contains the specified point; otherwise false.
+		 */		
 		public function contains(x:Number, y:Number):Boolean
 		{
 			if(rotation == 0)
@@ -733,16 +763,7 @@ package com.vstyran.transform.model
 					contains(data.bottomRight.x, data.bottomRight.y) &&
 					contains(data.bottomLeft.x, data.bottomLeft.y));
 		}
-		public function offset(dx:Number, dy:Number):void
-		{
-			_x += !isNaN(dx) ? dx : 0;
-			_y += !isNaN(dy) ? dy : 0;
-			
-			invalidate();
-			
-			dispatchEvent(new Event("xChanged"));
-			dispatchEvent(new Event("yChanged"));
-		}
+		
 		
 		public function inflate(dx:Number, dy:Number, anchor:Point=null):void
 		{
@@ -777,22 +798,7 @@ package com.vstyran.transform.model
 			
 			setTo(0, 0, 0, 0, 0);
 		}
-		public function rotate(angle:Number, anchor:Point = null):void
-		{
-			anchor ||= new Point(width/2, height/2);
-			
-			// calculates anchor in data coordinate space
-			var globalAnchor:Point = matrix.transformPoint(anchor);	
-			
-			// calculates position
-			var m:Matrix = new Matrix();
-			m.translate(-anchor.x, -anchor.y);
-			m.rotate((rotation + angle)*Math.PI/180);
-			m.translate(globalAnchor.x, globalAnchor.y);
-			
-			rotation += angle;
-			position = m.transformPoint(new Point(0, 0));
-		}
+		
 		
 		public function getBoundingBox():Rectangle
 		{
@@ -886,22 +892,7 @@ package com.vstyran.transform.model
 		}
 		
 		
-		public function setTo(x:Number, y:Number, width:Number, height:Number, rotation:Number):void
-		{
-			_x = x;
-			_y = y;
-			_width = width;
-			_height = height;
-			_rotation = rotation;
-			
-			invalidate();
-			
-			dispatchEvent(new Event("xChanged"));
-			dispatchEvent(new Event("yChanged"));
-			dispatchEvent(new Event("widthChanged"));
-			dispatchEvent(new Event("heightChanged"));
-			dispatchEvent(new Event("rotationChanged"));
-		}
+		
 		
 		/**
 		 * Clone data.
@@ -944,6 +935,57 @@ package com.vstyran.transform.model
 				value.minHeight == minHeight &&
 				value.maxWidth == maxWidth &&
 				value.maxHeight == maxHeight);
+		}
+		
+		//------------------------------------------------------------------
+		//
+		// Private Methods
+		//
+		//------------------------------------------------------------------
+		private var _rect:Rectangle;
+		
+		protected function get rect():Rectangle
+		{
+			if(!_rect)
+				_rect = new Rectangle(x, y, width, height);
+			
+			return _rect.clone();
+		}
+		
+		protected function invalidate():void
+		{
+			_topCenter = null;
+			_bottomCenter = null;
+			_middleLeft = null;
+			_middleRight = null;
+			_topLeft = null;
+			_topRight = null;
+			_bottomLeft = null;
+			_bottomRight = null;
+			_left = null;
+			_right = null;
+			_top = null;
+			_bottom = null;
+			_matrix = null;
+			_rect = null;
+			
+			dispatchEvent(new Event("invalidated"));
+		}
+		
+		override public function dispatchEvent(event:Event):Boolean
+		{
+			if(hasEventListener(event.type))
+				return super.dispatchEvent(event);
+			else
+				return false;
+		}
+		
+		private function round(value:Number):Number
+		{
+			if(_precisionValue > 0)
+				return Math.round(value*_precisionValue)/_precisionValue;
+			else
+				return value;
 		}
 	}
 }
