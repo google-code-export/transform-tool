@@ -628,7 +628,11 @@ package com.vstyran.transform.model
 		 * @private
 		 */
 		private var _matrix:Matrix;
+		
 		[Bindable("invalidated")]
+		/**
+		 * Matrix for this data. 
+		 */		
 		public function get matrix():Matrix
 		{
 			if(!_matrix)
@@ -719,7 +723,7 @@ package com.vstyran.transform.model
 				m.invert();
 				var localPoint:Point = m.transformPoint(new Point(x, y));
 				
-				return rect.contains(localPoint.x, localPoint.y)
+				return rect.contains(localPoint.x + this.x, localPoint.y + this.y)
 			}
 		}
 		public function containsData(data:DisplayData):Boolean
@@ -862,23 +866,23 @@ package com.vstyran.transform.model
 		
 		public function unionVector(list:Vector.<DisplayData>):Rectangle
 		{
-			var union:Rectangle = getBoundingBox();
+			var box:Rectangle = getBoundingBox();
 			for each (var data:DisplayData in list) 
 			{
-				union.union(data.getBoundingBox());
+				box = box.union(data.getBoundingBox());
 			}
 			
-			return union;
+			return box;
 		}
 		public function unionArray(list:Array):Rectangle
 		{
-			var union:Rectangle = getBoundingBox();
+			var box:Rectangle = getBoundingBox();
 			for each (var data:DisplayData in list) 
 			{
-				union.union(data.getBoundingBox());
+				box = box.union(data.getBoundingBox());
 			}
 			
-			return union;
+			return box;
 		}
 		
 		
