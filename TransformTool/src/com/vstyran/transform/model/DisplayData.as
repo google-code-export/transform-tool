@@ -652,7 +652,7 @@ package com.vstyran.transform.model
 		 *  
 		 * @param angle Rotate angle.
 		 * @param anchor Anchor point should be set in data coordinate space. 
-		 * If not specified than Point(width/2, height/2).
+		 * If not specified than will be used Point(width/2, height/2).
 		 */
 		public function rotate(angle:Number, anchor:Point = null):void
 		{
@@ -756,6 +756,15 @@ package com.vstyran.transform.model
 				return rect.contains(localPoint.x + this.x, localPoint.y + this.y)
 			}
 		}
+		
+		/**
+		 * Determines whether the DisplayData object specified by the data parameter is contained 
+		 * within this DisplayData object. A DisplayData object is said to contain another if the 
+		 * second DisplayData object falls entirely within the boundaries of the first.
+		 * 
+		 * @param data The DisplayData object being checked.
+		 * @return A value of true if the DisplayData object that you specify is contained by this DisplayData object; otherwise false.
+		 */		
 		public function containsData(data:DisplayData):Boolean
 		{
 			return (contains(data.topLeft.x, data.topLeft.y) &&
@@ -763,8 +772,15 @@ package com.vstyran.transform.model
 					contains(data.bottomRight.x, data.bottomRight.y) &&
 					contains(data.bottomLeft.x, data.bottomLeft.y));
 		}
-		
-		
+
+		/**
+		 * Increases the size of the DisplayData object by the specified amounts, in pixels around anchor point. 
+		 * 
+		 * @param dx The value to be added to the width.
+		 * @param dy The value to be added to the height.
+		 * @param anchor Anchor point should be set in data coordinate space. 
+		 * If not specified than will be used Point(width/2, height/2).
+		 */
 		public function inflate(dx:Number, dy:Number, anchor:Point=null):void
 		{
 			anchor ||= new Point(width/2, height/2);
@@ -778,28 +794,53 @@ package com.vstyran.transform.model
 			setTo(x - deltPos.x, y - deltPos.y, newSize.x ,newSize.y, rotation);
 		}
 		
-		
-		public function resolveMinMax(size:Point):Point
+		/**
+		 * Returns size of data in natural human perception. 
+		 * 
+		 * @return If rotation is between 45 and 135 degree then height become width and vice versa and so on.
+		 * 
+		 * @see #isNaturalInvertion()
+		 */		
+		public function getNaturalSize():Point
 		{
-			var minW:Number = isNaN(minWidth) ? Number.MIN_VALUE : minWidth;
-			var minH:Number = isNaN(minHeight) ? Number.MIN_VALUE : minHeight;
-			var maxW:Number = isNaN(maxWidth) ? Number.MAX_VALUE : maxWidth;
-			var maxH:Number = isNaN(maxHeight) ? Number.MAX_VALUE : maxHeight;
-			
-			return new Point(Math.max(Math.min(maxW, size.x), minW), Math.max(Math.min(maxH, size.y), minH));
+			return isNaturalInvertion() ? new Point(height, width) : new Point(width, height);
 		}
 		
-		public function setEmpty():void
+		/**
+		 * Sets size of data using natural human perception. 
+		 * 
+		 * @param size Natural human perception size. If rotation is between 45 and 135 degree then height 
+		 * will be applied to width and vice versa and so on.
+		 * 
+		 * @see #isNaturalInvertion()
+		 */		
+		public function setNaturalSize(size:Point):void
 		{
-			minWidth = 0;
-			minHeight = 0;
-			maxWidth = 0;
-			maxHeight = 0;
+			var inversion:Boolean = isNaturalInvertion();
+			_width = inversion ? size.y : size.x;
+			_height = inversion ? size.x : size.y;
 			
-			setTo(0, 0, 0, 0, 0);
+			invalidate();
+			
+			dispatchEvent(new Event("widthChanged"));
+			dispatchEvent(new Event("heightChanged"));
 		}
 		
+		/**
+		 * Checks whether width and hight is swaped by natural human perception.
+		 * 
+		 * @return true if rotation is between -135 and -45, 45 and 135, 225 and 315 etc.; otherwise false 
+		 */		
+		public function isNaturalInvertion():Boolean
+		{
+			return (Math.abs(rotation) > 45 && Math.abs(rotation) < 135);
+		}
 		
+		/**
+		 * Returns a rectangle that defines the area of the DisplayData object.
+		 *  
+		 * @return Rectangle that defines the area of the DisplayData object.
+		 */		
 		public function getBoundingBox():Rectangle
 		{
 			if(rotation == 0)
@@ -813,16 +854,32 @@ package com.vstyran.transform.model
 				var maxX:Number = Math.max(topLeft.x, topRight.x, bottomRight.x, bottomLeft.x);
 				var maxY:Number = Math.max(topLeft.y, topRight.y, bottomRight.y, bottomLeft.y);
 				
-				return  new Rectangle(minX, minY, maxX - minX, maxY - minY);
+				return new Rectangle(minX, minY, maxX - minX, maxY - minY);
 			}	
 		}
 		
+		/**
+		 * Sets position of rectangle that defines the area of the DisplayData object and cause 
+		 * to recalculate position of DisplayData.
+		 * 
+		 * @param x Position by X axis.
+		 * @param y Position by Y axis.
+		 */		
 		public function setBoundingPosition(x:Number, y:Number):void
 		{
 			var currentBox:Rectangle = getBoundingBox();
 			offset(x - currentBox.x, y - currentBox.y);
 		}
 		
+		/**
+		 * Fits DisplayData into size of rectangle that defines the area of the DisplayData object 
+		 * keeping anchor point.
+		 *  
+		 * @param w Width of box
+		 * @param h Height of box
+		 * @param anchor Anchor point should be set in data coordinate space. 
+		 * If not specified than will be used Point(width/2, height/2).
+		 */		
 		public function setBoundingSize(w:Number, h:Number, anchor:Point=null):void
 		{
 			var minW:Number = isNaN(maxWidth) ? Number.MIN_VALUE : minWidth;
@@ -835,33 +892,14 @@ package com.vstyran.transform.model
 			inflate(size.x - width, size.y - height);
 		}
 		
-		public function getNaturalSize():Point
-		{
-			return isNaturalInvertion() ? new Point(height, width) : new Point(width, height);
-		}
-		
-		public function setNaturalSize(size:Point):void
-		{
-			var inversion:Boolean = isNaturalInvertion();
-			_width = inversion ? size.y : size.x;
-			_height = inversion ? size.x : size.y;
-			
-			invalidate();
-			
-			dispatchEvent(new Event("widthChanged"));
-			dispatchEvent(new Event("heightChanged"));
-		}
-		
-		public function isNaturalInvertion():Boolean
-		{
-			return (Math.abs(rotation) > 45 && Math.abs(rotation) < 135);
-		}
-		
-		override public function toString():String
-		{
-			return "x: " + x + " y: " + y + " width: " + width + " height: " + height + " rotation: " + rotation +
-				" minWidth: " + minWidth + " minHeight: " + minHeight + " maxWidth: " + maxWidth + " maxHeight: " + maxHeight;	
-		}
+		/**
+		 * Adds DisplayData objects specified in parameters with current one together to create a new Rectangle object, 
+		 * by filling in the horizontal and vertical space between them. 
+		 * 
+		 * @param data A DisplayData object to add to this DisplayData object.
+		 * @param params Additional DisplayData objects.
+		 * @return A new Rectangle object that is the union of the specified DisplayData objects.
+		 */		
 		public function union(data:DisplayData, ...params):Rectangle
 		{
 			params ||= new Array();
@@ -870,16 +908,13 @@ package com.vstyran.transform.model
 			return unionArray(params);
 		}
 		
-		public function unionVector(list:Vector.<DisplayData>):Rectangle
-		{
-			var box:Rectangle = getBoundingBox();
-			for each (var data:DisplayData in list) 
-			{
-				box = box.union(data.getBoundingBox());
-			}
-			
-			return box;
-		}
+		/**
+		 * Adds DisplayData objects with current one together to create a new Rectangle object, 
+		 * by filling in the horizontal and vertical space between them. 
+		 * 
+		 * @param list Array of DisplayData to add to this DisplayData object
+		 * @return A new Rectangle object that is the union of the specified DisplayData objects.
+		 */		
 		public function unionArray(list:Array):Rectangle
 		{
 			var box:Rectangle = getBoundingBox();
@@ -891,8 +926,52 @@ package com.vstyran.transform.model
 			return box;
 		}
 		
+		/**
+		 * Adds DisplayData objects with current one together to create a new Rectangle object, 
+		 * by filling in the horizontal and vertical space between them. 
+		 * 
+		 * @param list Vector of DisplayData to add to this DisplayData object
+		 * @return A new Rectangle object that is the union of the specified DisplayData objects.
+		 */		
+		public function unionVector(list:Vector.<DisplayData>):Rectangle
+		{
+			var box:Rectangle = getBoundingBox();
+			for each (var data:DisplayData in list) 
+			{
+				box = box.union(data.getBoundingBox());
+			}
+			
+			return box;
+		}
+	
+		/**
+		 * Returns size between min amd max sizes specified for this DisplayData. 
+		 * 
+		 * @param size Size to resolve.
+		 * @return Size that fits into min max values.
+		 */		
+		public function resolveMinMax(size:Point):Point
+		{
+			var minW:Number = isNaN(minWidth) ? Number.MIN_VALUE : minWidth;
+			var minH:Number = isNaN(minHeight) ? Number.MIN_VALUE : minHeight;
+			var maxW:Number = isNaN(maxWidth) ? Number.MAX_VALUE : maxWidth;
+			var maxH:Number = isNaN(maxHeight) ? Number.MAX_VALUE : maxHeight;
+			
+			return new Point(Math.max(Math.min(maxW, size.x), minW), Math.max(Math.min(maxH, size.y), minH));
+		}
 		
-		
+		/**
+		 * Clear DisplayData setting 0 to all geometric properties. 
+		 */		
+		public function setEmpty():void
+		{
+			minWidth = 0;
+			minHeight = 0;
+			maxWidth = 0;
+			maxHeight = 0;
+			
+			setTo(0, 0, 0, 0, 0);
+		}
 		
 		/**
 		 * Clone data.
@@ -937,13 +1016,31 @@ package com.vstyran.transform.model
 				value.maxHeight == maxHeight);
 		}
 		
+		/**
+		 * Builds and returns a string that lists the geometry properties of the DisplayData object.
+		 * 
+		 * @return A string listing the value of each of the following properties of the DisplayData 
+		 * object: x, y, width, height, rotation, minWidth, minHeight, maxWidth and maxHeight.
+		 */
+		override public function toString():String
+		{
+			return "(x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + ", rotation=" + rotation +
+				", minWidth=" + minWidth + ", minHeight=" + minHeight + ", maxWidth=" + maxWidth + ", maxHeight=" + maxHeight + ")";	
+		}
+		
 		//------------------------------------------------------------------
 		//
 		// Private Methods
 		//
 		//------------------------------------------------------------------
+		/**
+		 * @private 
+		 */		
 		private var _rect:Rectangle;
 		
+		/**
+		 * Rectangle for internal use if rotation is 0. 
+		 */		
 		protected function get rect():Rectangle
 		{
 			if(!_rect)
@@ -952,6 +1049,10 @@ package com.vstyran.transform.model
 			return _rect.clone();
 		}
 		
+		/**
+		 * @private
+		 * Invalidate DisplayData. 
+		 */		
 		protected function invalidate():void
 		{
 			_topCenter = null;
@@ -972,6 +1073,9 @@ package com.vstyran.transform.model
 			dispatchEvent(new Event("invalidated"));
 		}
 		
+		/**
+		 * @inheritDoc 
+		 */		
 		override public function dispatchEvent(event:Event):Boolean
 		{
 			if(hasEventListener(event.type))
@@ -980,6 +1084,13 @@ package com.vstyran.transform.model
 				return false;
 		}
 		
+		/**
+		 * @private
+		 * Returns rounded value with precision specified in this DisplayData.
+		 *  
+		 * @param value Number to round.
+		 * @return rounded value.
+		 */		
 		private function round(value:Number):Number
 		{
 			if(_precisionValue > 0)
