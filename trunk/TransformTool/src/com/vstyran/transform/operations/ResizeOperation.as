@@ -43,44 +43,28 @@ package com.vstyran.transform.operations
 		override public function doOperation(point:Point):DisplayData
 		{
 			var data:DisplayData = startData.clone();
+			data.precision = 2;
 			
 			var deltaPoint:Point = MathUtil.roundPoint(new Point(point.x - startPoint.x, point.y - startPoint.y));
+			var newSize:Point = data.size;
 			
+			// calculate new width
 			if(horizontalEnabled)
-			{
-				var newWidth:Number = data.width + data.width*deltaPoint.x/(startPoint.x-startAnchor.x);
-				data.width = resolveSize(MathUtil.round(newWidth,2), startData.minWidth, startData.maxWidth);
-			}
+				newSize.x = data.width + data.width*deltaPoint.x/(startPoint.x-startAnchor.x);
+			
+			// calculate new height
 			if(verticalEnabled)
-			{
-				var newHeight:Number = data.height + data.height*deltaPoint.y/(startPoint.y-startAnchor.y);
-				data.height = resolveSize(MathUtil.round(newHeight,2), startData.minHeight, startData.maxHeight);
-			}
+				newSize.y = data.height + data.height*deltaPoint.y/(startPoint.y-startAnchor.y);
 			
+			// check min/max values
+			newSize = data.resolveMinMax(newSize);
+			
+			//keep aspect ratio
 			if(maintainAspectRatio) 
-			{
-				var horizontalFactor:Number = horizontalEnabled ? data.width/startData.width : 0;
-				var verticalFactor:Number = verticalEnabled ? data.height/startData.height : 0;
-				
-				var ratio:Number;
-				
-				if(verticalFactor > horizontalFactor)
-					ratio = resolveSize(verticalFactor * startData.width, startData.minWidth, startData.maxWidth)/startData.width;
-				else
-					ratio = resolveSize(horizontalFactor * startData.height, startData.minHeight, startData.maxHeight)/startData.height;
-				
-				
-				data.width = ratio* startData.width;
-				data.height = ratio* startData.height;
-			}
+				newSize = startData.resolveAspectRatio(newSize,horizontalEnabled, verticalEnabled);
 			
-			var m:Matrix = new Matrix();
-			m.rotate(startData.rotation*Math.PI/180);
-			
-			var pos:Point = m.transformPoint(new Point(data.width*startAnchor.x/startData.width - startAnchor.x,data.height*startAnchor.y/startData.height-startAnchor.y));
-			
-			data.x = MathUtil.round(startData.x - pos.x, 2);
-			data.y = MathUtil.round(startData.y - pos.y, 2);
+			// set new size
+			data.inflate(newSize.x - data.width, newSize.y - data.height, startAnchor);
 					
 			return data;
 		}
@@ -95,17 +79,6 @@ package com.vstyran.transform.operations
 			DataUtil.fitData(data, bounds);
 			
 			return data;
-		}
-		
-		/**
-		 * @private 
-		 */		
-		private function resolveSize(value:Number, min:Number, max:Number):Number 
-		{
-			min = !isNaN(min) ? min : value;
-			max = !isNaN(max) ? max : value;
-			
-			return Math.min(max, Math.max(min, value));
 		}
 	}
 }

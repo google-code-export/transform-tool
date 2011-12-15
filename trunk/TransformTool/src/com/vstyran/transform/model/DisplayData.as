@@ -952,12 +952,34 @@ package com.vstyran.transform.model
 		 */		
 		public function resolveMinMax(size:Point):Point
 		{
-			var minW:Number = isNaN(minWidth) ? Number.MIN_VALUE : minWidth;
-			var minH:Number = isNaN(minHeight) ? Number.MIN_VALUE : minHeight;
-			var maxW:Number = isNaN(maxWidth) ? Number.MAX_VALUE : maxWidth;
-			var maxH:Number = isNaN(maxHeight) ? Number.MAX_VALUE : maxHeight;
+			return new Point(resolveSize(size.x, minWidth, maxWidth), resolveSize(size.y, minHeight, maxHeight));
+		}
+		
+		/**
+		 * Returns new size that is adjusted to keep aspect ratio for this DisplayData. Always resolves min/max.
+		 * 
+		 * @param size Size to adjust.
+		 * @param horizontalEnabled Specifies whether width can be changed while adjusting.
+		 * @param verticalEnabled Specifies whether height can be changed while adjusting.
+		 * @return Size that keeps aspect ratio.
+		 */		
+		public function resolveAspectRatio(size:Point, horizontalEnabled:Boolean, verticalEnabled:Boolean):Point
+		{
+			var newSize:Point = size.clone();
+			var horizontalFactor:Number = horizontalEnabled ? size.x/width : 0;
+			var verticalFactor:Number = verticalEnabled ? size.y/height : 0;
 			
-			return new Point(Math.max(Math.min(maxW, size.x), minW), Math.max(Math.min(maxH, size.y), minH));
+			var ratio:Number;
+			
+			if(verticalFactor > horizontalFactor)
+				ratio = resolveSize(verticalFactor * width, minWidth, maxWidth)/width;
+			else
+				ratio = resolveSize(horizontalFactor * height, minHeight, maxHeight)/height;
+			
+			newSize.x = ratio* width;
+			newSize.y = ratio* height;
+			
+			return newSize;
 		}
 		
 		/**
@@ -1097,6 +1119,17 @@ package com.vstyran.transform.model
 				return Math.round(value*_precisionValue)/_precisionValue;
 			else
 				return value;
+		}
+		
+		/**
+		 * @private 
+		 */		
+		private function resolveSize(value:Number, min:Number, max:Number):Number 
+		{
+			min = !isNaN(min) ? min : Number.MIN_VALUE;
+			max = !isNaN(max) ? max : Number.MAX_VALUE;
+			
+			return Math.min(max, Math.max(min, value));
 		}
 	}
 }
