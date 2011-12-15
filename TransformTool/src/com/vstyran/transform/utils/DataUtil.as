@@ -91,7 +91,7 @@ package com.vstyran.transform.utils
 		{
 			if(bounds)
 			{
-				var box:Rectangle = TransformUtil.getBoundingBox(data);
+				var box:Rectangle =  data.getBoundingBox();
 				var boundsRight:Number = bounds.right - box.width;
 				var boundsBottom:Number = bounds.bottom - box.height;
 				
@@ -118,7 +118,7 @@ package com.vstyran.transform.utils
 		{
 			if(grid)
 			{
-				var box:Rectangle = TransformUtil.getBoundingBox(data);
+				var box:Rectangle =  data.getBoundingBox();
 				
 				if(snapX)
 				{
@@ -147,7 +147,7 @@ package com.vstyran.transform.utils
 		{
 			var result:GuidelineCross = new GuidelineCross();
 			
-			var box:Rectangle = TransformUtil.getBoundingBox(data);
+			var box:Rectangle = data.getBoundingBox();
 			if(guidelines)
 			{
 				for each (var guideline:Guideline in guidelines) 
