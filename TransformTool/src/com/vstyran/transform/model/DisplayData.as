@@ -131,7 +131,7 @@ package com.vstyran.transform.model
 		
 		[Bindable("rotationChanged")]
 		/**
-		 * Rotation of display object clamped between -180 and 180 degreeds. 
+		 * Rotation of display object clamped between -180 and 180 degrees. 
 		 */
 		public function get rotation():Number
 		{
@@ -652,7 +652,7 @@ package com.vstyran.transform.model
 		 *  
 		 * @param angle Rotate angle.
 		 * @param anchor Anchor point should be set in data coordinate space. 
-		 * If not specified than will be used Point(width/2, height/2).
+		 * If not specified then will be used Point(width/2, height/2).
 		 */
 		public function rotate(angle:Number, anchor:Point = null):void
 		{
@@ -779,7 +779,7 @@ package com.vstyran.transform.model
 		 * @param dx The value to be added to the width.
 		 * @param dy The value to be added to the height.
 		 * @param anchor Anchor point should be set in data coordinate space. 
-		 * If not specified than will be used Point(width/2, height/2).
+		 * If not specified then will be used Point(width/2, height/2).
 		 */
 		public function inflate(dx:Number, dy:Number, anchor:Point=null):void
 		{
@@ -797,7 +797,7 @@ package com.vstyran.transform.model
 		/**
 		 * Returns size of data in natural human perception. 
 		 * 
-		 * @return If rotation is between 45 and 135 degree then height become width and vice versa and so on.
+		 * @return If rotation is between 45 and 135 degrees then height become width and vice versa and so on.
 		 * 
 		 * @see #isNaturalInvertion()
 		 */		
@@ -878,7 +878,7 @@ package com.vstyran.transform.model
 		 * @param w Width of box
 		 * @param h Height of box
 		 * @param anchor Anchor point should be set in data coordinate space. 
-		 * If not specified than will be used Point(width/2, height/2).
+		 * If not specified then will be used Point(width/2, height/2).
 		 */		
 		public function setBoundingSize(w:Number, h:Number, anchor:Point=null):void
 		{
