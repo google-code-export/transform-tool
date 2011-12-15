@@ -20,9 +20,15 @@ package com.vstyran.transform.operations
 	{
 		[Bindable]
 		/**
-		 * Point in transform tool coordinate space that used as anchor. 
+		 * Anchor proportions. Will be used to calculate anchor point.
+		 * </br>
+		 * Formula: 
+		 * </br>
+		 * <code> anchorX = anchor.x &#0042; width; </code> 
+		 * </br>
+		 * <code> anchorY = anchor.y &#0042; height; </code>   
 		 */		
-		public var anchorPoint:Point;
+		public var anchor:Point;
 		
 		/**
 		 * Grid that will be used as step size for operations. 
@@ -99,8 +105,8 @@ package com.vstyran.transform.operations
 			
 			startData = data;
 			startPoint = MathUtil.roundPoint(point);
-			if(anchorPoint)
-				startAnchor =  MathUtil.floorPoint(anchorPoint.clone(), 2)
+			if(anchor)
+				startAnchor = new Point(anchor.x*startData.width, anchor.y*startData.height);
 			else
 				startAnchor =  MathUtil.floorPoint(new Point(startData.width/2, startData.height/2));	
 			

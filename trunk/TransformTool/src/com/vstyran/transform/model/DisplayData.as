@@ -789,7 +789,7 @@ package com.vstyran.transform.model
 			
 			var m:Matrix =  new Matrix();
 			m.rotate(rotation / 180 * Math.PI);
-			var deltPos:Point = m.transformPoint(new Point(newSize.x*anchor.x/width - anchor.x, newSize.y*anchor.y/height-anchor.y));
+			var deltPos:Point = m.transformPoint(new Point(newSize.x*anchor.x/width - anchor.x, newSize.y*anchor.y/height - anchor.y));
 			
 			setTo(x - deltPos.x, y - deltPos.y, newSize.x ,newSize.y, rotation);
 		}
