@@ -14,6 +14,6 @@ package com.vstyran.transform.operations
 		 *  
 		 * @param point Position of anchor.
 		 */		
-		function set anchorPoint(point:Point):void;
+		function set anchor(point:Point):void;
 	}
 }

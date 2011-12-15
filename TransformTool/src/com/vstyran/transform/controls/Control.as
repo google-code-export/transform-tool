@@ -199,20 +199,6 @@ package com.vstyran.transform.controls
 		
 		/**
 		 * @private 
-		 * Convert from display object to anchor point
-		 */		
-		private function getAnchorPoint(anchor:DisplayObject):Point
-		{
-			if(!anchor)
-				return null;
-			
-			var bounds:Rectangle = anchor.getBounds(tool);
-			
-			return new Point(bounds.x + bounds.width/2, bounds.y + bounds.height/2);
-		}
-		
-		/**
-		 * @private 
 		 */		
 		private var guidelinesWasActive:Boolean;
 		
@@ -248,17 +234,10 @@ package com.vstyran.transform.controls
 			matrix = TransformUtil.getMatrix(null, tool);
 			tool.startTransformation(this);
 			
-			if(operation is IAncorOperation)
+			if(operation is IAncorOperation && anchor && anchor is IAnchor)
 			{
-				if(anchor)
-				{
-					(operation as IAncorOperation).anchorPoint = getAnchorPoint(anchor); 
-					if(anchor is IAnchor)
-					{
-						activeAnchor = anchor as IAnchor;
-						activeAnchor.activateAnchor();
-					}
-				}
+				activeAnchor = anchor as IAnchor;
+				activeAnchor.activateAnchor();
 			}
 			
 			if(operation)
