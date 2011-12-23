@@ -6,7 +6,7 @@ package com.vstyran.transform.operations
 	
 	import flash.geom.Matrix;
 	import flash.geom.Point;
-
+	
 	/**
 	 * Resize operation.
 	 * 
@@ -56,6 +56,15 @@ package com.vstyran.transform.operations
 			if(verticalEnabled)
 				newSize.y = data.height + data.height*deltaPoint.y/(startPoint.y-startAnchor.y);
 			
+			// guide data
+			if(data.rotation%90 == 0)
+			{
+				var guidData:DisplayData = data.clone();
+				guidData.inflate(newSize.x - startData.width, newSize.y - startData.height, startAnchor);
+				guideCross = DataUtil.guideSize(data.clone(), guidData, guidelines);
+				newSize = new Point(guidData.width, guidData.height);
+			}
+			
 			// check min/max values
 			newSize = data.resolveMinMax(newSize);
 			
@@ -65,7 +74,7 @@ package com.vstyran.transform.operations
 			
 			// set new size
 			data.inflate(newSize.x - data.width, newSize.y - data.height, startAnchor);
-					
+			
 			return data;
 		}
 		

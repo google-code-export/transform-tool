@@ -66,15 +66,15 @@
 		<operations:MoveOperation/>
 	</controls:Control>
 	
-	<!--<s:BitmapImage id="preview" alpha="0.4" top="0" left="0" right="0" bottom="0"/>
+	<s:BitmapImage id="preview" alpha="0.4" top="0" left="0" right="0" bottom="0"/>
 	
 	<s:Group  id="previewCover" top="0" left="0" right="0" bottom="0" mouseChildren="false" mouseEnabled="false">
 		<s:Rect top="0" left="0" right="0" bottom="0" >
 			<s:fill>
-				<s:SolidColor color="#FFFFFF" alpha="0.5"/>
+				<s:SolidColor color="#FFFFFF" alpha="0.4"/>
 			</s:fill>
 		</s:Rect>
-	</s:Group>-->
+	</s:Group>
 	
 	<s:Line yFrom="-26" yTo="0" horizontalCenter="0">
 		<s:stroke>
@@ -83,7 +83,7 @@
 	</s:Line>
 	<controls:Control id="rotateControl" top="-26" horizontalCenter="0"
 					  anchor="{centerAnchorControl}">
-		<operations:RotateOperation/>
+		<operations:RotateOperation stepDegree="1"/>
 	</controls:Control>
 	
 	<controls:Control id="topLeftControl" top="-6" left="-6" anchor="{bottomRightControl}">
