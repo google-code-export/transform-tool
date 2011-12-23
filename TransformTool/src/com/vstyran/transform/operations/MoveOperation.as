@@ -108,13 +108,15 @@ package com.vstyran.transform.operations
 			
 			DataUtil.fitData(data, bounds);
 			
-			guideCross = DataUtil.guideData(data, guidelines);
+			guideCross = DataUtil.guidePosition(data, guidelines);
 			
 			var snapX:Boolean = !(guideCross && guideCross.vGuideline); 
 			var snapY:Boolean = !(guideCross && guideCross.hGuideline); 
 			DataUtil.snapData(data, grid, snapX, snapY);
 			
 			DataUtil.fitData(data, bounds);
+			
+			guideCross = DataUtil.getPreciseGuides(data, guideCross, guidelines);
 			
 			return data;
 		}

@@ -63,6 +63,7 @@ package com.vstyran.transform.view
 		public function set liveTransformation(value:Boolean):void
 		{
 			(connector as UIConnector).liveTransformation = value;
+			showPreview = !value;
 		}
 
 	}

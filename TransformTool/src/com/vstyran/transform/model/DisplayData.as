@@ -889,7 +889,8 @@ package com.vstyran.transform.model
 			
 			var size:Point = MatrixUtil.fitBounds(w, h, matrix, width, height, NaN, NaN, minW, minH, maxW, maxH);
 			
-			inflate(size.x - width, size.y - height);
+			if(size)
+				inflate(size.x - width, size.y - height, anchor);
 		}
 		
 		/**

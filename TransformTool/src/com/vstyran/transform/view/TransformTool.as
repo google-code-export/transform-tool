@@ -202,7 +202,13 @@ package com.vstyran.transform.view
 		public var guidelines:Vector.<Guideline>;
 		
 		/**
+		 * Flag that indicates whether preview should be shown during transformation.
+		 */		
+		public var showPreview:Boolean;
+		
+		/**
 		 * Flag that indicates whether preview cover should be shown instead of preview.
+		 * Will work only when <code>showPreview</code> is true.
 		 */		
 		public var showPreviewCover:Boolean;
 		
@@ -460,17 +466,20 @@ package com.vstyran.transform.view
 		 */		
 		public function startTransformation(control:Control):void
 		{
-			if(preview && !showPreviewCover)
+			if(preview && showPreview && !showPreviewCover)
 			{
-				var bd:BitmapData = new BitmapData( _uiTarget.width, _uiTarget.height);
-				bd.draw( _uiTarget, new Matrix());
-				
-				preview.source = bd;
-				preview.visible = true;
+				try
+				{
+					var bd:BitmapData = new BitmapData( _uiTarget.width, _uiTarget.height);
+					bd.draw( _uiTarget, new Matrix());
+					
+					preview.source = bd;
+					preview.visible = true;
+				}catch(e:Error){}
 			}
 			
 			if(previewCover)
-				previewCover.visible = showPreviewCover;
+				previewCover.visible = showPreview && showPreviewCover;
 			
 			_transforming = true;
 			

@@ -11,25 +11,15 @@ package com.vstyran.transform.model
 	public class Guideline
 	{
 		/**
-		 * Vertical direction of guideline. 
-		 */		
-		public static const VERTICAL:String = "vertical"
-		
-		/**
-		 * Horizontal direction of guideline. 
-		 */
-		public static const HORIZONTAL:String = "horizontal"
-			
-		/**
 		 * Constructor.
 		 *  
-		 * @param direction Guideline direction
+		 * @param type Guideline type
 		 * @param value position
 		 * @param fraction Max delta value that can be guided.
 		 */			
-		public function Guideline(direction:String = "horizontal", value:Number = 0, fraction:Number = 0)
+		public function Guideline(type:String = "horizontal", value:Number = 0, fraction:Number = 0)
 		{
-			this.direction = direction;
+			this.type = type;
 			this.value = value;
 			this.fraction = fraction;
 		}
@@ -42,7 +32,7 @@ package com.vstyran.transform.model
 		/**
 		 * Position. 
 		 */		
-		public var direction:String;
+		public var type:String;
 		
 		/**
 		 * Max delta value that can be snapped.

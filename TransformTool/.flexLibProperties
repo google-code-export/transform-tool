@@ -41,6 +41,7 @@
     <classEntry path="com.vstyran.transform.connectors.IUIConnector"/>
     <classEntry path="com.vstyran.transform.connectors.UIScaleConnector"/>
     <classEntry path="com.vstyran.transform.events.TransformEvent"/>
+    <classEntry path="com.vstyran.transform.consts.GuidelineType"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
