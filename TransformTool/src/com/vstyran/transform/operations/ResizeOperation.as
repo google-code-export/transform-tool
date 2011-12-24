@@ -75,6 +75,9 @@ package com.vstyran.transform.operations
 			// set new size
 			data.inflate(newSize.x - data.width, newSize.y - data.height, startAnchor);
 			
+			// check pasive guidelines
+			guideCross = DataUtil.getPreciseGuides(data, guideCross, guidelines);
+			
 			return data;
 		}
 		
