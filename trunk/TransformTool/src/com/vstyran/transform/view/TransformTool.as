@@ -155,7 +155,10 @@ package com.vstyran.transform.view
 				_connector = value;
 				
 				if(_connector)
+				{
+					_connector.setToolPanel(parent);
 					_connector.addEventListener(ConnectorEvent.DATA_CHANGE, dataChangeHendler);
+				}
 				
 				updateTool();
 			}
