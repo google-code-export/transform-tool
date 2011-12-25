@@ -463,6 +463,13 @@ package com.vstyran.transform.view
 		{
 			return _transforming;
 		}
+		
+		/**
+		 * @private
+		 * 
+		 * If eny transformation was performed.
+		 */		
+		private var isTransformed:Boolean;
 
 		/**
 		 * Start transformation (mouse down on control) 
@@ -499,6 +506,8 @@ package com.vstyran.transform.view
 			data = connector.transfrom(data)
 				
 			dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION, data));
+			
+			isTransformed = true;
 		}
 		
 		/**
@@ -506,6 +515,9 @@ package com.vstyran.transform.view
 		 */		
 		public function endTransformation(data:DisplayData):void
 		{
+			if(!isTransformed)
+				return;
+			
 			DataUtil.applyData(this, data);
 			
 			data = connector.complete(data);
@@ -519,6 +531,8 @@ package com.vstyran.transform.view
 			_transforming = false;
 			
 			dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION_COMPLETE, data));
+			
+			isTransformed = false;
 		}
 		
 		/**
