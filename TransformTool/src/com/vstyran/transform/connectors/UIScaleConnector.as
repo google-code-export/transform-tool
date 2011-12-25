@@ -22,10 +22,25 @@ package com.vstyran.transform.connectors
 		
 		/**
 		 * @inheritDoc 
+		 */		
+		override public function getData():DisplayData
+		{
+			var data:DisplayData = super.getData();
+			
+			data.minWidth = target.minWidth;
+			data.minHeight = target.minHeight;
+			data.maxWidth = target.maxWidth;
+			data.maxHeight = target.maxHeight;
+			
+			return data;
+		}
+		
+		/**
+		 * @inheritDoc 
 		 */	
 		override public function transfrom(data:DisplayData):DisplayData
 		{
-			var data:DisplayData = dataConnector.transfrom(data);
+			data = dataConnector.transfrom(data);
 			
 			DataUtil.applyScaledData(target, dataConnector.data);
 			
