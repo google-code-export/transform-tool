@@ -10,6 +10,6 @@ package com.vstyran.transform
 		/**
 		 *  Version string for transform tool.
 		 */
-		public static const VERSION:String = "2.3.6";
+		public static const VERSION:String = "2.3.7";
 	}
 }
