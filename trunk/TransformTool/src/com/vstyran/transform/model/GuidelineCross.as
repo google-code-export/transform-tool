@@ -126,7 +126,7 @@ package com.vstyran.transform.model
 		}
 		
 		/**
-		 * Gett all vertical guidelines including active.
+		 * Get all vertical guidelines including active.
 		 *  
 		 * @return Vector of all vertical guidelines.
 		 */		
@@ -136,7 +136,7 @@ package com.vstyran.transform.model
 		}
 		
 		/**
-		 * Gett all horizontal guidelines including active.
+		 * Get all horizontal guidelines including active.
 		 *  
 		 * @return Vector of all horizontal guidelines.
 		 */	
