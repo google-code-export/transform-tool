@@ -56,6 +56,9 @@ package com.vstyran.transform.operations
 			if(verticalEnabled)
 				newSize.y = data.height + data.height*deltaPoint.y/(startPoint.y-startAnchor.y);
 			
+			//reset guideline cross
+			guideCross = null;
+			
 			// guide data
 			if(data.rotation%90 == 0)
 			{
@@ -64,6 +67,7 @@ package com.vstyran.transform.operations
 				guideCross = DataUtil.guideSize(data.clone(), guidData, guidelines);
 				newSize = new Point(guidData.width, guidData.height);
 			}
+			else
 			
 			// check min/max values
 			newSize = data.resolveMinMax(newSize);
@@ -76,7 +80,8 @@ package com.vstyran.transform.operations
 			data.inflate(newSize.x - data.width, newSize.y - data.height, startAnchor);
 			
 			// check pasive guidelines
-			guideCross = DataUtil.getPreciseGuides(data, guideCross, guidelines);
+			if(data.rotation%90 == 0)
+				guideCross = DataUtil.getPreciseGuides(data, guideCross, guidelines);
 			
 			return data;
 		}
