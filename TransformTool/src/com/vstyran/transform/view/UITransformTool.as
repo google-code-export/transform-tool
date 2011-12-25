@@ -65,6 +65,5 @@ package com.vstyran.transform.view
 			(connector as UIConnector).liveTransformation = value;
 			showPreview = !value;
 		}
-
 	}
 }
