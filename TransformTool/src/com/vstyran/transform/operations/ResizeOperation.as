@@ -56,25 +56,48 @@ package com.vstyran.transform.operations
 			if(verticalEnabled)
 				newSize.y = data.height + data.height*deltaPoint.y/(startPoint.y-startAnchor.y);
 			
+			//keep aspect ratio
+			if(maintainAspectRatio) 
+				newSize = startData.resolveAspectRatio(newSize, horizontalEnabled, verticalEnabled);
+			
 			//reset guideline cross
 			guideCross = null;
 			
 			// guide data
 			if(data.rotation%90 == 0)
 			{
+				// recalculate new size keeping min/max values
+				newSize = data.resolveMinMax(newSize);
+				
 				var guidData:DisplayData = data.clone();
 				guidData.inflate(newSize.x - startData.width, newSize.y - startData.height, startAnchor);
-				guideCross = DataUtil.guideSize(data.clone(), guidData, guidelines);
-				newSize = new Point(guidData.width, guidData.height);
+				var currentAnchor:Point = new Point(startAnchor.x*guidData.width/startData.width, startAnchor.y*guidData.height/startData.height);
+				guideCross = DataUtil.guideSize(data.clone(), guidData, currentAnchor, guidelines);
+				
+				var tmpSize:Point = new Point(guidData.width, guidData.height);
+				if(maintainAspectRatio)
+				{
+					var vChanged:Boolean = tmpSize.y != MathUtil.round(newSize.y,2);
+					var hChanged:Boolean = tmpSize.x != MathUtil.round(newSize.x,2);
+					
+					// if snapped to two guides we will use less snapping value
+					if(vChanged && hChanged)
+					{
+						if(Math.abs(tmpSize.x-MathUtil.round(newSize.x,2)) >= Math.abs(tmpSize.y-MathUtil.round(newSize.y,2)))
+							hChanged = false;
+						else
+							vChanged = false;
+					}
+					
+					if(vChanged || hChanged)
+						tmpSize = startData.resolveAspectRatio(tmpSize, !vChanged, !hChanged );
+				}
+				
+				newSize = tmpSize;
 			}
-			else
 			
 			// check min/max values
 			newSize = data.resolveMinMax(newSize);
-			
-			//keep aspect ratio
-			if(maintainAspectRatio) 
-				newSize = startData.resolveAspectRatio(newSize,horizontalEnabled, verticalEnabled);
 			
 			// set new size
 			data.inflate(newSize.x - data.width, newSize.y - data.height, startAnchor);

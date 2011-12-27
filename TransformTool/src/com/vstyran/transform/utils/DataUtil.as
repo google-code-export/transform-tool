@@ -174,10 +174,11 @@ package com.vstyran.transform.utils
 		 *  
 		 * @param startData Start data.
 		 * @param data Source data to be guided. Will be changed.
+		 * @param anchor Anchor point should be set in data coordinate space. 
 		 * @param guidelines List of guidelines.
 		 * @return Cross of guidelines that currently active.
 		 */		
-		public static function guideSize(startData:DisplayData, data:DisplayData, guidelines:Vector.<Guideline>):GuidelineCross 
+		public static function guideSize(startData:DisplayData, data:DisplayData, anchor:Point, guidelines:Vector.<Guideline>):GuidelineCross 
 		{
 			startData.precision = 2;
 			data.precision = 2;
@@ -193,17 +194,21 @@ package com.vstyran.transform.utils
 					// check left adge
 					var x:Number = (startData.left.x != data.left.x) ? data.left.x : NaN;
 					var y:Number = (startData.top.y != data.top.y) ? data.top.y : NaN;
-					var posDelta:Point = checkActiveGuideline(cross, guideline, null, x, y, false);
-					delta.x = posDelta.x != 0 ? -posDelta.x : delta.x;
-					delta.y = posDelta.y != 0 ? -posDelta.y : delta.y;
+					delta = checkActiveGuideline(cross, guideline, null, x, y, false);
+					if(delta.x != 0)
+						data.setLeft(guideline.value, anchor);
+					if(delta.y != 0)
+						data.setTop(guideline.value, anchor);
 					
 					// check right adge
 					x = (startData.right.x != data.right.x) ? data.right.x : NaN;
 					y = (startData.bottom.y != data.bottom.y) ? data.bottom.y : NaN;
-					delta = checkActiveGuideline(cross, guideline, delta, x, y, false);
+					delta = checkActiveGuideline(cross, guideline, null, x, y, false);
+					if(delta.x != 0)
+						data.setRight(guideline.value, anchor);
+					if(delta.y != 0)
+						data.setBottom(guideline.value, anchor);
 				}
-				
-				data.setBoundingSize(box.width + delta.x, box.height + delta.y);
 			}
 			
 			return (cross.vGuideline || cross.hGuideline) ? cross : null;
@@ -236,7 +241,36 @@ package com.vstyran.transform.utils
 				}
 			}
 			
+			// validate active guidelines
+			if(cross.vGuideline && !validatePreciseGuideLine(data, cross.vGuideline))
+				cross.removeGuideline(cross.vGuideline);
+			
+			if(cross.hGuideline && !validatePreciseGuideLine(data, cross.hGuideline))
+				cross.removeGuideline(cross.hGuideline);
+			
 			return cross.getGuidelines().length > 0 ? cross : null;
+		}
+		
+		/**
+		 * Validation guideline to check whether it's still precisely fit.
+		 *  
+		 * @param data DisplayData object to be checked.
+		 * @param guideline Guideline to validate.
+		 * 
+		 * @return true if it;s fit; otherwise false.
+		 */		
+		public static function validatePreciseGuideLine(data:DisplayData, guideline:Guideline):Boolean 
+		{
+			var box:Rectangle = data.getBoundingBox();
+			var cross:GuidelineCross = new GuidelineCross();
+			// check left adge
+			checkGuideline(cross, guideline, box.x, box.y, false);
+			// check center
+			checkGuideline(cross, guideline, box.x + box.width/2, box.y + box.height/2, true);
+			// check right adge
+			checkGuideline(cross, guideline, box.x + box.width, box.y + box.height, false);
+			
+			return cross.getGuidelines().length > 0;
 		}
 		
 		/**
