@@ -202,7 +202,6 @@ package com.vstyran.transform.utils
 					y = (startData.bottom.y != data.bottom.y) ? data.bottom.y : NaN;
 					delta = checkActiveGuideline(cross, guideline, delta, x, y, false);
 				}
-				trace("      "+delta)
 				
 				data.setBoundingSize(box.width + delta.x, box.height + delta.y);
 			}

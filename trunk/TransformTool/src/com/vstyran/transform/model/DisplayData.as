@@ -532,6 +532,18 @@ package com.vstyran.transform.model
 		}
 		
 		/**
+		 * Inflate data to make y position of top point equals specified value.
+		 *  
+		 * @param value New y position of top point.
+		 * @param anchor Anchor point should be set in data coordinate space. 
+		 * If not specified then will be used Point(width/2, height/2).
+		 */			
+		public function setTop(value:Number, anchor:Point = null):void
+		{
+			inflateByPointPosition(top, new Point(NaN, value), anchor);
+		}
+		
+		/**
 		 * @private
 		 */
 		private var _bottom:Point;
@@ -560,6 +572,18 @@ package com.vstyran.transform.model
 				}
 			}
 			return new Point(round(_bottom.x), round(_bottom.y));
+		}
+		
+		/**
+		 * Inflate data to make y position of bottom point equals specified value.
+		 *  
+		 * @param value New y position of bottom point.
+		 * @param anchor Anchor point should be set in data coordinate space. 
+		 * If not specified then will be used Point(width/2, height/2).
+		 */			
+		public function setBottom(value:Number, anchor:Point = null):void
+		{
+			inflateByPointPosition(bottom, new Point(NaN, value), anchor);
 		}
 		
 		/**
@@ -594,6 +618,18 @@ package com.vstyran.transform.model
 		}
 		
 		/**
+		 * Inflate data to make x position of left point equals specified value.
+		 *  
+		 * @param value New x position of left point.
+		 * @param anchor Anchor point should be set in data coordinate space. 
+		 * If not specified then will be used Point(width/2, height/2).
+		 */			
+		public function setLeft(value:Number, anchor:Point = null):void
+		{
+			inflateByPointPosition(left, new Point(value, NaN), anchor);
+		}
+		
+		/**
 		 * @private
 		 */
 		private var _right:Point;
@@ -622,6 +658,18 @@ package com.vstyran.transform.model
 				}
 			}
 			return new Point(round(_right.x), round(_right.y));
+		}
+		
+		/**
+		 * Inflate data to make x position of right point equals specified value.
+		 *  
+		 * @param value New x position of right point.
+		 * @param anchor Anchor point should be set in data coordinate space. 
+		 * If not specified then will be used Point(width/2, height/2).
+		 */			
+		public function setRight(value:Number, anchor:Point = null):void
+		{
+			inflateByPointPosition(right, new Point(value, NaN), anchor);
 		}
 		
 		/**
@@ -1131,6 +1179,22 @@ package com.vstyran.transform.model
 			max = !isNaN(max) ? max : Number.MAX_VALUE;
 			
 			return Math.min(max, Math.max(min, value));
+		}
+		
+		/**
+		 * @private
+		 */		
+		private function inflateByPointPosition(point:Point, position:Point, anchor:Point):void
+		{
+			var newSize:Point = new Point(width, height);
+			
+			if(point.x-anchor.x > 0 && !isNaN(position.x))
+				newSize.x = width + width*(position.x - point.x)/(point.x-anchor.x);
+			
+			if(point.y-anchor.y > 0 && !isNaN(position.y))
+				newSize.y = height + height*(position.y - point.y)/(point.y-anchor.y);
+			
+			inflate(newSize.x - width, newSize.y - height, anchor);
 		}
 	}
 }
