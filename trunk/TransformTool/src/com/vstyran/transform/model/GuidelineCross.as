@@ -103,6 +103,11 @@ package com.vstyran.transform.model
 			var index:int = list.indexOf(guideline);
 			if(index != -1)
 				list.splice(index, 1);
+			
+			if(guideline == vGuideline)
+				setVGuideline(null);
+			else if(guideline == hGuideline)
+				setHGuideline(null);
 		}
 		
 		/**
