@@ -540,7 +540,9 @@ package com.vstyran.transform.model
 		 */			
 		public function setTop(value:Number, anchor:Point = null):void
 		{
-			inflateByPointPosition(top, new Point(NaN, value), anchor);
+			anchor ||= new Point(width/2, height/2);
+			var point:Point = invertedMatrix.transformPoint(new Point(top.x, value));
+			inflateByPointPosition(invertedMatrix.transformPoint(top), point, anchor);
 		}
 		
 		/**
@@ -583,7 +585,9 @@ package com.vstyran.transform.model
 		 */			
 		public function setBottom(value:Number, anchor:Point = null):void
 		{
-			inflateByPointPosition(bottom, new Point(NaN, value), anchor);
+			anchor ||= new Point(width/2, height/2);
+			var point:Point = invertedMatrix.transformPoint(new Point(bottom.x, value));
+			inflateByPointPosition(invertedMatrix.transformPoint(bottom), point, anchor);
 		}
 		
 		/**
@@ -626,7 +630,9 @@ package com.vstyran.transform.model
 		 */			
 		public function setLeft(value:Number, anchor:Point = null):void
 		{
-			inflateByPointPosition(left, new Point(value, NaN), anchor);
+			anchor ||= new Point(width/2, height/2);
+			var point:Point = invertedMatrix.transformPoint(new Point(value, left.y));
+			inflateByPointPosition(invertedMatrix.transformPoint(left), point, anchor);
 		}
 		
 		/**
@@ -669,7 +675,9 @@ package com.vstyran.transform.model
 		 */			
 		public function setRight(value:Number, anchor:Point = null):void
 		{
-			inflateByPointPosition(right, new Point(value, NaN), anchor);
+			anchor ||= new Point(width/2, height/2);
+			var point:Point = invertedMatrix.transformPoint(new Point(value, right.y));
+			inflateByPointPosition(invertedMatrix.transformPoint(right), point, anchor);
 		}
 		
 		/**
@@ -797,10 +805,7 @@ package com.vstyran.transform.model
 			}
 			else
 			{
-				var m:Matrix = matrix;
-				m.invert();
-				var localPoint:Point = m.transformPoint(new Point(x, y));
-				
+				var localPoint:Point = invertedMatrix.transformPoint(new Point(x, y));
 				return rect.contains(localPoint.x + this.x, localPoint.y + this.y)
 			}
 		}
@@ -837,9 +842,9 @@ package com.vstyran.transform.model
 			
 			var m:Matrix =  new Matrix();
 			m.rotate(rotation / 180 * Math.PI);
-			var deltPos:Point = m.transformPoint(new Point(newSize.x*anchor.x/width - anchor.x, newSize.y*anchor.y/height - anchor.y));
+			var deltaPos:Point = m.transformPoint(new Point(newSize.x*anchor.x/width - anchor.x, newSize.y*anchor.y/height - anchor.y));
 			
-			setTo(x - deltPos.x, y - deltPos.y, newSize.x ,newSize.y, rotation);
+			setTo(x - deltaPos.x, y - deltaPos.y, newSize.x ,newSize.y, rotation);
 		}
 		
 		/**
@@ -1188,13 +1193,23 @@ package com.vstyran.transform.model
 		{
 			var newSize:Point = new Point(width, height);
 			
-			if(point.x-anchor.x > 0 && !isNaN(position.x))
+			if(point.x-anchor.x != 0 && !isNaN(position.x) && position.x != 0)
 				newSize.x = width + width*(position.x - point.x)/(point.x-anchor.x);
 			
-			if(point.y-anchor.y > 0 && !isNaN(position.y))
+			if(point.y-anchor.y != 0 && !isNaN(position.y) && position.y != 0)
 				newSize.y = height + height*(position.y - point.y)/(point.y-anchor.y);
 			
 			inflate(newSize.x - width, newSize.y - height, anchor);
+		}
+		
+		/**
+		 * @private 
+		 */		
+		private function get invertedMatrix():Matrix
+		{
+			var m:Matrix = matrix;
+			m.invert();
+			return m;
 		}
 	}
 }
