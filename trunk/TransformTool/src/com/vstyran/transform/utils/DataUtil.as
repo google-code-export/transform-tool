@@ -215,6 +215,32 @@ package com.vstyran.transform.utils
 		}
 		
 		/**
+		 * Snap to rotation guideliones.
+		 *  
+		 * @param rotation Current rotation
+		 * @param guidelines List of guidelines.
+		 * @return Cross of guidelines that currently active.
+		 */		
+		public static function guideRotation(rotation:Number, guidelines:Vector.<Guideline>):GuidelineCross
+		{
+			var cross:GuidelineCross = new GuidelineCross();
+			
+			for each (var guideline:Guideline in guidelines) 
+			{
+				if(cross.rGuideline != null)
+					break;
+				
+				if(guideline.type == GuidelineType.ROTATION)
+				{
+					if(Math.abs(guideline.value-rotation) <= guideline.fraction)
+						cross.addGuideline(guideline, true);
+				}
+			}
+			
+			return cross.rGuideline ? cross : null;
+		}
+		
+		/**
 		 * @private
 		 * Returns list of guides that exactly matches snapping values of specified DisplayData object. 
 		 * 

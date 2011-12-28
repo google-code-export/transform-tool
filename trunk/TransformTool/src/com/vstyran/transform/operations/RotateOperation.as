@@ -40,8 +40,19 @@ package com.vstyran.transform.operations
 			var alpha:Number =  Math.atan2(point.y - startAnchor.y, point.x - startAnchor.x) * 180/Math.PI ;
 			deltaRotation = alpha - initialAngle; 
 			
+			// reset cross
+			guideCross = null;
+			
+			// snap to guidelines
+			if(maintainGuidelines)
+			{
+				guideCross = DataUtil.guideRotation(data.rotation + deltaRotation, guidelines);
+				if(guideCross && guideCross.rGuideline)
+					deltaRotation = guideCross.rGuideline.value - data.rotation;
+			}
+			
 			// snap to specified step
-			if(!isNaN(stepDegree) && stepDegree > 0)
+			if(!isNaN(stepDegree) && stepDegree > 0 && guideCross && guideCross.rGuideline)
 				deltaRotation = Math.round((data.rotation + deltaRotation)/stepDegree)*stepDegree - data.rotation;
 			
 			//rotate data
