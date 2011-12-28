@@ -517,21 +517,20 @@ package com.vstyran.transform.view
 		{
 			_transforming = false;
 			
-			if(!isTransformed)
-				return;
-			
-			DataUtil.applyData(this, data);
-			
-			data = connector.complete(data);
-			
 			if(preview)
 				preview.visible = false;
 			
 			if(previewCover)
 				previewCover.visible = false;
 			
-			dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION_COMPLETE, data));
-			
+			if(isTransformed)
+			{			
+				DataUtil.applyData(this, data);
+				
+				data = connector.complete(data);
+				
+				dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION_COMPLETE, data));
+				}
 			isTransformed = false;
 		}
 		
