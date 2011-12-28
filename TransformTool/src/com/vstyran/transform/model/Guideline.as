@@ -39,5 +39,10 @@ package com.vstyran.transform.model
 		 * @default NaN
 		 */	
 		public var fraction:Number;
+		
+		/**
+		 * User specific data.
+		 */	
+		public var userData:Object;
 	}
 }

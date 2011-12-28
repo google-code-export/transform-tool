@@ -64,7 +64,7 @@ package com.vstyran.transform.operations
 			guideCross = null;
 			
 			// guide data
-			if(data.rotation%90 == 0)
+			if(data.rotation%90 == 0 && maintainGuidelines)
 			{
 				// recalculate new size keeping min/max values
 				newSize = data.resolveMinMax(newSize);

@@ -36,5 +36,10 @@ package com.vstyran.transform.consts
 		 * Horizontal direction of guideline for only edge checking. 
 		 */
 		public static const HORIZONTAL_EDGE:String = "horizontalEdge";
+		
+		/**
+		 * Guideline for rotation. 
+		 */
+		public static const ROTATION:String = "rotation";
 	}
 }

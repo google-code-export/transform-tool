@@ -69,6 +69,30 @@ package com.vstyran.transform.model
 		}
 		
 		/**
+		 * @private 
+		 */	
+		private var _rGuideline:Guideline;
+
+		[Bindable("rGuidelineChanged")]
+		/**
+		 * Rotation active guideline. 
+		 */
+		public function get rGuideline():Guideline
+		{
+			return _rGuideline;
+		}
+
+		/**
+		 * @private
+		 */
+		protected function setRGuideline(value:Guideline):void
+		{
+			if(_rGuideline == value) return;
+			_rGuideline = value;
+			dispatchEvent(new Event("rGuidelineChanged"));
+		}
+		
+		/**
 		 * List of guidelines. 
 		 */		
 		protected var list:Vector.<Guideline>;
@@ -90,6 +114,8 @@ package com.vstyran.transform.model
 					setVGuideline(guideline); 
 				if(guideline.type.search(GuidelineType.HORIZONTAL) != -1)
 					setHGuideline(guideline); 
+				if(guideline.type == GuidelineType.ROTATION)
+					setRGuideline(guideline); 
 			}
 		}
 		
@@ -149,6 +175,7 @@ package com.vstyran.transform.model
 		{
 			return getGuidelinesInternal(GuidelineType.HORIZONTAL);
 		}
+		
 		
 		/**
 		 * @private 
