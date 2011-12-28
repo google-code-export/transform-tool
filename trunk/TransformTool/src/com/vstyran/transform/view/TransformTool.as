@@ -515,6 +515,8 @@ package com.vstyran.transform.view
 		 */		
 		public function endTransformation(data:DisplayData):void
 		{
+			_transforming = false;
+			
 			if(!isTransformed)
 				return;
 			
@@ -527,8 +529,6 @@ package com.vstyran.transform.view
 			
 			if(previewCover)
 				previewCover.visible = false;
-			
-			_transforming = false;
 			
 			dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION_COMPLETE, data));
 			
