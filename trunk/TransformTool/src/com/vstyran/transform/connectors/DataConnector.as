@@ -53,9 +53,8 @@ package com.vstyran.transform.connectors
 		public function set panel(value:UIComponent):void
 		{
 			_panel = value;
+			recalcMatrixes();
 			
-			matrix = TransformUtil.getMatrix(panel, toolPanel);
-			invertMatrix = TransformUtil.getMatrix(toolPanel, panel);
 			dispatchEvent(new ConnectorEvent(ConnectorEvent.DATA_CHANGE));
 		}
 
@@ -71,8 +70,19 @@ package com.vstyran.transform.connectors
 		public function setToolPanel(toolPanel:DisplayObject):void
 		{
 			this.toolPanel = toolPanel;
-			matrix = TransformUtil.getMatrix(panel, toolPanel);
-			invertMatrix = TransformUtil.getMatrix(toolPanel, panel);
+			recalcMatrixes();
+		}
+		
+		/**
+		 * @private 
+		 */		
+		private function recalcMatrixes():void
+		{
+			if(panel && toolPanel)
+			{
+				matrix = TransformUtil.getMatrix(panel, toolPanel);
+				invertMatrix = TransformUtil.getMatrix(toolPanel, panel);
+			}
 		}
 		
 		/**
@@ -116,10 +126,13 @@ package com.vstyran.transform.connectors
 		private var invertMatrix:Matrix;
 		
 		/**
-		 * @inheritDoc 
+		 * @inheritDoc
 		 */		
-		public function getData():DisplayData
+		public function getData(deep:Boolean = false):DisplayData
 		{
+			if(deep || !matrix)
+				recalcMatrixes();
+			
 			if(matrix && data)
 				return TransformUtil.transformData(matrix, data);
 			else
