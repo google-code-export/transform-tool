@@ -65,7 +65,7 @@ package com.vstyran.transform.connectors
 		/**
 		 * @inheritDoc 
 		 */	
-		public function getData():DisplayData
+		public function getData(deep:Boolean = false):DisplayData
 		{
 			return data;
 		}

@@ -535,11 +535,14 @@ package com.vstyran.transform.view
 		}
 		
 		/**
-		 * Upodate size, position, etc. of tool 
+		 * Upodate size, position, etc. of tool.
+		 * 
+		 * @param deep Flag that indicates whether connector should recalculate all parent dependencies to get right DisplayData values.
+		 * Typically used when position or scale values of parent container changed. 
 		 */		
-		public function updateTool():void
+		public function updateTool(deep:Boolean=false):void
 		{
-			var data:DisplayData = connector.getData();
+			var data:DisplayData = connector.getData(deep);
 			if(data)
 				DataUtil.applyData(this, data, true);
 		}

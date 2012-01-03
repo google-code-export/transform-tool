@@ -93,12 +93,12 @@ package com.vstyran.transform.connectors
 		/**
 		 * @inheritDoc 
 		 */		
-		public function getData():DisplayData
+		public function getData(deep:Boolean = false):DisplayData
 		{
 			if(target)
 				dataConnector.data = DataUtil.createData(target);
 			
-			return dataConnector.getData();
+			return dataConnector.getData(deep);
 		}
 		
 		/**
