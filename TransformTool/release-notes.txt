@@ -1,0 +1,4 @@
+Release Notes for TransformTool 2.3.8
+----------------------------------
+* Added ability to update geometry of transform tool if one of parent panels is changed by 
+  position or scale values ("deep" parameter in updateTool method).
