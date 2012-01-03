@@ -83,6 +83,9 @@ package com.vstyran.transform.view
 	/**
 	 * Transfrom tool that can edit geometry properties of target object.
 	 * 
+	 * @see http://code.google.com/p/transform-tool/
+	 * @see http://vstyran-flex.blogspot.com/search/label/Transformation
+	 * 
 	 * @author Volodymyr Styranivskyi
 	 */
 	public class TransformTool extends SkinnableComponent
