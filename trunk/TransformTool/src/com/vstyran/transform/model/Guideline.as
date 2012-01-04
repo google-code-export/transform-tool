@@ -16,6 +16,8 @@ package com.vstyran.transform.model
 		 * @param type Guideline type
 		 * @param value position
 		 * @param fraction Max delta value that can be guided.
+		 * 
+		 * @see com.vstyran.transform.consts.GuidelineType
 		 */			
 		public function Guideline(type:String = "horizontal", value:Number = 0, fraction:Number = 0)
 		{
@@ -31,6 +33,7 @@ package com.vstyran.transform.model
 		
 		/**
 		 * Position. 
+		 * @see com.vstyran.transform.consts.GuidelineType
 		 */		
 		public var type:String;
 		
