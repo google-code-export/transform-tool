@@ -39,33 +39,37 @@
             <s:fill>
                 <s:SolidColor color="#FFFFFF"/>
             </s:fill>
+			<s:stroke>
+				<s:SolidColorStroke weight="2"/>
+			</s:stroke>
         </s:Rect>
 		<s:RectangularDropShadow left="0" right="0" top="0" bottom="0" cacheAsBitmap="true"
 								 blRadius="5" brRadius="5" tlRadius="5" trRadius="5" 
 								 distance="2" blurX="4" blurY="4" angle="45" alpha="0.5"/>
 		
 		<s:Group includeIn="resize" left="0" right="0" top="0" bottom="0">
-			<s:Label left="5" right="70" top="5" fontWeight="bold" text="WIDTH:" textAlign="right"/>
-			<s:Label left="5" right="70" bottom="5" fontWeight="bold" text="HEIGHT:" textAlign="right"/>
-			<s:Label id="widthLabel" right="5" top="5" width="60" fontWeight="bold" text="0 px."
+			<s:Label left="5" right="70" top="5" fontSize="11" fontWeight="bold" text="WIDTH:" textAlign="right"/>
+			<s:Label left="5" right="70" bottom="5" fontSize="11" fontWeight="bold" text="HEIGHT:" textAlign="right"/>
+			<s:Label id="widthLabel" right="5" top="5" width="60" fontSize="11" fontWeight="bold" text="0 px."
 					 textAlign="center"/>
-			<s:Label id="heightLabel" right="5" bottom="5" width="60" fontWeight="bold" text="0 px."
+			<s:Label id="heightLabel" right="5" bottom="5" width="60" fontSize="11" fontWeight="bold" text="0 px."
 					 textAlign="center"/>
 		</s:Group>
 		
 		<s:Group includeIn="move" left="0" right="0" top="0" bottom="0">
-			<s:Label left="5" right="100" top="5" fontWeight="bold" text="X:" textAlign="right"/>
-			<s:Label left="5" right="100" bottom="5" fontWeight="bold" text="Y:" textAlign="right"/>
-			<s:Label id="xLabel" right="5" top="5" width="90" fontWeight="bold" text="0 px."
+			<s:Label left="5" right="100" top="5" fontSize="11" fontWeight="bold" text="X:"
+					 textAlign="right"/>
+			<s:Label left="5" right="100" bottom="5" fontSize="11" fontWeight="bold" text="Y:" textAlign="right"/>
+			<s:Label id="xLabel" right="5" top="5" width="90" fontSize="11" fontWeight="bold" text="0 px."
 					 textAlign="center"/>
-			<s:Label id="yLabel" right="5" bottom="5" width="90" fontWeight="bold" text="0 px."
+			<s:Label id="yLabel" right="5" bottom="5" width="90" fontSize="11" fontWeight="bold" text="0 px."
 					 textAlign="center"/>
 		</s:Group>
 		
 		<s:Group includeIn="rotate" left="0" right="0" top="0" bottom="0">
-			<s:Label left="5" right="60" fontWeight="bold" text="Rotation:" textAlign="right"
+			<s:Label left="5" right="60" fontSize="11" fontWeight="bold" text="Rotation:" textAlign="right"
 					 verticalCenter="0"/>
-			<s:Label id="rotationLabel" right="5" width="50" fontWeight="bold" text="0 px."
+			<s:Label id="rotationLabel" right="5" width="50" fontSize="11" fontWeight="bold" text="0 px."
 					 textAlign="center" verticalCenter="0"/>
 		</s:Group>
         
