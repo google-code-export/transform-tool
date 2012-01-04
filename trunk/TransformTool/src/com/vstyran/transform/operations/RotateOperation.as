@@ -2,6 +2,7 @@ package com.vstyran.transform.operations
 {
 	import com.vstyran.transform.consts.TransformationType;
 	import com.vstyran.transform.model.DisplayData;
+	import com.vstyran.transform.model.SegmentData;
 	import com.vstyran.transform.utils.DataUtil;
 	import com.vstyran.transform.utils.MathUtil;
 	
@@ -24,9 +25,14 @@ package com.vstyran.transform.operations
 		}
 		
 		/**
-		 *   The amount of degree that used as step size for rotation. 
+		 * Segmets that will be used as step size for operations. 
 		 */		
-		public var stepDegree:Number;
+		public var segments:Vector.<SegmentData>;
+		
+		/**
+		 * Flag indicates whether operation should be fitted into segmets if it is specified. 
+		 */		
+		public var maintainSegments:Boolean = true;
 		
 		/**
 		 * @inheritDoc
@@ -61,8 +67,13 @@ package com.vstyran.transform.operations
 			}
 			
 			// snap to specified step
-			if(!isNaN(stepDegree) && stepDegree > 0 && guideCross && guideCross.rGuideline)
-				deltaRotation = Math.round((data.rotation + deltaRotation)/stepDegree)*stepDegree - data.rotation;
+			if(segments && maintainSegments && (!guideCross || !guideCross.rGuideline))
+			{
+				for each (var segment:SegmentData in segments) 
+				{
+					deltaRotation = DataUtil.snapRotation(data.rotation + deltaRotation, segment) - data.rotation;
+				}
+			}
 			
 			//rotate data
 			data.rotate(deltaRotation, startAnchor);
