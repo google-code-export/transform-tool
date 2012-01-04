@@ -8,7 +8,7 @@
 		xmlns:layouts="com.vstyran.transform.layouts.*"
 		xmlns:vector="com.vstyran.transform.managers.vector.*"
 		xmlns:cursors="com.vstyran.transform.managers.vector.cursors.*"
-		width="200" height="180" >
+		width="200" height="180" xmlns:model="com.vstyran.transform.model.*" >
 	<!-- host component -->
 	<fx:Metadata>
 		[HostComponent("com.vstyran.transform.view.TransformTool")]
@@ -87,7 +87,12 @@
 	</s:Line>
 	<controls:Control id="rotateControl" top="-26" horizontalCenter="0"
 					  anchor="{centerAnchorControl}">
-		<operations:RotateOperation stepDegree="1"/>
+		<operations:RotateOperation>
+			<operations:segments>
+				<model:SegmentData deltaAngle="0"/>
+				<model:SegmentData deltaAngle="45" fraction="4"/>
+			</operations:segments>
+		</operations:RotateOperation>
 	</controls:Control>
 	
 	<controls:Control id="topLeftControl" top="-6" left="-6" anchor="{bottomRightControl}">

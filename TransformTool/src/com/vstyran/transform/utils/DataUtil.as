@@ -6,6 +6,7 @@ package com.vstyran.transform.utils
 	import com.vstyran.transform.model.GridData;
 	import com.vstyran.transform.model.Guideline;
 	import com.vstyran.transform.model.GuidelineCross;
+	import com.vstyran.transform.model.SegmentData;
 	
 	import flash.geom.Matrix;
 	import flash.geom.Point;
@@ -137,6 +138,30 @@ package com.vstyran.transform.utils
 			}
 			
 			return data;
+		}
+		
+		/**
+		 * Snap rotation ito segments.
+		 *  
+		 * @param rotation Value to snap.
+		 * @param segment SegmantData object.
+		 * 
+		 * @return Snapped rotation.
+		 */		
+		public static function snapRotation(rotation:Number, segment:SegmentData):Number 
+		{
+			if(segment)
+			{
+				var newRotation:Number = MathUtil.snapValue(Math.abs(rotation), segment.startAngle, segment.deltaAngle, segment.fraction);
+				
+				// keep original sign
+				if(rotation < 0)
+					newRotation *= -1;
+				
+				return newRotation;
+			}
+			
+			return rotation;
 		}
 		
 		/**
