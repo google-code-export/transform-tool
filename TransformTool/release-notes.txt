@@ -5,4 +5,5 @@ Release Notes for TransformTool 2.3.8
   position or scale values ("deep" parameter in updateTool method).
 * Added transformation hints.  
 * Added transformation type to transform event.  
+* Added snap to segments for rotate operation.  
 ====== BUG FIXES ======
