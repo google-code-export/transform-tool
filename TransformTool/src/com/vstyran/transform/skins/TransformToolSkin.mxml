@@ -89,7 +89,7 @@
 					  anchor="{centerAnchorControl}">
 		<operations:RotateOperation>
 			<operations:segments>
-				<model:SegmentData deltaAngle="0"/>
+				<model:SegmentData deltaAngle="1"/>
 				<model:SegmentData deltaAngle="45" fraction="4"/>
 			</operations:segments>
 		</operations:RotateOperation>
