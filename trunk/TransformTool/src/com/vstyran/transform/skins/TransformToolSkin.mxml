@@ -43,7 +43,7 @@
 		
 		<cursors:ResizeCursor id="resizeCursor" rotation="45" mouseChildren="false" mouseEnabled="false"/>
 		
-		<vector:CursorManager id="toolCursorManager">
+		<vector:CursorManager id="toolCursorManager" hintXOffset="25" hintYOffset="10">
 			<vector:CursorItem control="{moveControl}">
 				<cursors:MoveCursor mouseChildren="false" mouseEnabled="false"/>
 			</vector:CursorItem>
@@ -58,6 +58,10 @@
 			<vector:CursorItem control="{rotateControl}">
 				<cursors:RotateCursor mouseChildren="false" mouseEnabled="false"/>
 			</vector:CursorItem>
+			
+			<vector:hint>
+				<controls:Hint alpha="0.6"/>
+			</vector:hint>
 		</vector:CursorManager>
 	</fx:Declarations>
 	

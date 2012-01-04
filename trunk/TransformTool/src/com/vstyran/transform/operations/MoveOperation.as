@@ -1,5 +1,6 @@
 package com.vstyran.transform.operations
 {
+	import com.vstyran.transform.consts.TransformationType;
 	import com.vstyran.transform.model.Bounds;
 	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.model.GridData;
@@ -71,6 +72,14 @@ package com.vstyran.transform.operations
 		 * at the moment of starting transformation.  
 		 */	
 		protected var startPoint:Point;
+		
+		/**
+		 * @inheritDoc
+		 */		
+		public function get type():String
+		{
+			return TransformationType.MOVE;
+		}
 		
 		/**
 		 * @inheritDoc 

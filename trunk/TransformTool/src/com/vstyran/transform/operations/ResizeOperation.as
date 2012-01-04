@@ -1,5 +1,6 @@
 package com.vstyran.transform.operations
 {
+	import com.vstyran.transform.consts.TransformationType;
 	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.utils.DataUtil;
 	import com.vstyran.transform.utils.MathUtil;
@@ -36,6 +37,14 @@ package com.vstyran.transform.operations
 		 * Flag that indicates whether aspect ratio should be kept. 
 		 */
 		public var maintainAspectRatio:Boolean = false;
+		
+		/**
+		 * @inheritDoc
+		 */		
+		override public function get type():String
+		{
+			return TransformationType.RESIZE;
+		}
 		
 		/**
 		 * @inheritDoc 

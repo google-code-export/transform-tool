@@ -98,15 +98,32 @@ package com.vstyran.transform.events
 		}
 		
 		/**
+		 * @private 
+		 */		
+		private var _transformationType:String;
+		
+		/**
+		 * Current type of transformation.
+		 * 
+		 * @see com.vstyran.transform.consts.TransformationType 
+		 */		
+		public function get transformationType():String
+		{
+			return _transformationType;
+		}
+		
+		/**
 		 * Constructor.
 		 *  
 		 * @param type The event type; indicates the action that caused the event.
+		 * @param transformationType Current type of transformation.
 		 * @param data Display data object. 
 		 */		
-		public function TransformEvent(type:String, data:DisplayData = null)
+		public function TransformEvent(type:String, transformationType:String, data:DisplayData = null)
 		{
 			super(type);
 			
+			_transformationType = transformationType;
 			_data = data;
 		}
 		
@@ -115,7 +132,7 @@ package com.vstyran.transform.events
 		 */		
 		override public function clone():Event
 		{
-			return new TransformEvent(type, _data);
+			return new TransformEvent(type, _transformationType, _data);
 		}
 	}
 }

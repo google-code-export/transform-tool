@@ -477,7 +477,7 @@ package com.vstyran.transform.view
 		/**
 		 * Start transformation (mouse down on control) 
 		 */		
-		public function startTransformation(control:Control):void
+		tt_internal function startTransformation(control:Control, type:String):void
 		{
 			if(preview && showPreview && !showPreviewCover)
 			{
@@ -496,19 +496,19 @@ package com.vstyran.transform.view
 			
 			_transforming = true;
 			
-			dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION_START));
+			dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION_START, type));
 		}
 		
 		/**
 		 * Transformation is in progress (mouse move on control) 
 		 */	
-		public function doTransformation(data:DisplayData):void
+		tt_internal function doTransformation(data:DisplayData, type:String):void
 		{
 			DataUtil.applyData(this, data);
 			
 			data = connector.transfrom(data)
 				
-			dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION, data));
+			dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION, type, data));
 			
 			isTransformed = true;
 		}
@@ -516,7 +516,7 @@ package com.vstyran.transform.view
 		/**
 		 * Transformation is finished  (mouse up on control)
 		 */		
-		public function endTransformation(data:DisplayData):void
+		tt_internal function endTransformation(data:DisplayData, type:String):void
 		{
 			_transforming = false;
 			
@@ -532,7 +532,7 @@ package com.vstyran.transform.view
 				
 				data = connector.complete(data);
 				
-				dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION_COMPLETE, data));
+				dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION_COMPLETE, type, data));
 				}
 			isTransformed = false;
 		}

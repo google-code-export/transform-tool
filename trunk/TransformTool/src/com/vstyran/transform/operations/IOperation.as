@@ -47,5 +47,12 @@ package com.vstyran.transform.operations
 		 * Guidelines that currently active.
 		 */		
 		function get guideCross():GuidelineCross;
+		
+		/**
+		 * Type of transformation.
+		 * 
+		 * @see com.vstyran.transform.consts.TransformationType
+		 */		
+		function get type():String;
 	}
 }

@@ -14,6 +14,7 @@ package com.vstyran.transform.controls
 	import com.vstyran.transform.view.TransformTool;
 	
 	import flash.display.DisplayObject;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Matrix;
 	import flash.geom.Point;
@@ -75,6 +76,7 @@ package com.vstyran.transform.controls
 		 */		
 		private var _anchorActivated:Boolean;
 		
+		[Bindable("anchorActivatedChanged")]
 		/**
 		 * Flag specifies whether anchor is currently used by operation. 
 		 */		
@@ -87,8 +89,17 @@ package com.vstyran.transform.controls
 		 * @private
 		 * Flag specifies whether control is currently used by operation. 
 		 */		
-		private var controlActivated:Boolean;
+		private var _controlActivated:Boolean;
 
+		[Bindable("controlActivatedChanged")]
+		/**
+		 * Flag specifies whether control is currently active. 
+		 */		
+		public function get controlActivated():Boolean
+		{
+			return _controlActivated;
+		}
+		
 		/**
 		 * Transform tool 
 		 */		
@@ -168,7 +179,7 @@ package com.vstyran.transform.controls
 			if(_anchorActivated)
 				return "anchorActive";
 			
-			if(controlActivated)
+			if(_controlActivated)
 				return "controlActive";
 			
 			return "normal";
@@ -183,6 +194,7 @@ package com.vstyran.transform.controls
 		public function activateAnchor():void
 		{
 			_anchorActivated = true;
+			dispatchEvent(new Event("anchorActivatedChanged"));
 			
 			invalidateSkinState();
 		}
@@ -193,6 +205,7 @@ package com.vstyran.transform.controls
 		public function deactivateAnchor():void
 		{
 			_anchorActivated = false;
+			dispatchEvent(new Event("anchorActivatedChanged"));
 			
 			invalidateSkinState();
 		}
@@ -232,7 +245,7 @@ package com.vstyran.transform.controls
 			tool.validateNow();
 			
 			matrix = TransformUtil.getMatrix(null, tool);
-			tool.startTransformation(this);
+			tool.startTransformation(this, operation.type);
 			
 			if(operation is IAncorOperation && anchor && anchor is IAnchor)
 			{
@@ -245,7 +258,8 @@ package com.vstyran.transform.controls
 					matrix.transformPoint(new Point(event.stageX, event.stageY)), 
 					tool.grid, tool.bounds, tool.guidelines);
 			
-			controlActivated = true;
+			_controlActivated = true;
+			dispatchEvent(new Event("controlActivatedChanged"));
 			invalidateSkinState();
 			
 			systemManager.getSandboxRoot().addEventListener(MouseEvent.MOUSE_MOVE, moveHandler);
@@ -258,7 +272,7 @@ package com.vstyran.transform.controls
 		protected function moveHandler(event:MouseEvent):void
 		{
 			if(operation)
-				tool.doTransformation(operation.doOperation( MathUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY)))));
+				tool.doTransformation(operation.doOperation( MathUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY)))), operation.type);
 		
 			if(operation.guideCross || guidelinesWasActive)
 			{
@@ -275,7 +289,7 @@ package com.vstyran.transform.controls
 		protected function upHandler(event:MouseEvent):void
 		{
 			if(operation)
-				tool.endTransformation(operation.endOperation( MathUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY)))));
+				tool.endTransformation(operation.endOperation( MathUtil.roundPoint(matrix.transformPoint(new Point(event.stageX, event.stageY)))), operation.type);
 			
 			if(guidelinesWasActive)
 			{
@@ -288,7 +302,8 @@ package com.vstyran.transform.controls
 			
 			activeAnchor = null;
 			
-			controlActivated = false;
+			_controlActivated = false;
+			dispatchEvent(new Event("controlActivatedChanged"));
 			invalidateSkinState();
 			
 			if(tool.toolCursorManager && !hitTestPoint(event.stageX, event.stageY, true) &&
@@ -314,7 +329,7 @@ package com.vstyran.transform.controls
 		 */	
 		protected function outHandler(event:MouseEvent):void
 		{
-			if(tool.toolCursorManager && !controlActivated && !tool.transforming)
+			if(tool.toolCursorManager && !_controlActivated && !tool.transforming)
 				tool.toolCursorManager.removeCursor(this);
 		}
 	}
