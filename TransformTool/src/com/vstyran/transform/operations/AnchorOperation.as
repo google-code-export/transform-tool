@@ -1,5 +1,6 @@
 package com.vstyran.transform.operations
 {
+	import com.vstyran.transform.consts.TransformationType;
 	import com.vstyran.transform.model.Bounds;
 	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.model.GridData;
@@ -87,6 +88,15 @@ package com.vstyran.transform.operations
 		 */		
 		public function AnchorOperation()
 		{
+		}
+		
+		/**
+		 * @inheritDoc
+		 */		
+		public function get type():String
+		{
+			// to be overriden
+			return null;
 		}
 
 		/**

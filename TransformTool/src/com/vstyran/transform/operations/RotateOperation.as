@@ -1,5 +1,6 @@
 package com.vstyran.transform.operations
 {
+	import com.vstyran.transform.consts.TransformationType;
 	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.utils.DataUtil;
 	import com.vstyran.transform.utils.MathUtil;
@@ -26,6 +27,14 @@ package com.vstyran.transform.operations
 		 *   The amount of degree that used as step size for rotation. 
 		 */		
 		public var stepDegree:Number;
+		
+		/**
+		 * @inheritDoc
+		 */		
+		override public function get type():String
+		{
+			return TransformationType.ROTATE;
+		}
 		
 		/**
 		 * @inheritDoc 

@@ -1,6 +1,7 @@
 package com.vstyran.transform.managers.vector
 {
 	import com.vstyran.transform.controls.Control;
+	import com.vstyran.transform.controls.Hint;
 	import com.vstyran.transform.managers.ICursorManager;
 	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.namespaces.tt_internal;
@@ -82,8 +83,52 @@ package com.vstyran.transform.managers.vector
 					addRemoveCursors(false);
 					
 				_tool = value;
+				
+				if(_hint)
+					_hint.tool = _tool;
 			}
 		}
+		
+		/**
+		 * @private 
+		 */		
+		private var _hint:Hint;
+
+		/**
+		 * Transformation hint. 
+		 */		
+		public function get hint():Hint
+		{
+			return _hint;
+		}
+
+		/**
+		 * @private 
+		 */	
+		public function set hint(value:Hint):void
+		{
+			if(_hint == value) return;
+			
+			if(_hint)
+				_hint.tool = null;
+			
+			_hint = value;
+			
+			if(_hint)
+				_hint.tool = _tool;
+			
+			setHintPosition();
+		}
+
+		/**
+		 * Hint offset by X axis. 
+		 */		
+		public var hintXOffset:Number = 0;
+		
+		/**
+		 * Hint offset by Y axis. 
+		 */	
+		public var hintYOffset:Number = 0;
 		
 		/**
 		 * @private 
@@ -242,6 +287,22 @@ package com.vstyran.transform.managers.vector
 			{
 				currentCursor.x = stageX + delta.x;
 				currentCursor.y = stageY + delta.y;
+			}
+			
+			setHintPosition();
+		}
+		
+		/**
+		 * @private 
+		 * 
+		 * Set hint position taking to account offset value
+		 */	
+		private function setHintPosition():void
+		{
+			if(hint && currentCursor)
+			{
+				hint.x = currentCursor.x - delta.x + hintXOffset;
+				hint.y = currentCursor.y - delta.y + hintYOffset;
 			}
 		}
 	}
