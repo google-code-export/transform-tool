@@ -27,10 +27,13 @@ package com.vstyran.transform.connectors
 		{
 			var data:DisplayData = super.getData(deep);
 			
-			data.minWidth = target.minWidth;
-			data.minHeight = target.minHeight;
-			data.maxWidth = target.maxWidth;
-			data.maxHeight = target.maxHeight;
+			if(data)
+			{
+				data.minWidth = target.minWidth;
+				data.minHeight = target.minHeight;
+				data.maxWidth = target.maxWidth;
+				data.maxHeight = target.maxHeight;
+			}
 			
 			return data;
 		}
