@@ -52,7 +52,6 @@ package com.vstyran.transform.operations
 		override public function doOperation(point:Point):DisplayData
 		{
 			var data:DisplayData = startData.clone();
-			data.precision = 2;
 			
 			var deltaPoint:Point = MathUtil.roundPoint(new Point(point.x - startPoint.x, point.y - startPoint.y));
 			var newSize:Point = data.size;
@@ -110,7 +109,6 @@ package com.vstyran.transform.operations
 			
 			// set new size
 			data.inflate(newSize.x - data.width, newSize.y - data.height, startAnchor);
-			
 			// check pasive guidelines
 			if(data.rotation%90 == 0)
 				guideCross = DataUtil.getPreciseGuides(data, guideCross, guidelines);

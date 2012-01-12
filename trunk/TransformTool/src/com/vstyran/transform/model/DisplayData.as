@@ -1,5 +1,7 @@
 package com.vstyran.transform.model
 {
+	import com.vstyran.transform.utils.MathUtil;
+	
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.geom.Matrix;
@@ -245,18 +247,21 @@ package com.vstyran.transform.model
 		/**
 		 * @private
 		 */
-		private var _precisionValue:uint = 100000;
+		private var _precisionValue:uint = 100;
 		
 		/**
 		 * @private
 		 */
-		private var _precision:uint = 5;
+		private var _precision:uint = 2;
 
 		[Bindable]
 		/**
 		 *  Number of decimal places to include in the output values.
 		 *  For example, if the "x" value is 1.453 and precision is 1 than 
 		 *  getter for "x" property returns rounded value of 1.5.
+		 *  Maximum value 5.
+		 * 
+		 *  @default 2
 		 */		
 		public function get precision():uint
 		{
@@ -907,7 +912,7 @@ package com.vstyran.transform.model
 				var maxX:Number = Math.max(topLeft.x, topRight.x, bottomRight.x, bottomLeft.x);
 				var maxY:Number = Math.max(topLeft.y, topRight.y, bottomRight.y, bottomLeft.y);
 				
-				return new Rectangle(minX, minY, maxX - minX, maxY - minY);
+				return new Rectangle(minX, minY, round(maxX - minX), round(maxY - minY));
 			}	
 		}
 		
@@ -1101,7 +1106,8 @@ package com.vstyran.transform.model
 		override public function toString():String
 		{
 			return "(x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + ", rotation=" + rotation +
-				", minWidth=" + minWidth + ", minHeight=" + minHeight + ", maxWidth=" + maxWidth + ", maxHeight=" + maxHeight + ")";	
+				", minWidth=" + minWidth + ", minHeight=" + minHeight + ", maxWidth=" + maxWidth + ", maxHeight=" + 
+				maxHeight + ", precision=" + precision + ")";	
 		}
 		
 		//------------------------------------------------------------------

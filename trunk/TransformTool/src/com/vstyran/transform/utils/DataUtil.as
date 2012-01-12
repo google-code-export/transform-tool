@@ -14,6 +14,7 @@ package com.vstyran.transform.utils
 	
 	import mx.core.UIComponent;
 	import mx.events.SandboxMouseEvent;
+	import mx.utils.MatrixUtil;
 	
 	/**
 	 * Utility class that has methods for manipulating display data.
@@ -30,6 +31,9 @@ package com.vstyran.transform.utils
 		 */		
 		public static function createData(target:UIComponent):DisplayData
 		{
+			if(!target)
+				return null;
+			
 			var data:DisplayData = new DisplayData();
 			data.x = Math.round(target.x);
 			data.y = Math.round(target.y);
@@ -54,6 +58,9 @@ package com.vstyran.transform.utils
 		 */		
 		public static function applyData(target:UIComponent, data:DisplayData, applyMinMax:Boolean = false):void
 		{
+			if(!target)
+				return;
+			
 			target.x = data.x;
 			target.y = data.y;
 			target.width = data.width/target.scaleX;
@@ -77,11 +84,31 @@ package com.vstyran.transform.utils
 		 */		
 		public static function applyScaledData(target:UIComponent, data:DisplayData):void
 		{
+			if(!target)
+				return;
+			
 			target.x = data.x;
 			target.y = data.y;
 			target.scaleX = data.width/target.width;
 			target.scaleY = data.height/target.height;
 			target.rotation = data.rotation;
+		}
+		
+		/**
+		 * Convert Rectangle object to DisplayData object
+		 *  
+		 * @param rect Rectangle object to convert.
+		 * @return Converted display data object.
+		 */		
+		public static function rectangleToData(rect:Rectangle):DisplayData
+		{
+			var data:DisplayData = new DisplayData();
+			data.x = rect.x;
+			data.y = rect.y;
+			data.width = rect.width;
+			data.height = rect.height;
+			
+			return data;
 		}
 		
 		/**
@@ -102,8 +129,8 @@ package com.vstyran.transform.utils
 				var newX:Number = MathUtil.fitValue(box.x, bounds.x, boundsRight);
 				var newY:Number = MathUtil.fitValue(box.y, bounds.y, boundsBottom);
 				
-				data.x = MathUtil.round(newX + data.x - box.x, 2);
-				data.y =  MathUtil.round(newY + data.y - box.y, 2);
+				data.x = newX + data.x - box.x;
+				data.y =  newY + data.y - box.y
 			}
 			
 			return data;
@@ -183,9 +210,9 @@ package com.vstyran.transform.utils
 					// check left adge
 					delta = checkActiveGuideline(cross, guideline, delta, box.x, box.y, false);
 					// check center
-					delta = checkActiveGuideline(cross, guideline, delta, box.x + box.width/2, box.y + box.height/2, true);
+					delta = checkActiveGuideline(cross, guideline, delta, MathUtil.round(box.x + box.width/2, data.precision), MathUtil.round(box.y + box.height/2, data.precision), true);
 					// check right adge
-					delta = checkActiveGuideline(cross, guideline, delta, box.x + box.width, box.y + box.height, false);
+					delta = checkActiveGuideline(cross, guideline, delta, MathUtil.round(box.x + box.width, data.precision), MathUtil.round(box.y + box.height, data.precision), false);
 				}
 				
 				data.x += delta.x;
@@ -205,9 +232,6 @@ package com.vstyran.transform.utils
 		 */		
 		public static function guideSize(startData:DisplayData, data:DisplayData, anchor:Point, guidelines:Vector.<Guideline>):GuidelineCross 
 		{
-			startData.precision = 2;
-			data.precision = 2;
-			
 			var delta:Point = new Point();
 			
 			var cross:GuidelineCross = new GuidelineCross();
@@ -286,9 +310,11 @@ package com.vstyran.transform.utils
 					// check left adge
 					checkGuideline(cross, guideline, box.x, box.y, false);
 					// check center
-					checkGuideline(cross, guideline, box.x + box.width/2, box.y + box.height/2, true);
+					checkGuideline(cross, guideline, MathUtil.round(box.x + box.width/2, data.precision), MathUtil.round(box.y + box.height/2, data.precision), true);
 					// check right adge
-					checkGuideline(cross, guideline, box.x + box.width, box.y + box.height, false);
+					checkGuideline(cross, guideline, MathUtil.round(box.x + box.width, data.precision), MathUtil.round(box.y + box.height, data.precision), false);
+					// check rotation
+					checkRotationGuideline(cross, guideline, data.rotation);
 				}
 			}
 			
@@ -298,6 +324,9 @@ package com.vstyran.transform.utils
 			
 			if(cross.hGuideline && !validatePreciseGuideLine(data, cross.hGuideline))
 				cross.removeGuideline(cross.hGuideline);
+			
+			if(cross.rGuideline && !validatePreciseGuideLine(data, cross.rGuideline))
+				cross.removeGuideline(cross.rGuideline);
 			
 			return cross.getGuidelines().length > 0 ? cross : null;
 		}
@@ -317,9 +346,11 @@ package com.vstyran.transform.utils
 			// check left adge
 			checkGuideline(cross, guideline, box.x, box.y, false);
 			// check center
-			checkGuideline(cross, guideline, box.x + box.width/2, box.y + box.height/2, true);
+			checkGuideline(cross, guideline, MathUtil.round(box.x + box.width/2, data.precision), MathUtil.round(box.y + box.height/2, data.precision), true);
 			// check right adge
-			checkGuideline(cross, guideline, box.x + box.width, box.y + box.height, false);
+			checkGuideline(cross, guideline, MathUtil.round(box.x + box.width, data.precision), MathUtil.round(box.y + box.height, data.precision), false);
+			// check rotation
+			checkRotationGuideline(cross, guideline, data.rotation);
 			
 			return cross.getGuidelines().length > 0;
 		}
@@ -379,6 +410,23 @@ package com.vstyran.transform.utils
 			else if(canUseHGuideline(guideline, center))
 			{
 				if(y == guideline.value)
+					cross.addGuideline(guideline);
+			}
+		}
+		
+		/**
+		 * @private
+		 * Checks whether specified guideline is exactly matches snapping rotation value.
+		 * 
+		 * @param cross Current GuidelineCross object.
+		 * @param guideline Guideline object for checking.
+		 * @param rotation Current rotation.
+		 */		
+		private static function checkRotationGuideline(cross:GuidelineCross, guideline:Guideline, rotation:Number):void
+		{
+			if(guideline.type == GuidelineType.ROTATION)
+			{
+				if(rotation == MatrixUtil.clampRotation(guideline.value))
 					cross.addGuideline(guideline);
 			}
 		}

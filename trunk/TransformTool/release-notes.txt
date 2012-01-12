@@ -1,7 +1,21 @@
+Release Notes for TransformTool 2.3.9a
+--------------------------------------
+====== CHANGES ======
+* Added BoundingGroup skin part.
+* Added transformation type to GuidelineEvent.
+* Added passive guidelines for rotate operation.
+* Changed default precision in DisplayData into 2.
+
+====== BUG FIXES ======
+* Fixed crash on setting null target. 
+* Fixed snap to guidelines for resize.
+
+
 Release Notes for TransformTool 2.3.9
 --------------------------------------
 ====== BUG FIXES ======
 * Fixed crash with UIScaleConnector on adding TransformTool. 
+
 
 Release Notes for TransformTool 2.3.8
 --------------------------------------
