@@ -15,8 +15,10 @@ package com.vstyran.transform.view
 	import com.vstyran.transform.skins.TransformToolSkin;
 	import com.vstyran.transform.utils.DataUtil;
 	import com.vstyran.transform.utils.SkinUtil;
+	import com.vstyran.transform.utils.TransformUtil;
 	
 	import flash.display.BitmapData;
+	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Matrix;
@@ -116,6 +118,12 @@ package com.vstyran.transform.view
 		 * Preview cover element. 
 		 */		
 		public var previewCover:IVisualElement;
+		
+		[SkinPart]
+		/**
+		 * Element that will be placed around transform tool with visual rotation 0. 
+		 */		
+		public var boundingGroup:UIComponent;
 		
 		/**
 		 * Constructor. 
@@ -297,6 +305,12 @@ package com.vstyran.transform.view
 					previewCover.visible = false;
 					break;
 				}
+				case boundingGroup:
+				{
+					validateBoundingGroup = true;
+					invalidateProperties();
+					break;
+				}
 				default:
 				{
 					break;
@@ -323,6 +337,20 @@ package com.vstyran.transform.view
 		
 		/**
 		 * @private 
+		 */
+		override protected function invalidateParentSizeAndDisplayList():void
+		{
+			validateBoundingGroup = true;
+			super.invalidateParentSizeAndDisplayList();
+		}
+		
+		/**
+		 * @private 
+		 */		
+		private var validateBoundingGroup:Boolean;
+		
+		/**
+		 * @private 
 		 */		
 		private var validateControls:Boolean;
 		
@@ -338,6 +366,23 @@ package com.vstyran.transform.view
 			{
 				processParts(skin);
 				validateControls = false;
+			}
+			
+			if(validateBoundingGroup)
+			{
+				if(boundingGroup && boundingGroup.parent)
+				{
+					var m:Matrix = TransformUtil.getMatrix(this.parent, boundingGroup.parent);
+					
+					var data:DisplayData = connector.getData();
+					if(data)
+					{
+						var boundingData:DisplayData = TransformUtil.transformData(m, DataUtil.rectangleToData(data.getBoundingBox()));
+						DataUtil.applyData(boundingGroup, boundingData);
+					}
+				}
+				
+				validateBoundingGroup = false;
 			}
 		}
 		

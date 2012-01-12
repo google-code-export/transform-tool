@@ -59,6 +59,12 @@ package com.vstyran.transform.connectors
 		{
 			_target = value;
 			
+			if(!_target)
+			{
+				dispatchEvent(new ConnectorEvent(ConnectorEvent.DATA_CHANGE));
+				return;
+			}
+			
 			if(_target.parent)
 			{
 				dataConnector.panel = _target.parent as UIComponent;

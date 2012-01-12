@@ -49,17 +49,34 @@ package com.vstyran.transform.events
 		{
 			return _cross;
 		}
+		
+		/**
+		 * @private 
+		 */		
+		private var _transformationType:String;
+		
+		/**
+		 * Current type of transformation.
+		 * 
+		 * @see com.vstyran.transform.consts.TransformationType 
+		 */		
+		public function get transformationType():String
+		{
+			return _transformationType;
+		}
 
 		/**
 		 * Constructor.
 		 *  
 		 * @param type The event type; indicates the action that caused the event.
+		 * @param transformationType Current type of transformation.
 		 * @param cross Cross of active guidelines.
 		 */		
-		public function GuidelineEvent(type:String, cross:GuidelineCross = null)
+		public function GuidelineEvent(type:String, transformationType:String, cross:GuidelineCross = null)
 		{
 			super(type);
 			
+			_transformationType = transformationType;
 			_cross = cross; 
 		}
 	}

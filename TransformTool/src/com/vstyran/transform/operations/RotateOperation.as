@@ -78,6 +78,9 @@ package com.vstyran.transform.operations
 			//rotate data
 			data.rotate(deltaRotation, startAnchor);
 			
+			// check pasive guidelines
+			guideCross = DataUtil.getPreciseGuides(data, guideCross, guidelines);
+			
 			return data;
 		}
 		

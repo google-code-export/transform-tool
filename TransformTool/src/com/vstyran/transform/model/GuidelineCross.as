@@ -134,6 +134,8 @@ package com.vstyran.transform.model
 				setVGuideline(null);
 			else if(guideline == hGuideline)
 				setHGuideline(null);
+			else if(guideline == rGuideline)
+				setRGuideline(null);
 		}
 		
 		/**
@@ -144,6 +146,7 @@ package com.vstyran.transform.model
 			list.length = 0;
 			setHGuideline(null);
 			setVGuideline(null);
+			setRGuideline(null);
 		}
 		
 		/**
@@ -176,6 +179,15 @@ package com.vstyran.transform.model
 			return getGuidelinesInternal(GuidelineType.HORIZONTAL);
 		}
 		
+		/**
+		 * Get all rotation guidelines including active.
+		 *  
+		 * @return Vector of all vertical guidelines.
+		 */		
+		public function getRGuidelines():Vector.<Guideline>
+		{
+			return getGuidelinesInternal(GuidelineType.ROTATION);
+		}
 		
 		/**
 		 * @private 

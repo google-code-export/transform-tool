@@ -276,7 +276,7 @@ package com.vstyran.transform.controls
 		
 			if(operation.guideCross || guidelinesWasActive)
 			{
-				tool.dispatchEvent(new GuidelineEvent(GuidelineEvent.GUIDELINES_UPDATE, operation.guideCross));
+				tool.dispatchEvent(new GuidelineEvent(GuidelineEvent.GUIDELINES_UPDATE, operation.type, operation.guideCross));
 				guidelinesWasActive = (operation.guideCross != null);
 			}
 				
