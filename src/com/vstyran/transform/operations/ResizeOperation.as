@@ -1,6 +1,7 @@
 package com.vstyran.transform.operations
 {
 	import com.vstyran.transform.consts.TransformationType;
+	import com.vstyran.transform.model.AspectRatio;
 	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.utils.DataUtil;
 	import com.vstyran.transform.utils.MathUtil;
@@ -37,6 +38,18 @@ package com.vstyran.transform.operations
 		 * Flag that indicates whether aspect ratio should be kept. 
 		 */
 		public var maintainAspectRatio:Boolean = false;
+		
+		[Bindable]
+		/**
+		 * List of aspect ratios that will be used snapping.  
+		 */	
+		public var aspects:Vector.<AspectRatio>;
+		
+		/**
+		 * Flag indicates whether resizing should be snapped into aspect ratios 
+		 * if it is specified and maintainAspectRatio is false. 
+		 */		
+		public var maintainAspects:Boolean = true;
 		
 		/**
 		 * @inheritDoc

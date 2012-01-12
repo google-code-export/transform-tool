@@ -96,28 +96,28 @@
 	</controls:Control>
 	
 	<controls:Control id="topLeftControl" top="-6" left="-6" anchor="{bottomRightControl}">
-		<operations:ResizeOperation anchor="{new Point(1, 1)}"/>
+		<operations:ResizeOperation anchor="{new Point(1, 1)}" maintainAspectRatio.shiftPressed="true"/>
 	</controls:Control>
 	<controls:Control id="topMiddleControl" top="-6" horizontalCenter="0" anchor="{bottomMiddleControl}">
-		<operations:ResizeOperation horizontalEnabled="false"  anchor="{new Point(0.5, 1)}"/>
+		<operations:ResizeOperation horizontalEnabled="false"  anchor="{new Point(0.5, 1)}" maintainAspectRatio.shiftPressed="true"/>
 	</controls:Control>
 	<controls:Control id="topRightControl" top="-6" right="-6" anchor="{bottomLeftControl}">
-		<operations:ResizeOperation anchor="{new Point(0, 1)}"/>
+		<operations:ResizeOperation anchor="{new Point(0, 1)}" maintainAspectRatio.shiftPressed="true"/>
 	</controls:Control>
 	<controls:Control id="middleRightControl" verticalCenter="0" right="-6" anchor="{middleLeftControl}">
-		<operations:ResizeOperation verticalEnabled="false" anchor="{new Point(0, 0.5)}"/>
+		<operations:ResizeOperation verticalEnabled="false" anchor="{new Point(0, 0.5)}" maintainAspectRatio.shiftPressed="true"/>
 	</controls:Control>
 	<controls:Control id="bottomRightControl" bottom="-6" right="-6" anchor="{topLeftControl}">
-		<operations:ResizeOperation anchor="{new Point(0, 0)}"/>
+		<operations:ResizeOperation anchor="{new Point(0, 0)}" maintainAspectRatio.shiftPressed="true"/>
 	</controls:Control>
 	<controls:Control id="bottomMiddleControl" bottom="-6" horizontalCenter="0" anchor="{topMiddleControl}">
-		<operations:ResizeOperation horizontalEnabled="false" anchor="{new Point(0.5, 0)}"/>
+		<operations:ResizeOperation horizontalEnabled="false" anchor="{new Point(0.5, 0)}" maintainAspectRatio.shiftPressed="true"/>
 	</controls:Control>
 	<controls:Control id="bottomLeftControl" bottom="-6" left="-6" anchor="{topRightControl}">
-		<operations:ResizeOperation anchor="{new Point(1, 0)}"/>
+		<operations:ResizeOperation anchor="{new Point(1, 0)}" maintainAspectRatio.shiftPressed="true"/>
 	</controls:Control>
 	<controls:Control id="middleLeftControl" verticalCenter="0" left="-6" anchor="{middleRightControl}">
-		<operations:ResizeOperation verticalEnabled="false" anchor="{new Point(1, 0.5)}"/>
+		<operations:ResizeOperation verticalEnabled="false" anchor="{new Point(1, 0.5)}" maintainAspectRatio.shiftPressed="true"/>
 	</controls:Control>
 	
 	<controls:Anchor id="centerAnchorControl" verticalCenter="0" horizontalCenter="0"/>

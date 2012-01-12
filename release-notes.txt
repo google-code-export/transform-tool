@@ -1,7 +1,15 @@
+Release Notes for TransformTool 2.4.0
+--------------------------------------
+====== CHANGES ======
+  
+====== BUG FIXES ======
+
+
 Release Notes for TransformTool 2.3.9
 --------------------------------------
 ====== BUG FIXES ======
 * Fixed crash with UIScaleConnector on adding TransformTool. 
+
 
 Release Notes for TransformTool 2.3.8
 --------------------------------------

@@ -1,6 +1,7 @@
 package com.vstyran.transform.utils
 {
 	import com.vstyran.transform.consts.GuidelineType;
+	import com.vstyran.transform.model.AspectRatio;
 	import com.vstyran.transform.model.Bounds;
 	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.model.GridData;
@@ -162,6 +163,24 @@ package com.vstyran.transform.utils
 			}
 			
 			return rotation;
+		}
+		
+		public static function snapAspects(startData:DisplayData, data:DisplayData, aspects:Vector.<AspectRatio>, snapX:Boolean, snapY:Boolean):AspectRatio 
+		{
+			if(!snapX && !snapY) 
+				return null;
+			
+			var result:AspectRatio;
+			
+			var deltaW:Number = Math.abs(startData.width - data.width);
+			var deltaH:Number = Math.abs(startData.height - data.height);
+			var adjustHorizontal:Boolean = (deltaW > deltaH && snapX);
+			for each (var aspect:AspectRatio in aspects) 
+			{
+				//if()
+			}
+			
+			return result;
 		}
 		
 		/**
