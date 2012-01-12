@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		xmlns:controls="com.vstyran.transform.controls.*" 
+		xmlns:operations="com.vstyran.transform.operations.*" 
+		xmlns:raster="com.vstyran.transform.managers.raster.*" 
+		xmlns:layouts="com.vstyran.transform.layouts.*"
+		xmlns:vector="com.vstyran.transform.managers.vector.*"
+		xmlns:cursors="com.vstyran.transform.managers.vector.cursors.*"
+		width="200" height="180" xmlns:model="com.vstyran.transform.model.*" >
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("com.vstyran.transform.view.TransformTool")]
+	</fx:Metadata>
+	
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="shiftPressed"/>
+		<s:State name="ctrlPressed"/>
+		<s:State name="altPressed"/>
+	</s:states>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.vstyran.transform.managers.raster.Cursors;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!--<raster:CursorManager id="toolCursorManager">
+		<raster:CursorItem control="{moveControl}" cursor="{Cursors.MoveCursor}" xOffset="-11" yOffset="-11"/>
+		<raster:CursorItem control="{middleLeft}" cursor="{Cursors.HResizeCursor}" xOffset="-11" yOffset="-5"/>
+		<raster:CursorItem control="{middleRight}" cursor="{Cursors.HResizeCursor}" xOffset="-11" yOffset="-5"/>
+		<raster:CursorItem control="{topMiddle}" cursor="{Cursors.VResizeCursor}" xOffset="-5" yOffset="-11"/>
+		<raster:CursorItem control="{bottomMiddle}" cursor="{Cursors.VResizeCursor}" xOffset="-5" yOffset="-11"/>
+		<raster:CursorItem control="{topLeft}" cursor="{Cursors.TLResizeCursor}" xOffset="-8" yOffset="-8"/>
+		<raster:CursorItem control="{bottomRight}" cursor="{Cursors.TLResizeCursor}" xOffset="-8" yOffset="-8"/>
+		<raster:CursorItem control="{topRight}" cursor="{Cursors.TRResizeCursor}" xOffset="-8" yOffset="-8"/>
+		<raster:CursorItem control="{bottomLeft}" cursor="{Cursors.TRResizeCursor}" xOffset="-8" yOffset="-8"/>
+		<raster:CursorItem control="{rotateControl}" cursor="{Cursors.RotateCursor}" xOffset="-9" yOffset="-9"/>
+		</raster:CursorManager>-->
+		
+		<cursors:ResizeCursor id="resizeCursor" rotation="45" mouseChildren="false" mouseEnabled="false"/>
+		
+		<vector:CursorManager id="toolCursorManager" hintXOffset="25" hintYOffset="10">
+			<vector:CursorItem control="{moveControl}">
+				<cursors:MoveCursor mouseChildren="false" mouseEnabled="false"/>
+			</vector:CursorItem>
+			<vector:CursorItem control="{topMiddleControl}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="90"/>
+			<vector:CursorItem control="{bottomMiddleControl}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="90"/>
+			<vector:CursorItem control="{middleLeftControl}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="0"/>
+			<vector:CursorItem control="{middleRightControl}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="0"/>
+			<vector:CursorItem control="{topLeftControl}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="45"/>
+			<vector:CursorItem control="{bottomRightControl}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="45"/>
+			<vector:CursorItem control="{topRightControl}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="-45"/>
+			<vector:CursorItem control="{bottomLeftControl}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="-45"/>
+			<vector:CursorItem control="{rotateControl}">
+				<cursors:RotateCursor mouseChildren="false" mouseEnabled="false"/>
+			</vector:CursorItem>
+			
+			<vector:hint>
+				<controls:Hint alpha="0.6"/>
+			</vector:hint>
+		</vector:CursorManager>
+	</fx:Declarations>
+	
+	<controls:Control id="moveControl" top="0" left="0" right="0" bottom="0"
+					  skinClass="com.vstyran.transform.skins.MoveControlSkin">
+		<operations:MoveOperation/>
+	</controls:Control>
+	
+	<s:BitmapImage id="preview" alpha="0.4" top="0" left="0" right="0" bottom="0"/>
+	
+	<s:Group  id="previewCover" top="0" left="0" right="0" bottom="0" mouseChildren="false" mouseEnabled="false">
+		<s:Rect top="0" left="0" right="0" bottom="0" >
+			<s:fill>
+				<s:SolidColor color="#FFFFFF" alpha="0.4"/>
+			</s:fill>
+		</s:Rect>
+	</s:Group>
+	
+	<s:Line yFrom="-26" yTo="0" horizontalCenter="0">
+		<s:stroke>
+			<s:SolidColorStroke/>
+		</s:stroke>
+	</s:Line>
+	<controls:Control id="rotateControl" top="-26" horizontalCenter="0"
+					  anchor="{centerAnchorControl}">
+		<operations:RotateOperation>
+			<operations:segments>
+				<model:SegmentData deltaAngle="1"/>
+				<model:SegmentData deltaAngle="45" fraction="4"/>
+			</operations:segments>
+		</operations:RotateOperation>
+	</controls:Control>
+	
+	<controls:Control id="topLeftControl" top="-6" left="-6" anchor="{bottomRightControl}">
+		<operations:ResizeOperation anchor="{new Point(1, 1)}"/>
+	</controls:Control>
+	<controls:Control id="topMiddleControl" top="-6" horizontalCenter="0" anchor="{bottomMiddleControl}">
+		<operations:ResizeOperation horizontalEnabled="false"  anchor="{new Point(0.5, 1)}"/>
+	</controls:Control>
+	<controls:Control id="topRightControl" top="-6" right="-6" anchor="{bottomLeftControl}">
+		<operations:ResizeOperation anchor="{new Point(0, 1)}"/>
+	</controls:Control>
+	<controls:Control id="middleRightControl" verticalCenter="0" right="-6" anchor="{middleLeftControl}">
+		<operations:ResizeOperation verticalEnabled="false" anchor="{new Point(0, 0.5)}"/>
+	</controls:Control>
+	<controls:Control id="bottomRightControl" bottom="-6" right="-6" anchor="{topLeftControl}">
+		<operations:ResizeOperation anchor="{new Point(0, 0)}"/>
+	</controls:Control>
+	<controls:Control id="bottomMiddleControl" bottom="-6" horizontalCenter="0" anchor="{topMiddleControl}">
+		<operations:ResizeOperation horizontalEnabled="false" anchor="{new Point(0.5, 0)}"/>
+	</controls:Control>
+	<controls:Control id="bottomLeftControl" bottom="-6" left="-6" anchor="{topRightControl}">
+		<operations:ResizeOperation anchor="{new Point(1, 0)}"/>
+	</controls:Control>
+	<controls:Control id="middleLeftControl" verticalCenter="0" left="-6" anchor="{middleRightControl}">
+		<operations:ResizeOperation verticalEnabled="false" anchor="{new Point(1, 0.5)}"/>
+	</controls:Control>
+	
+	<controls:Anchor id="centerAnchorControl" verticalCenter="0" horizontalCenter="0"/>
+</s:Skin>
