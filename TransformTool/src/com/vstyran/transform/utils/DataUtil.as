@@ -1,6 +1,7 @@
 package com.vstyran.transform.utils
 {
 	import com.vstyran.transform.consts.GuidelineType;
+	import com.vstyran.transform.model.AspectRatio;
 	import com.vstyran.transform.model.Bounds;
 	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.model.GridData;
@@ -154,13 +155,15 @@ package com.vstyran.transform.utils
 				if(snapX)
 				{
 					var newX:Number = MathUtil.snapValue(box.x, grid.x, grid.cellWidth, grid.fraction);
-					data.x = MathUtil.round(newX + data.x - box.x, 2);
+					if(!isNaN(newX))
+						data.x = MathUtil.round(newX + data.x - box.x, 2);
 				}
 				
 				if(snapY)
 				{
 					var newY:Number = MathUtil.snapValue(box.y, grid.y, grid.cellWidth, grid.fraction);
-					data.y = MathUtil.round(newY + data.y - box.y, 2);
+					if(!isNaN(newY))
+						data.y = MathUtil.round(newY + data.y - box.y, 2);
 				}
 			}
 			
@@ -181,14 +184,69 @@ package com.vstyran.transform.utils
 			{
 				var newRotation:Number = MathUtil.snapValue(Math.abs(rotation), segment.startAngle, segment.deltaAngle, segment.fraction);
 				
-				// keep original sign
-				if(rotation < 0)
-					newRotation *= -1;
-				
-				return newRotation;
+				if(!isNaN(newRotation))
+				{
+					// keep original sign
+					if(rotation < 0)
+						newRotation *= -1;
+					
+					return newRotation;
+				}
 			}
 			
 			return rotation;
+		}
+		
+		/**
+		 * Snap to aspect ratio.
+		 *  
+		 * @param startData Start data.
+		 * @param data Source data to be guided. Will be changed.
+		 * @param anchor Anchor point should be set in data coordinate space.
+		 * @param aspects List of aspects to snap.
+		 * @param snapX Snap by X axis.
+		 * @param snapY Snap by Y axis.
+		 * 
+		 * @return Aspect to what was snapped or null.
+		 */		
+		public static function snapAspects(startData:DisplayData, data:DisplayData, aspects:Vector.<AspectRatio>, snapX:Boolean, snapY:Boolean):AspectRatio 
+		{
+			if(!snapX && !snapY) 
+				return null;
+			
+			var result:AspectRatio;
+			
+			var deltaW:Number = Math.abs(startData.width - data.width);
+			var deltaH:Number = Math.abs(startData.height - data.height);
+			var adjustHorizontal:Boolean = (deltaW > deltaH && snapX || !snapY);
+			for each (var aspect:AspectRatio in aspects) 
+			{
+				if(isNaN(aspect.widthAspect) || isNaN(aspect.heightAspect) || isNaN(aspect.fraction))
+					continue;
+				
+				if(adjustHorizontal)
+				{
+					var w:Number = MathUtil.round(data.height * aspect.widthAspect / aspect.heightAspect, 2);
+					w = MathUtil.snapValue(aspect.widthAspect*data.width, w, NaN, aspect.fraction);
+					if(!isNaN(w))
+					{
+						data.width = MathUtil.round(w/aspect.widthAspect, 2);
+						return aspect;
+					}
+				}
+				else
+				{
+					var h:Number = MathUtil.round(data.width * aspect.heightAspect / aspect.widthAspect, 2);
+					h = MathUtil.snapValue(aspect.heightAspect*data.height, h, NaN, aspect.fraction);
+					if(!isNaN(h))
+					{
+						data.height = MathUtil.round(h/aspect.heightAspect, 2);
+						return aspect;
+					}
+				}
+			}
+			
+			return result;
 		}
 		
 		/**

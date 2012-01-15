@@ -1,6 +1,7 @@
 package com.vstyran.transform.operations
 {
 	import com.vstyran.transform.consts.TransformationType;
+	import com.vstyran.transform.model.AspectRatio;
 	import com.vstyran.transform.model.DisplayData;
 	import com.vstyran.transform.utils.DataUtil;
 	import com.vstyran.transform.utils.MathUtil;
@@ -39,6 +40,17 @@ package com.vstyran.transform.operations
 		public var maintainAspectRatio:Boolean = false;
 		
 		/**
+		 * List of aspect ratios that will be used snapping.  
+		 */	
+		public var aspects:Vector.<AspectRatio>;
+		
+		/**
+		 * Flag indicates whether resizing should be snapped into aspect ratios 
+		 * if it is specified and maintainAspectRatio is false. 
+		 */		
+		public var maintainAspects:Boolean = true;
+		
+		/**
 		 * @inheritDoc
 		 */		
 		override public function get type():String
@@ -52,6 +64,7 @@ package com.vstyran.transform.operations
 		override public function doOperation(point:Point):DisplayData
 		{
 			var data:DisplayData = startData.clone();
+			data.precision = 2;
 			
 			var deltaPoint:Point = MathUtil.roundPoint(new Point(point.x - startPoint.x, point.y - startPoint.y));
 			var newSize:Point = data.size;
@@ -104,11 +117,29 @@ package com.vstyran.transform.operations
 				newSize = tmpSize;
 			}
 			
+			// check aspects if not maintaining aspect ratio and not guided
+			if(!maintainAspectRatio && maintainAspects && (!guideCross || (!guideCross.vGuideline && !guideCross.hGuideline)))
+			{
+				var aspectData:DisplayData = data.clone();
+				aspectData.inflate(newSize.x - startData.width, newSize.y - startData.height, startAnchor);
+				var aspect:AspectRatio = DataUtil.snapAspects(startData, aspectData, aspects, horizontalEnabled, verticalEnabled);
+				
+				if(aspect)
+					newSize = new Point(aspectData.width, aspectData.height);
+			}
+			
 			// check min/max values
 			newSize = data.resolveMinMax(newSize);
 			
 			// set new size
 			data.inflate(newSize.x - data.width, newSize.y - data.height, startAnchor);
+			// check pasive guidelines
+			if(data.rotation%90 == 0)
+				guideCross = DataUtil.getPreciseGuides(data, guideCross, guidelines);
+
+			// set new size
+			data.inflate(newSize.x - data.width, newSize.y - data.height, startAnchor);
+
 			// check pasive guidelines
 			if(data.rotation%90 == 0)
 				guideCross = DataUtil.getPreciseGuides(data, guideCross, guidelines);

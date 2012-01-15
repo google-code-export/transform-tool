@@ -94,10 +94,11 @@ package com.vstyran.transform.utils
 		 * @param snapStart Step start value. Can be NaN.
 		 * @param snapStep Step size. Can be NaN.
 		 * @param fraction Max delta value that can be snapped.
-		 * @return Snapped value.
+		 * @return Snapped value or NaN if can't snap.
 		 */	
 		public static function snapValue(value:Number, snapStart:Number, snapStep:Number, fraction:Number = NaN):Number
 		{
+			var result:Number;
 			snapStart ||= 0;
 			if(!isNaN(snapStep) && snapStep > 0)
 			{
@@ -108,10 +109,14 @@ package com.vstyran.transform.utils
 						return value;
 				}
 				
-				value = Math.round((value-snapStart)/snapStep)*snapStep + snapStart;
+				result = Math.round((value-snapStart)/snapStep)*snapStep + snapStart;
 			}
-			
-			return value;
+			else if(value > snapStart - fraction && value < snapStart + fraction)
+			{
+				result = snapStart;
+			}
+				
+			return result;
 		}
 	}
 }
