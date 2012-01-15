@@ -1,3 +1,9 @@
+Release Notes for TransformTool 2.4.0
+--------------------------------------
+====== CHANGES ======
+* Added snap to aspect ratio function ality for resize operation. 
+
+
 Release Notes for TransformTool 2.3.9a
 --------------------------------------
 ====== CHANGES ======
