@@ -9,6 +9,7 @@
 	
 	<s:states>
 		<s:State name="normal"/>
+		<s:State name="hovered"/>
 		<s:State name="anchorActive"/>
 		<s:State name="controlActive"/>
 	</s:states>

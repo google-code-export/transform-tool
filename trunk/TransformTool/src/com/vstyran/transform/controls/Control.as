@@ -33,6 +33,11 @@ package com.vstyran.transform.controls
 	[SkinState("normal")]
 	
 	/**
+	 * Hovered skin state. 
+	 */	
+	[SkinState("hovered")]
+	
+	/**
 	 * State when control used as anchor. 
 	 */
 	[SkinState("anchorActive")]
@@ -64,6 +69,32 @@ package com.vstyran.transform.controls
 			addEventListener(MouseEvent.MOUSE_DOWN, downHandler);
 			addEventListener(MouseEvent.ROLL_OVER, overHandler);
 			addEventListener(MouseEvent.MOUSE_OUT, outHandler);
+		}
+		
+		/**
+		 *  @private
+		 */
+		private var _hovered:Boolean = false;    
+		
+		/**
+		 *  Indicates whether the mouse pointer is over the control.
+		 *  Used to determine the skin state.
+		 */ 
+		protected function get hovered():Boolean
+		{
+			return _hovered;
+		}
+		
+		/**
+		 *  @private
+		 */ 
+		protected function set hovered(value:Boolean):void
+		{
+			if (value == _hovered)
+				return;
+			
+			_hovered = value;
+			invalidateSkinState();
 		}
 		
 		/**
@@ -181,6 +212,9 @@ package com.vstyran.transform.controls
 			
 			if(_controlActivated)
 				return "controlActive";
+			
+			if(_hovered)
+				return "hovered";
 			
 			return "normal";
 		} 
@@ -319,6 +353,7 @@ package com.vstyran.transform.controls
 		 */	
 		protected function overHandler(event:MouseEvent):void
 		{
+			hovered = true;
 			if(tool.toolCursorManager && !tool.transforming)
 				tool.toolCursorManager.setCursor(this, event.stageX, event.stageY);
 			
@@ -329,6 +364,7 @@ package com.vstyran.transform.controls
 		 */	
 		protected function outHandler(event:MouseEvent):void
 		{
+			hovered = false;
 			if(tool.toolCursorManager && !_controlActivated && !tool.transforming)
 				tool.toolCursorManager.removeCursor(this);
 		}

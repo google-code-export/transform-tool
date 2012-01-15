@@ -10,6 +10,7 @@
 	
 	<s:states>
 		<s:State name="normal"/>
+		<s:State name="hovered"/>
 		<s:State name="anchorActive"/>
 		<s:State name="controlActive"/>
 	</s:states>
@@ -19,7 +20,7 @@
 			<s:SolidColorStroke/>
 		</s:stroke>
 		<s:fill>
-			<s:SolidColor color="#FFFFFF" color.controlActive="red"/>
+			<s:SolidColor color="#FFFFFF" color.controlActive="red" color.hovered="#7AFF8C"/>
 		</s:fill>
 	</s:Ellipse>
 	
