@@ -100,6 +100,19 @@ package com.vstyran.transform.events
 		/**
 		 * @private 
 		 */		
+		private var _toolData:DisplayData;
+		
+		/**
+		 * Display data object of transform tool. 
+		 */		
+		public function get toolData():DisplayData
+		{
+			return _toolData;
+		}
+		
+		/**
+		 * @private 
+		 */		
 		private var _transformationType:String;
 		
 		/**
@@ -117,14 +130,16 @@ package com.vstyran.transform.events
 		 *  
 		 * @param type The event type; indicates the action that caused the event.
 		 * @param transformationType Current type of transformation.
+		 * @param toolData Display data object of transform tool. 
 		 * @param data Display data object. 
 		 */		
-		public function TransformEvent(type:String, transformationType:String, data:DisplayData = null)
+		public function TransformEvent(type:String, transformationType:String,  toolData:DisplayData = null, data:DisplayData = null)
 		{
 			super(type);
 			
 			_transformationType = transformationType;
 			_data = data;
+			_toolData = toolData;
 		}
 		
 		/**
@@ -132,7 +147,7 @@ package com.vstyran.transform.events
 		 */		
 		override public function clone():Event
 		{
-			return new TransformEvent(type, _transformationType, _data);
+			return new TransformEvent(type, _transformationType, _data, _toolData);
 		}
 	}
 }
