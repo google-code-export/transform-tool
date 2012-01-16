@@ -517,7 +517,7 @@ package com.vstyran.transform.view
 		 * 
 		 * If eny transformation was performed.
 		 */		
-		private var isTransformed:Boolean;
+		tt_internal var isTransformed:Boolean;
 
 		/**
 		 * Start transformation (mouse down on control) 
@@ -541,7 +541,7 @@ package com.vstyran.transform.view
 			
 			_transforming = true;
 			
-			dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION_START, type));
+			dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION_START, type, connector.getData()));
 		}
 		
 		/**
@@ -551,9 +551,9 @@ package com.vstyran.transform.view
 		{
 			DataUtil.applyData(this, data);
 			
-			data = connector.transfrom(data)
+			var targetData:DisplayData = connector.transfrom(data);
 				
-			dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION, type, data));
+			dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION, type, targetData, data));
 			
 			isTransformed = true;
 		}
@@ -575,10 +575,10 @@ package com.vstyran.transform.view
 			{			
 				DataUtil.applyData(this, data);
 				
-				data = connector.complete(data);
+				var targetData:DisplayData = connector.complete(data);
 				
-				dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION_COMPLETE, type, data));
-				}
+				dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION_COMPLETE, type, targetData, data));
+			}
 			isTransformed = false;
 		}
 		
