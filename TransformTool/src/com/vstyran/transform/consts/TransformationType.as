@@ -8,9 +8,14 @@ package com.vstyran.transform.consts
 	public class TransformationType
 	{
 		/**
-		 * Ttransformation type for moove operation. 
+		 * Ttransformation type for move operation. 
 		 */		
 		public static const MOVE:String = "move";
+		
+		/**
+		 * Ttransformation type for moving by shortcut. 
+		 */		
+		public static const MOVE_SHORTCUT:String = "moveShortcut";
 		
 		/**
 		 * Ttransformation type for resize operation.

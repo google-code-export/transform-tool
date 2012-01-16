@@ -3,6 +3,7 @@ package com.vstyran.transform.view
 	
 	import com.vstyran.transform.connectors.IConnector;
 	import com.vstyran.transform.connectors.IUIConnector;
+	import com.vstyran.transform.consts.TransformationType;
 	import com.vstyran.transform.controls.Control;
 	import com.vstyran.transform.events.ConnectorEvent;
 	import com.vstyran.transform.events.TransformEvent;
@@ -20,9 +21,12 @@ package com.vstyran.transform.view
 	import flash.display.BitmapData;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
+	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.Matrix;
+	import flash.ui.Keyboard;
 	
+	import mx.core.FlexGlobals;
 	import mx.core.IVisualElement;
 	import mx.core.IVisualElementContainer;
 	import mx.core.UIComponent;
@@ -193,7 +197,19 @@ package com.vstyran.transform.view
 		 */		
 		public function set uiTarget(value:UIComponent):void
 		{
+			if(_uiTarget)
+			{
+				_uiTarget.removeEventListener(MouseEvent.MOUSE_DOWN, downHandler);
+				_uiTarget.removeEventListener(MouseEvent.MOUSE_UP, upHandler);
+			}
+			
 			_uiTarget = value;
+			
+			if(_uiTarget)
+			{
+				_uiTarget.addEventListener(MouseEvent.MOUSE_DOWN, downHandler);
+				_uiTarget.addEventListener(MouseEvent.MOUSE_UP, upHandler);
+			}
 			
 			if(moveControl)
 				moveControl.uiTarget = _uiTarget;
@@ -240,6 +256,36 @@ package com.vstyran.transform.view
 		 * Alt key pressed. 
 		 */
 		private var altPressed:Boolean;
+		
+		/**
+		 * @private 
+		 */		
+		private var _maintainMoveShortcuts:Boolean;
+
+		/**
+		 * Flag that indicates whether moving shortcuts (arrow keys) should be active. 
+		 * 
+		 */
+		public function get maintainMoveShortcuts():Boolean
+		{
+			return _maintainMoveShortcuts;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set maintainMoveShortcuts(value:Boolean):void
+		{
+			if(_maintainMoveShortcuts && !value)
+				removeEventListener(KeyboardEvent.KEY_DOWN, moveShortcutHandler);
+			else if(!_maintainMoveShortcuts && value)
+			{
+				addEventListener(KeyboardEvent.KEY_DOWN, moveShortcutHandler);
+				setFocus();
+			}
+			
+			_maintainMoveShortcuts = value;
+		}
 		
 		//------------------------------------------------
 		// Life cycle methods
@@ -482,6 +528,9 @@ package com.vstyran.transform.view
 			ctrlPressed = event.ctrlKey;
 			altPressed = event.altKey;
 			invalidateSkinState();
+			
+			if(maintainMoveShortcuts)
+				setFocus();
 		}
 		
 		/**
@@ -580,6 +629,48 @@ package com.vstyran.transform.view
 				dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION_COMPLETE, type, targetData, data));
 			}
 			isTransformed = false;
+		}
+		
+		/**
+		 * Moving shortcut handler. 
+		 */		
+		protected function moveShortcutHandler(event:KeyboardEvent):void
+		{
+			var data:DisplayData = DataUtil.createData(this);
+			
+			switch(event.keyCode)
+			{
+				case Keyboard.RIGHT:
+				{
+					data.x += 1;
+					break;
+				}
+				case Keyboard.LEFT:
+				{
+					data.x -= 1;
+					break;
+				}
+				case Keyboard.DOWN:
+				{
+					data.y += 1;
+					break;
+				}
+				case Keyboard.UP:
+				{
+					data.y -= 1;
+					break;
+				}
+				default:
+				{
+					break;
+				}
+			}
+			
+			// check fitting to bounds
+			DataUtil.fitData(data, bounds);
+			
+			isTransformed = true;
+			endTransformation(data, TransformationType.MOVE_SHORTCUT);
 		}
 		
 		/**
