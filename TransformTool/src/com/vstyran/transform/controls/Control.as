@@ -66,9 +66,7 @@ package com.vstyran.transform.controls
 		{
 			super();
 			
-			addEventListener(MouseEvent.MOUSE_DOWN, downHandler);
-			addEventListener(MouseEvent.ROLL_OVER, overHandler);
-			addEventListener(MouseEvent.MOUSE_OUT, outHandler);
+			addListeners(this);
 		}
 		
 		/**
@@ -167,22 +165,52 @@ package com.vstyran.transform.controls
 			if(_uiTarget == value)
 				return;
 			
-			if(_uiTarget)
+			if(_uiTarget && maintainTargetEvents)
 			{
-				_uiTarget.removeEventListener(MouseEvent.MOUSE_DOWN, downHandler);
-				_uiTarget.removeEventListener(MouseEvent.ROLL_OVER, overHandler);
-				_uiTarget.removeEventListener(MouseEvent.MOUSE_OUT, outHandler);
+				removeListeners(_uiTarget);
 			}
 			
 			_uiTarget = value;
 			
-			if(_uiTarget)
+			if(_uiTarget && maintainTargetEvents)
 			{
-				_uiTarget.addEventListener(MouseEvent.MOUSE_DOWN, downHandler);
-				_uiTarget.addEventListener(MouseEvent.ROLL_OVER, overHandler);
-				_uiTarget.addEventListener(MouseEvent.MOUSE_OUT, outHandler);
+				addListeners(_uiTarget);
 			}
 		}
+		
+		/**
+		 * @private 
+		 */		
+		protected var _maintainTargetEvents:Boolean = true;
+
+		/**
+		 * Flag that indicates whether to add mouse event handlers to ui target.
+		 * @default true
+		 */
+		public function get maintainTargetEvents():Boolean
+		{
+			return _maintainTargetEvents;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set maintainTargetEvents(value:Boolean):void
+		{
+			if(_maintainTargetEvents == value)
+				return;
+			
+			_maintainTargetEvents = value;
+			
+			if(_uiTarget)
+			{
+				if(_maintainTargetEvents)
+					addListeners(_uiTarget);
+				else
+					removeListeners(_uiTarget);
+			}
+		}
+
 
 		//------------------------------------------
 		// Life cycle
@@ -222,6 +250,26 @@ package com.vstyran.transform.controls
 		//------------------------------------------
 		// Methods
 		//------------------------------------------
+		/**
+		 * @inheritDoc
+		 */	
+		protected function addListeners(target:UIComponent):void
+		{
+			target.addEventListener(MouseEvent.MOUSE_DOWN, downHandler);
+			target.addEventListener(MouseEvent.ROLL_OVER, overHandler);
+			target.addEventListener(MouseEvent.MOUSE_OUT, outHandler);
+		}
+		
+		/**
+		 * @inheritDoc
+		 */	
+		protected function removeListeners(target:UIComponent):void
+		{
+			target.removeEventListener(MouseEvent.MOUSE_DOWN, downHandler);
+			target.removeEventListener(MouseEvent.ROLL_OVER, overHandler);
+			target.removeEventListener(MouseEvent.MOUSE_OUT, outHandler);
+		}
+		
 		/**
 		 * @inheritDoc
 		 */	
