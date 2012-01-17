@@ -354,7 +354,7 @@ package com.vstyran.transform.controls
 		protected function overHandler(event:MouseEvent):void
 		{
 			hovered = true;
-			if(tool.toolCursorManager && !tool.transforming)
+			if(tool && tool.toolCursorManager && !tool.transforming)
 				tool.toolCursorManager.setCursor(this, event.stageX, event.stageY);
 			
 		}
