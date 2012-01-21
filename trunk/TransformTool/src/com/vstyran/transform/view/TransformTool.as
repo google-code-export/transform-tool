@@ -24,6 +24,7 @@ package com.vstyran.transform.view
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.Matrix;
+	import flash.geom.Point;
 	import flash.ui.Keyboard;
 	
 	import mx.core.FlexGlobals;
@@ -183,7 +184,7 @@ package com.vstyran.transform.view
 		 * @private 
 		 */		
 		private var _uiTarget:UIComponent;
-
+		
 		/**
 		 * UI target of transformation. Used as event dispather for moving control. 
 		 */		
@@ -191,7 +192,7 @@ package com.vstyran.transform.view
 		{
 			return _uiTarget;
 		}
-
+		
 		/**
 		 * @private 
 		 */		
@@ -214,7 +215,7 @@ package com.vstyran.transform.view
 			if(moveControl)
 				moveControl.uiTarget = _uiTarget;
 		}
-
+		
 		
 		/**
 		 * Grid that will be used as step size for operations. 
@@ -261,7 +262,7 @@ package com.vstyran.transform.view
 		 * @private 
 		 */		
 		private var _maintainMoveShortcuts:Boolean;
-
+		
 		/**
 		 * Flag that indicates whether moving shortcuts (arrow keys) should be active. 
 		 * 
@@ -270,7 +271,7 @@ package com.vstyran.transform.view
 		{
 			return _maintainMoveShortcuts;
 		}
-
+		
 		/**
 		 * @private
 		 */
@@ -286,6 +287,21 @@ package com.vstyran.transform.view
 			
 			_maintainMoveShortcuts = value;
 		}
+		
+		/**
+		 *  A user-supplied function to run on each transformation.  
+		 *
+		 *  <p>You can supply a <code>snappingFunction</code> that 
+		 *  snaps data in custom way.</p>
+		 *
+		 *  <p>The snapping function takes two arguments, current operation, current display data and anchor point.
+		 *  And returns snapped diplay data or null if no snapping performed.</p>
+		 *  <pre>
+		 *  snappingFunction(operation:IOperation, data:DisplayData, anchor:Point):DisplayData</pre>
+		 *
+		 *  @default null
+		 */		
+		public var snappingFunction:Function;
 		
 		//------------------------------------------------
 		// Life cycle methods
@@ -467,7 +483,7 @@ package com.vstyran.transform.view
 			}
 		}
 		
-	
+		
 		//------------------------------------------------
 		// Event handlers
 		//------------------------------------------------
@@ -552,7 +568,7 @@ package com.vstyran.transform.view
 		 * @private 
 		 */		
 		private var _transforming:Boolean;
-
+		
 		/**
 		 * Flag that indicate whether tyransforming is in progress. 
 		 */		
@@ -567,7 +583,7 @@ package com.vstyran.transform.view
 		 * If eny transformation was performed.
 		 */		
 		tt_internal var isTransformed:Boolean;
-
+		
 		/**
 		 * Start transformation (mouse down on control) 
 		 */		
@@ -601,8 +617,8 @@ package com.vstyran.transform.view
 			DataUtil.applyData(this, data);
 			
 			var targetData:DisplayData = connector.transfrom(data);
-				
-			dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION, type, targetData, data));
+			
+			dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION, type, data, targetData));
 			
 			isTransformed = true;
 		}
@@ -626,7 +642,7 @@ package com.vstyran.transform.view
 				
 				var targetData:DisplayData = connector.complete(data);
 				
-				dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION_COMPLETE, type, targetData, data));
+				dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION_COMPLETE, type, data, targetData));
 			}
 			isTransformed = false;
 		}
@@ -638,26 +654,35 @@ package com.vstyran.transform.view
 		{
 			var data:DisplayData = DataUtil.createData(this);
 			
+			var deltaX:Number = 1;
+			var deltaY:Number = 1;
+			
+			if(grid && isNaN(grid.fraction))
+			{
+				deltaX = grid.cellWidth;
+				deltaY = grid.cellHeight;
+			}
+			
 			switch(event.keyCode)
 			{
 				case Keyboard.RIGHT:
 				{
-					data.x += 1;
+					data.x += deltaX;
 					break;
 				}
 				case Keyboard.LEFT:
 				{
-					data.x -= 1;
+					data.x -= deltaX;
 					break;
 				}
 				case Keyboard.DOWN:
 				{
-					data.y += 1;
+					data.y += deltaY;
 					break;
 				}
 				case Keyboard.UP:
 				{
-					data.y -= 1;
+					data.y -= deltaY;
 					break;
 				}
 				default:

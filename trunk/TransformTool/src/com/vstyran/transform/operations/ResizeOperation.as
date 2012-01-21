@@ -63,6 +63,9 @@ package com.vstyran.transform.operations
 		 */		
 		override public function doOperation(point:Point):DisplayData
 		{
+			//reset guideline cross
+			guideCross = null;
+			
 			var data:DisplayData = startData.clone();
 			data.precision = 2;
 			
@@ -81,51 +84,65 @@ package com.vstyran.transform.operations
 			if(maintainAspectRatio) 
 				newSize = startData.resolveAspectRatio(newSize, horizontalEnabled, verticalEnabled);
 			
-			//reset guideline cross
-			guideCross = null;
-			
-			// guide data
-			if(data.rotation%90 == 0 && maintainGuidelines)
+			// invoke user snapping function
+			var userData:DisplayData;
+			if(snappingFunction != null)
 			{
-				// recalculate new size keeping min/max values
-				newSize = data.resolveMinMax(newSize);
-				
-				var guidData:DisplayData = data.clone();
-				guidData.inflate(newSize.x - startData.width, newSize.y - startData.height, startAnchor);
-				var currentAnchor:Point = new Point(startAnchor.x*guidData.width/startData.width, startAnchor.y*guidData.height/startData.height);
-				guideCross = DataUtil.guideSize(data.clone(), guidData, currentAnchor, guidelines);
-				
-				var tmpSize:Point = new Point(guidData.width, guidData.height);
-				if(maintainAspectRatio)
-				{
-					var vChanged:Boolean = tmpSize.y != MathUtil.round(newSize.y,2);
-					var hChanged:Boolean = tmpSize.x != MathUtil.round(newSize.x,2);
-					
-					// if snapped to two guides we will use less snapping value
-					if(vChanged && hChanged)
-					{
-						if(Math.abs(tmpSize.x-MathUtil.round(newSize.x,2)) >= Math.abs(tmpSize.y-MathUtil.round(newSize.y,2)))
-							hChanged = false;
-						else
-							vChanged = false;
-					}
-					
-					if(vChanged || hChanged)
-						tmpSize = startData.resolveAspectRatio(tmpSize, !vChanged, !hChanged );
-				}
-				
-				newSize = tmpSize;
+				userData = data.clone();
+				userData.inflate(newSize.x - startData.width, newSize.y - startData.height, startAnchor);
+				userData = invokeSnappingFunction(this, userData, startAnchor);
 			}
 			
-			// check aspects if not maintaining aspect ratio and not guided
-			if(!maintainAspectRatio && maintainAspects && (!guideCross || (!guideCross.vGuideline && !guideCross.hGuideline)))
+			if(userData)
 			{
-				var aspectData:DisplayData = data.clone();
-				aspectData.inflate(newSize.x - startData.width, newSize.y - startData.height, startAnchor);
-				var aspect:AspectRatio = DataUtil.snapAspects(startData, aspectData, aspects, horizontalEnabled, verticalEnabled);
+				// use snapped data
+				newSize = new Point(userData.width, userData.height);
+			}
+			else
+			{
+				// guide data
+				if(data.rotation%90 == 0 && maintainGuidelines && guidelines.length > 0)
+				{
+					// recalculate new size keeping min/max values
+					newSize = data.resolveMinMax(newSize);
+					
+					var guidData:DisplayData = data.clone();
+					guidData.inflate(newSize.x - startData.width, newSize.y - startData.height, startAnchor);
+					var currentAnchor:Point = new Point(startAnchor.x*guidData.width/startData.width, startAnchor.y*guidData.height/startData.height);
+					guideCross = DataUtil.guideSize(data.clone(), guidData, currentAnchor, guidelines);
+					
+					var tmpSize:Point = new Point(guidData.width, guidData.height);
+					if(maintainAspectRatio)
+					{
+						var vChanged:Boolean = tmpSize.y != MathUtil.round(newSize.y,2);
+						var hChanged:Boolean = tmpSize.x != MathUtil.round(newSize.x,2);
+						
+						// if snapped to two guides we will use less snapping value
+						if(vChanged && hChanged)
+						{
+							if(Math.abs(tmpSize.x-MathUtil.round(newSize.x,2)) >= Math.abs(tmpSize.y-MathUtil.round(newSize.y,2)))
+								hChanged = false;
+							else
+								vChanged = false;
+						}
+						
+						if(vChanged || hChanged)
+							tmpSize = startData.resolveAspectRatio(tmpSize, !vChanged, !hChanged );
+					}
+					
+					newSize = tmpSize;
+				}
 				
-				if(aspect)
-					newSize = new Point(aspectData.width, aspectData.height);
+				// check aspects if not maintaining aspect ratio and not guided
+				if(!maintainAspectRatio && maintainAspects && (!guideCross || (!guideCross.vGuideline && !guideCross.hGuideline)))
+				{
+					var aspectData:DisplayData = data.clone();
+					aspectData.inflate(newSize.x - startData.width, newSize.y - startData.height, startAnchor);
+					var aspect:AspectRatio = DataUtil.snapAspects(startData, aspectData, aspects, horizontalEnabled, verticalEnabled);
+					
+					if(aspect)
+						newSize = new Point(aspectData.width, aspectData.height);
+				}
 			}
 			
 			// check min/max values
@@ -134,10 +151,10 @@ package com.vstyran.transform.operations
 			// check pasive guidelines
 			if(data.rotation%90 == 0)
 				guideCross = DataUtil.getPreciseGuides(data, guideCross, guidelines);
-
+			
 			// set new size
 			data.inflate(newSize.x - data.width, newSize.y - data.height, startAnchor);
-
+			
 			return data;
 		}
 		

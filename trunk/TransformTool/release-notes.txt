@@ -4,6 +4,7 @@ Release Notes for TransformTool 2.4.0
 * Added snap to aspect ratio functionality for resize operation.
 * Added hovered state into control.
 * Added moving shortcuts.
+* Added user-supplied snapping function support.
 
 
 Release Notes for TransformTool 2.3.9a
