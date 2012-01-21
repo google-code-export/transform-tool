@@ -47,6 +47,7 @@
     <classEntry path="com.vstyran.transform.skins.HintSkin"/>
     <classEntry path="com.vstyran.transform.model.SegmentData"/>
     <classEntry path="com.vstyran.transform.model.AspectRatio"/>
+    <classEntry path="com.vstyran.transform.operations.BaseOperation"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

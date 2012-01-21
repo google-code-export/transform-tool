@@ -338,7 +338,7 @@ package com.vstyran.transform.controls
 			if(operation)
 				operation.startOperation(DataUtil.createData(tool), 
 					matrix.transformPoint(new Point(event.stageX, event.stageY)), 
-					tool.grid, tool.bounds, tool.guidelines);
+					tool.grid, tool.bounds, tool.guidelines, tool.snappingFunction);
 			
 			_controlActivated = true;
 			dispatchEvent(new Event("controlActivatedChanged"));

@@ -47,6 +47,9 @@ package com.vstyran.transform.operations
 		 */		
 		override public function doOperation(point:Point):DisplayData
 		{
+			//reset guideline cross
+			guideCross = null;
+			
 			var data:DisplayData = startData.clone();
 			var deltaRotation:Number = 0;
 			
@@ -55,28 +58,38 @@ package com.vstyran.transform.operations
 			var alpha:Number =  Math.atan2(point.y - startAnchor.y, point.x - startAnchor.x) * 180/Math.PI ;
 			deltaRotation = alpha - initialAngle; 
 			
-			// reset cross
-			guideCross = null;
+			// invoke user snapping function
+			var userData:DisplayData = data.clone();
+			userData.rotate(deltaRotation, startAnchor);
+			userData = invokeSnappingFunction(this, userData, startAnchor);
 			
-			// snap to guidelines
-			if(maintainGuidelines)
+			if(userData)
 			{
-				guideCross = DataUtil.guideRotation(data.rotation + deltaRotation, guidelines);
-				if(guideCross && guideCross.rGuideline)
-					deltaRotation = guideCross.rGuideline.value - data.rotation;
+				// use snapped data
+				data = userData;
 			}
-			
-			// snap to specified step
-			if(segments && maintainSegments && (!guideCross || !guideCross.rGuideline))
+			else
 			{
-				for each (var segment:SegmentData in segments) 
+				// snap to guidelines
+				if(maintainGuidelines)
 				{
-					deltaRotation = DataUtil.snapRotation(data.rotation + deltaRotation, segment) - data.rotation;
+					guideCross = DataUtil.guideRotation(data.rotation + deltaRotation, guidelines);
+					if(guideCross && guideCross.rGuideline)
+						deltaRotation = guideCross.rGuideline.value - data.rotation;
 				}
+				
+				// snap to specified step
+				if(segments && maintainSegments && (!guideCross || !guideCross.rGuideline))
+				{
+					for each (var segment:SegmentData in segments) 
+					{
+						deltaRotation = DataUtil.snapRotation(data.rotation + deltaRotation, segment) - data.rotation;
+					}
+				}
+				
+				//rotate data
+				data.rotate(deltaRotation, startAnchor);
 			}
-			
-			//rotate data
-			data.rotate(deltaRotation, startAnchor);
 			
 			// check pasive guidelines
 			guideCross = DataUtil.getPreciseGuides(data, guideCross, guidelines);

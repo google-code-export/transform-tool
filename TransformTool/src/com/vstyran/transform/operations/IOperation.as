@@ -24,8 +24,12 @@ package com.vstyran.transform.operations
 		 * @param grid Grid that will be used as step size for operations. 
 		 * @param guidelines Guidelines that can make influence on transformation. 
 		 * @param bounds Bounds that will boundaries for operations. 
+		 * @param snappingFunction user-supplied snapping function.
+		 *   
 		 */		
-		function startOperation(data:DisplayData, point:Point, grid:GridData = null, bounds:Bounds = null, guidelines:Vector.<Guideline> = null):void;
+		function startOperation(data:DisplayData, point:Point, grid:GridData = null, 
+								bounds:Bounds = null, guidelines:Vector.<Guideline> = null,
+								snappingFunction:Function = null):void;
 		
 		/**
 		 * Perform transformation.
