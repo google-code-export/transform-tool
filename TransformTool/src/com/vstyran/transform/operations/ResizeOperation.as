@@ -40,7 +40,7 @@ package com.vstyran.transform.operations
 		public var maintainAspectRatio:Boolean = false;
 		
 		/**
-		 * List of aspect ratios that will be used snapping.  
+		 * List of aspect ratios that will be used for snapping.  
 		 */	
 		public var aspects:Vector.<AspectRatio>;
 		
@@ -101,7 +101,7 @@ package com.vstyran.transform.operations
 			else
 			{
 				// guide data
-				if(data.rotation%90 == 0 && maintainGuidelines && guidelines.length > 0)
+				if(data.rotation%90 == 0 && maintainGuidelines && guidelines && guidelines.length > 0)
 				{
 					// recalculate new size keeping min/max values
 					newSize = data.resolveMinMax(newSize);
