@@ -1,0 +1,38 @@
+Release Notes for TransformTool 2.4.0
+--------------------------------------
+====== CHANGES ======
+* Added snap to aspect ratio functionality for resize operation.
+* Added hovered state into control.
+* Added moving shortcuts.
+* Added user-supplied snapping function support.
+* Added user-supplied data property into DisplayData class.
+
+
+Release Notes for TransformTool 2.3.9a
+--------------------------------------
+====== CHANGES ======
+* Added BoundingGroup skin part.
+* Added transformation type to GuidelineEvent.
+* Added passive guidelines for rotate operation.
+* Changed default precision in DisplayData into 2.
+
+====== BUG FIXES ======
+* Fixed crash on setting null target. 
+* Fixed snap to guidelines for resize.
+
+
+Release Notes for TransformTool 2.3.9
+--------------------------------------
+====== BUG FIXES ======
+* Fixed crash with UIScaleConnector on adding TransformTool. 
+
+
+Release Notes for TransformTool 2.3.8
+--------------------------------------
+====== CHANGES ======
+* Added ability to update geometry of transform tool if one of parent panels is changed by 
+  position or scale values ("deep" parameter in updateTool method).
+* Added transformation hints.  
+* Added transformation type to transform event.  
+* Added snap to segments for rotate operation.  
+====== BUG FIXES ======
