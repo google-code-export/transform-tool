@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="false" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="com.vstyran.transform.connectors.DataConnector"/>
+    <classEntry path="com.vstyran.transform.connectors.IConnector"/>
+    <classEntry path="com.vstyran.transform.connectors.SimpleConnector"/>
+    <classEntry path="com.vstyran.transform.connectors.UIConnector"/>
+    <classEntry path="com.vstyran.transform.controls.Anchor"/>
+    <classEntry path="com.vstyran.transform.controls.Control"/>
+    <classEntry path="com.vstyran.transform.controls.IAnchor"/>
+    <classEntry path="com.vstyran.transform.events.ConnectorEvent"/>
+    <classEntry path="com.vstyran.transform.managers.ICursorManager"/>
+    <classEntry path="com.vstyran.transform.managers.raster.CursorItem"/>
+    <classEntry path="com.vstyran.transform.managers.raster.CursorManager"/>
+    <classEntry path="com.vstyran.transform.managers.raster.Cursors"/>
+    <classEntry path="com.vstyran.transform.model.DisplayData"/>
+    <classEntry path="com.vstyran.transform.namespaces.tt_internal"/>
+    <classEntry path="com.vstyran.transform.operations.AnchorOperation"/>
+    <classEntry path="com.vstyran.transform.operations.IAncorOperation"/>
+    <classEntry path="com.vstyran.transform.operations.IOperation"/>
+    <classEntry path="com.vstyran.transform.operations.MoveOperation"/>
+    <classEntry path="com.vstyran.transform.operations.ResizeOperation"/>
+    <classEntry path="com.vstyran.transform.operations.RotateOperation"/>
+    <classEntry path="com.vstyran.transform.skins.AnchorSkin"/>
+    <classEntry path="com.vstyran.transform.skins.ControlSkin"/>
+    <classEntry path="com.vstyran.transform.skins.MoveControlSkin"/>
+    <classEntry path="com.vstyran.transform.skins.TransformToolSkin"/>
+    <classEntry path="com.vstyran.transform.utils.MathUtil"/>
+    <classEntry path="com.vstyran.transform.utils.TransformUtil"/>
+    <classEntry path="com.vstyran.transform.view.TransformTool"/>
+    <classEntry path="com.vstyran.transform.managers.vector.CursorManager"/>
+    <classEntry path="com.vstyran.transform.managers.vector.CursorItem"/>
+    <classEntry path="com.vstyran.transform.utils.DataUtil"/>
+    <classEntry path="com.vstyran.transform.utils.SkinUtil"/>
+    <classEntry path="com.vstyran.transform.view.SimpleTransformTool"/>
+    <classEntry path="com.vstyran.transform.view.DataTransformTool"/>
+    <classEntry path="com.vstyran.transform.view.UITransformTool"/>
+    <classEntry path="com.vstyran.transform.model.Guideline"/>
+    <classEntry path="com.vstyran.transform.events.GuidelineEvent"/>
+    <classEntry path="com.vstyran.transform.model.GuidelineCross"/>
+    <classEntry path="com.vstyran.transform.connectors.IUIConnector"/>
+    <classEntry path="com.vstyran.transform.connectors.UIScaleConnector"/>
+    <classEntry path="com.vstyran.transform.events.TransformEvent"/>
+    <classEntry path="com.vstyran.transform.consts.GuidelineType"/>
+    <classEntry path="com.vstyran.transform.controls.Hint"/>
+    <classEntry path="com.vstyran.transform.consts.TransformationType"/>
+    <classEntry path="com.vstyran.transform.skins.HintSkin"/>
+    <classEntry path="com.vstyran.transform.model.SegmentData"/>
+    <classEntry path="com.vstyran.transform.model.AspectRatio"/>
+    <classEntry path="com.vstyran.transform.operations.BaseOperation"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>
