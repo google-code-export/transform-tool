@@ -238,7 +238,10 @@ package com.vstyran.transform.model
 			_maxHeight = value;
 		}
 
-		
+		/**
+		 * User-supplied data. 
+		 */		
+		public var userData:Object;
 		//------------------------------------------------------------------
 		//
 		// Additional properties
@@ -1073,6 +1076,7 @@ package com.vstyran.transform.model
 			clone.maxWidth = maxWidth;
 			clone.maxHeight = maxHeight;
 			
+			clone.userData = userData;
 			clone.precision = precision;
 			
 			return clone;

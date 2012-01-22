@@ -5,6 +5,7 @@ Release Notes for TransformTool 2.4.0
 * Added hovered state into control.
 * Added moving shortcuts.
 * Added user-supplied snapping function support.
+* Added user-supplied data property into DisplayData class.
 
 
 Release Notes for TransformTool 2.3.9a
