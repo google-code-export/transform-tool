@@ -29,7 +29,7 @@ package com.vstyran.transform.model
 		/**
 		 * @private
 		 */
-		private var _x:Number = 0;
+		protected var _x:Number = 0;
 		
 		[Bindable("xChanged")]
 		/**
@@ -54,7 +54,7 @@ package com.vstyran.transform.model
 		/**
 		 * @private
 		 */
-		private var _y:Number = 0;
+		protected var _y:Number = 0;
 		
 		[Bindable("yChanged")]
 		/**
@@ -79,7 +79,7 @@ package com.vstyran.transform.model
 		/**
 		 * @private
 		 */
-		private var _width:Number = 0;
+		protected var _width:Number = 0;
 		
 		[Bindable("widthChanged")]
 		/**
@@ -104,7 +104,7 @@ package com.vstyran.transform.model
 		/**
 		 * @private
 		 */
-		private var _height:Number = 0;
+		protected var _height:Number = 0;
 		
 		[Bindable("heightChanged")]
 		/**
@@ -129,7 +129,7 @@ package com.vstyran.transform.model
 		/**
 		 * @private 
 		 */		
-		private var _rotation:Number = 0;
+		protected var _rotation:Number = 0;
 		
 		[Bindable("rotationChanged")]
 		/**
@@ -155,7 +155,7 @@ package com.vstyran.transform.model
 		/**
 		 * @private
 		 */
-		private var _minWidth:Number;
+		protected var _minWidth:Number;
 
 		[Bindable]
 		/**
@@ -175,7 +175,7 @@ package com.vstyran.transform.model
 		}
 
 		
-		private var _minHeight:Number;
+		protected var _minHeight:Number;
 
 		[Bindable]
 		/**
@@ -197,7 +197,7 @@ package com.vstyran.transform.model
 		/**
 		 * @private
 		 */
-		private var _maxWidth:Number;
+		protected var _maxWidth:Number;
 
 		[Bindable]
 		/**
@@ -219,7 +219,7 @@ package com.vstyran.transform.model
 		/**
 		 * @private
 		 */
-		private var _maxHeight:Number;
+		protected var _maxHeight:Number;
 
 		[Bindable]
 		/**
@@ -250,12 +250,12 @@ package com.vstyran.transform.model
 		/**
 		 * @private
 		 */
-		private var _precisionValue:uint = 100;
+		protected var _precisionValue:uint = 100;
 		
 		/**
 		 * @private
 		 */
-		private var _precision:uint = 2;
+		protected var _precision:uint = 2;
 
 		[Bindable]
 		/**

@@ -48,6 +48,7 @@
     <classEntry path="com.vstyran.transform.model.SegmentData"/>
     <classEntry path="com.vstyran.transform.model.AspectRatio"/>
     <classEntry path="com.vstyran.transform.operations.BaseOperation"/>
+    <classEntry path="com.vstyran.transform.model.MultiDisplayData"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
