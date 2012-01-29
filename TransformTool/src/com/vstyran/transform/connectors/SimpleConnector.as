@@ -75,7 +75,7 @@ package com.vstyran.transform.connectors
 		 */	
 		public function transfrom(data:DisplayData):DisplayData
 		{
-			_data = data;
+			_data.setTo(data.x, data.y, data.width, data.height, data.rotation);
 			
 			return _data;
 		}
@@ -85,7 +85,7 @@ package com.vstyran.transform.connectors
 		 */	
 		public function complete(data:DisplayData):DisplayData
 		{
-			_data = data;
+			_data.setTo(data.x, data.y, data.width, data.height, data.rotation);
 			
 			return data;
 		}
