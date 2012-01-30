@@ -2,7 +2,6 @@ package com.vstyran.transform.view
 {
 	
 	import com.vstyran.transform.connectors.IConnector;
-	import com.vstyran.transform.connectors.IUIConnector;
 	import com.vstyran.transform.consts.TransformationType;
 	import com.vstyran.transform.controls.Control;
 	import com.vstyran.transform.events.ConnectorEvent;
@@ -27,6 +26,7 @@ package com.vstyran.transform.view
 	import flash.geom.Point;
 	import flash.ui.Keyboard;
 	
+	import mx.collections.ArrayList;
 	import mx.core.FlexGlobals;
 	import mx.core.IVisualElement;
 	import mx.core.IVisualElementContainer;
@@ -141,8 +141,8 @@ package com.vstyran.transform.view
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			addEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
-			addEventListener(MouseEvent.MOUSE_DOWN, downHandler, true);
-			addEventListener(MouseEvent.MOUSE_UP, upHandler, true);
+			addEventListener(MouseEvent.MOUSE_DOWN, downHandler, true, int.MAX_VALUE);
+			addEventListener(MouseEvent.MOUSE_UP, upHandler, true, int.MAX_VALUE);
 		}
 		
 		/**
@@ -183,38 +183,48 @@ package com.vstyran.transform.view
 		/**
 		 * @private 
 		 */		
-		private var _uiTarget:UIComponent;
+		private var _uiTargets:Array;
 		
-		[Bindable]
+		[Bindable("uiTargetsChanged")]
 		/**
-		 * UI target of transformation. Used as event dispather for moving control. 
+		 * Count of UI targets of transformation. 
 		 */		
-		public function get uiTarget():UIComponent
+		public function get uiTargetsLength():Number
 		{
-			return _uiTarget;
+			return _uiTargets ? _uiTargets.length: 0;
 		}
 		
 		/**
 		 * @private 
 		 */		
-		public function set uiTarget(value:UIComponent):void
+		tt_internal function setUITargets(value:Array):void
 		{
-			if(_uiTarget)
+			var uiTarget:UIComponent;
+			
+			if(_uiTargets)
 			{
-				_uiTarget.removeEventListener(MouseEvent.MOUSE_DOWN, downHandler);
-				_uiTarget.removeEventListener(MouseEvent.MOUSE_UP, upHandler);
+				for each (uiTarget in _uiTargets) 
+				{
+					uiTarget.removeEventListener(MouseEvent.MOUSE_DOWN, downHandler);
+					uiTarget.removeEventListener(MouseEvent.MOUSE_UP, upHandler);
+				}
 			}
 			
-			_uiTarget = value;
+			_uiTargets = value;
 			
-			if(_uiTarget)
+			if(_uiTargets)
 			{
-				_uiTarget.addEventListener(MouseEvent.MOUSE_DOWN, downHandler);
-				_uiTarget.addEventListener(MouseEvent.MOUSE_UP, upHandler);
+				for each (uiTarget in _uiTargets) 
+				{
+					uiTarget.addEventListener(MouseEvent.MOUSE_DOWN, downHandler);
+					uiTarget.addEventListener(MouseEvent.MOUSE_UP, upHandler);
+				}
 			}
 			
 			if(moveControl)
-				moveControl.uiTarget = _uiTarget;
+				moveControl.uiTargets = _uiTargets;
+			
+			dispatchEvent(new Event("uiTargetsChanged"));
 		}
 		
 		
@@ -355,7 +365,7 @@ package com.vstyran.transform.view
 				}
 				case moveControl:
 				{
-					moveControl.uiTarget = uiTarget;
+					moveControl.uiTargets = _uiTargets;
 					break;
 				}
 				case preview:
@@ -394,7 +404,7 @@ package com.vstyran.transform.view
 			}
 			else if(instance == moveControl)
 			{
-				moveControl.uiTarget = null;
+				moveControl.uiTargets = null;
 			}
 		}
 		
@@ -530,8 +540,7 @@ package com.vstyran.transform.view
 		 */		
 		private function dataChangeHendler(event:ConnectorEvent):void
 		{
-			if(connector is IUIConnector)
-				uiTarget = (connector as IUIConnector).target;
+			setUITargets(connector.targets);
 			
 			updateTool();
 		}
@@ -594,11 +603,13 @@ package com.vstyran.transform.view
 			{
 				try
 				{
-					var bd:BitmapData = new BitmapData( _uiTarget.width, _uiTarget.height);
-					bd.draw( _uiTarget, new Matrix());
-					
-					preview.source = bd;
-					preview.visible = true;
+					if(_uiTargets && _uiTargets.length > 0)
+					{
+						var bd:BitmapData = new BitmapData( _uiTargets[0].width, _uiTargets[0].height);
+						bd.draw( _uiTargets[0], new Matrix());
+						preview.source = bd;
+						preview.visible = true;
+					}
 				}catch(e:Error){}
 			}
 			

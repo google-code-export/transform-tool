@@ -2,11 +2,10 @@ package com.vstyran.transform.connectors
 {
 	import com.vstyran.transform.events.ConnectorEvent;
 	import com.vstyran.transform.model.DisplayData;
+	import com.vstyran.transform.model.MultiDisplayData;
 	
 	import flash.display.DisplayObject;
 	import flash.events.EventDispatcher;
-	
-	import mx.core.UIComponent;
 
 	/**
 	 *  Dispatched when the data is changed and transform tool needs to be updated.
@@ -37,6 +36,28 @@ package com.vstyran.transform.connectors
 		public function setToolPanel(panel:DisplayObject):void
 		{
 			// because we are in the same coordinate space we don't need this 
+		}
+		
+		/**
+		 * @private 
+		 */		
+		private var _targets:Array;
+		
+		[Bindable]
+		/**
+		 * UI target of transformation. Used as event dispather for moving control. 
+		 */		
+		public function get targets():Array
+		{
+			return _targets ? _targets.slice() : null;
+		}
+		
+		/**
+		 * @private 
+		 */		
+		public function set targets(value:Array):void
+		{
+			_targets = value;
 		}
 		
 		/**
@@ -85,9 +106,12 @@ package com.vstyran.transform.connectors
 		 */	
 		public function complete(data:DisplayData):DisplayData
 		{
-			_data.setTo(data.x, data.y, data.width, data.height, data.rotation);
+			transfrom(data);
 			
-			return data;
+			if(data is MultiDisplayData)
+				(data as MultiDisplayData).validateData(data.rotation);
+			
+			return _data;
 		}
 	}
 }

@@ -2,6 +2,7 @@ package com.vstyran.transform.connectors
 {
 	import com.vstyran.transform.events.ConnectorEvent;
 	import com.vstyran.transform.model.DisplayData;
+	import com.vstyran.transform.model.MultiDisplayData;
 	import com.vstyran.transform.utils.TransformUtil;
 	
 	import flash.display.DisplayObject;
@@ -76,6 +77,28 @@ package com.vstyran.transform.connectors
 		/**
 		 * @private 
 		 */		
+		private var _targets:Array;
+		
+		[Bindable]
+		/**
+		 * UI target of transformation. Used as event dispather for moving control. 
+		 */		
+		public function get targets():Array
+		{
+			return _targets ? _targets.slice() : null;
+		}
+		
+		/**
+		 * @private 
+		 */		
+		public function set targets(value:Array):void
+		{
+			_targets = value;
+		}
+		
+		/**
+		 * @private 
+		 */		
 		private function recalcMatrixes():void
 		{
 			if(panel && toolPanel)
@@ -144,9 +167,11 @@ package com.vstyran.transform.connectors
 		 */	
 		public function transfrom(data:DisplayData):DisplayData
 		{
-			this.data = TransformUtil.transformData(invertMatrix, data);
+			data = TransformUtil.transformData(invertMatrix, data);
 			
-			return this.data;
+			_data.setTo(data.x, data.y, data.width, data.height, data.rotation);
+			
+			return _data;
 		}
 		
 		/**
@@ -154,9 +179,12 @@ package com.vstyran.transform.connectors
 		 */	
 		public function complete(data:DisplayData):DisplayData
 		{
-			this.data = TransformUtil.transformData(invertMatrix, data);
+			transfrom(data);
 			
-			return this.data;
+			if(_data is MultiDisplayData)
+				(_data as MultiDisplayData).validateData(_data.rotation);
+			
+			return _data;
 		}
 	}
 }

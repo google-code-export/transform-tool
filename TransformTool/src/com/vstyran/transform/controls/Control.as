@@ -20,6 +20,7 @@ package com.vstyran.transform.controls
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	
+	import mx.collections.ArrayList;
 	import mx.core.UIComponent;
 	
 	import spark.components.supportClasses.SkinnableComponent;
@@ -155,26 +156,23 @@ package com.vstyran.transform.controls
 		/**
 		 * @private 
 		 */		
-		protected var _uiTarget:UIComponent;
+		protected var _uiTargets:Array;
 
 		/**
-		 * UI target of transformation. 
+		 * List of UI targets of transformation. 
 		 */		
-		tt_internal function set uiTarget(value:UIComponent):void
+		tt_internal function set uiTargets(value:Array):void
 		{
-			if(_uiTarget == value)
-				return;
-			
-			if(_uiTarget && maintainTargetEvents)
+			if(_uiTargets && maintainTargetEvents)
 			{
-				removeListeners(_uiTarget);
+				removeUITargetsListeners();
 			}
 			
-			_uiTarget = value;
+			_uiTargets = value;
 			
-			if(_uiTarget && maintainTargetEvents)
+			if(_uiTargets && maintainTargetEvents)
 			{
-				addListeners(_uiTarget);
+				addUITargetsListeners();
 			}
 		}
 		
@@ -202,12 +200,12 @@ package com.vstyran.transform.controls
 			
 			_maintainTargetEvents = value;
 			
-			if(_uiTarget)
+			if(_uiTargets)
 			{
 				if(_maintainTargetEvents)
-					addListeners(_uiTarget);
+					addUITargetsListeners()
 				else
-					removeListeners(_uiTarget);
+					removeUITargetsListeners();
 			}
 		}
 
@@ -253,11 +251,33 @@ package com.vstyran.transform.controls
 		/**
 		 * @inheritDoc
 		 */	
-		protected function addListeners(target:UIComponent):void
+		protected function addUITargetsListeners():void
 		{
-			target.addEventListener(MouseEvent.MOUSE_DOWN, downHandler);
-			target.addEventListener(MouseEvent.ROLL_OVER, overHandler);
-			target.addEventListener(MouseEvent.MOUSE_OUT, outHandler);
+			for each (var uiTarget:UIComponent in _uiTargets) 
+			{
+				addListeners(uiTarget, int.MAX_VALUE-1);
+			}
+		}
+		
+		/**
+		 * @inheritDoc
+		 */	
+		protected function removeUITargetsListeners():void
+		{
+			for each (var uiTarget:UIComponent in _uiTargets) 
+			{
+				removeListeners(uiTarget);
+			}
+		}
+		
+		/**
+		 * @inheritDoc
+		 */	
+		protected function addListeners(target:UIComponent, priority:int = 0):void
+		{
+			target.addEventListener(MouseEvent.MOUSE_DOWN, downHandler, false, priority);
+			target.addEventListener(MouseEvent.ROLL_OVER, overHandler, false, priority);
+			target.addEventListener(MouseEvent.MOUSE_OUT, outHandler, false, priority);
 		}
 		
 		/**
@@ -268,6 +288,20 @@ package com.vstyran.transform.controls
 			target.removeEventListener(MouseEvent.MOUSE_DOWN, downHandler);
 			target.removeEventListener(MouseEvent.ROLL_OVER, overHandler);
 			target.removeEventListener(MouseEvent.MOUSE_OUT, outHandler);
+		}
+		
+		/**
+		 * @inheritDoc
+		 */	
+		protected function hitUITargetsTestPoint(x:Number, y:Number, shapeFlag:Boolean = false):Boolean
+		{
+			for each (var uiTarget:UIComponent in _uiTargets) 
+			{
+				if(uiTarget.hitTestPoint(x, y, shapeFlag))
+					return true;
+			}
+			
+			return false;
 		}
 		
 		/**
@@ -308,7 +342,7 @@ package com.vstyran.transform.controls
 		public function startTransformation(event:MouseEvent):void
 		{
 			if(this.hitTestPoint(event.stageX, event.stageY) ||
-			  (_uiTarget && _uiTarget.hitTestPoint(event.stageX, event.stageY, true)))
+			  (_uiTargets && hitUITargetsTestPoint(event.stageX, event.stageY, true)))
 			{
 				if(tool.toolCursorManager && !tool.transforming)
 					tool.toolCursorManager.setCursor(this, event.stageX, event.stageY);
@@ -346,6 +380,8 @@ package com.vstyran.transform.controls
 			
 			systemManager.getSandboxRoot().addEventListener(MouseEvent.MOUSE_MOVE, moveHandler);
 			systemManager.getSandboxRoot().addEventListener(MouseEvent.MOUSE_UP, upHandler);
+			
+			event.stopImmediatePropagation();
 		}
 		
 		/**
@@ -389,7 +425,7 @@ package com.vstyran.transform.controls
 			invalidateSkinState();
 			
 			if(tool.toolCursorManager && !hitTestPoint(event.stageX, event.stageY, true) &&
-				!(_uiTarget && _uiTarget.hitTestPoint(event.stageX, event.stageY, true)))
+				!(_uiTargets && hitUITargetsTestPoint(event.stageX, event.stageY, true)))
 				tool.toolCursorManager.removeCursor(this);
 			
 			systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_MOVE, moveHandler);

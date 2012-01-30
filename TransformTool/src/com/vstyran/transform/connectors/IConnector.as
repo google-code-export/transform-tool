@@ -20,6 +20,11 @@ package com.vstyran.transform.connectors
 		function setToolPanel(toolPanel:DisplayObject):void;
 		
 		/**
+		 * Get ui target of transformation. 
+		 */		
+		function get targets():Array;
+		
+		/**
 		 * Get target data.
 		 * 
 		 * @param deep Flag that indicates whether connector should recalculate all parent dependencies to get right DisplayData values.

@@ -2,7 +2,10 @@ package com.vstyran.transform.connectors
 {
 	import com.vstyran.transform.events.ConnectorEvent;
 	import com.vstyran.transform.model.DisplayData;
+	import com.vstyran.transform.model.MultiDisplayData;
 	import com.vstyran.transform.utils.DataUtil;
+	
+	import mx.core.UIComponent;
 
 	/**
 	 * Connector class for connecting UIComponent with transfrom tool.
@@ -27,12 +30,12 @@ package com.vstyran.transform.connectors
 		{
 			var data:DisplayData = super.getData(deep);
 			
-			if(data)
+			if(data && targets && targets.length == 1)
 			{
-				data.minWidth = target.minWidth;
-				data.minHeight = target.minHeight;
-				data.maxWidth = target.maxWidth;
-				data.maxHeight = target.maxHeight;
+				data.minWidth = targets[0].minWidth;
+				data.minHeight = targets[0].minHeight;
+				data.maxWidth = targets[0].maxWidth;
+				data.maxHeight = targets[0].maxHeight;
 			}
 			
 			return data;
@@ -45,19 +48,20 @@ package com.vstyran.transform.connectors
 		{
 			data = dataConnector.transfrom(data);
 			
-			DataUtil.applyScaledData(target, dataConnector.data);
-			
-			return data;
-		}
-		
-		/**
-		 * @inheritDoc 
-		 */	
-		override public function complete(data:DisplayData):DisplayData
-		{
-			data = dataConnector.transfrom(data);
-			
-			DataUtil.applyScaledData(target, dataConnector.data);
+			if(liveTransformation && targets && targets.length > 0)
+			{
+				if(dataConnector.data is MultiDisplayData)
+				{
+					for each (var child:DisplayData in (dataConnector.data as MultiDisplayData).children) 
+					{
+						DataUtil.applyScaledData(child.userData.target as UIComponent, child);
+					}
+				}
+				else
+				{
+					DataUtil.applyScaledData(targets[0], dataConnector.data);
+				}
+			}
 			
 			return data;
 		}
