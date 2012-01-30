@@ -21,6 +21,21 @@ package com.vstyran.transform.model
 	 */
 	public class DisplayData extends EventDispatcher
 	{
+		/**
+		 * Constructor.
+		 * 
+		 * @param x Position by X axis.
+		 * @param y Position by Y axis.
+		 * @param width Width of display object. 
+		 * @param height Height of display object. 
+		 * @param rotation Rotation of display object, will be clamped between -180 and 180 degrees. 
+		 */		
+		public function DisplayData(x:Number = 0, y:Number = 0, width:Number = 0, height:Number = 0, rotation:Number = 0)
+		{
+			super();
+			
+			setTo(x, y, width, height, rotation);
+		}
 		//------------------------------------------------------------------
 		//
 		// Standard Properties

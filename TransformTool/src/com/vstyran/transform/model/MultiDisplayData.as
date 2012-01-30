@@ -12,9 +12,10 @@ package com.vstyran.transform.model
 	{
 		public function MultiDisplayData()
 		{
+			_children = new Vector.<DisplayData>();
+			
 			super();
 			
-			_children = new Vector.<DisplayData>();
 		}
 		
 		private var _children:Vector.<DisplayData>;
@@ -65,64 +66,136 @@ package com.vstyran.transform.model
 			validateData();
 		}
 		
-		private var _pudding:Number
+		private var _padding:Number = 0;
 
-		public function get pudding():Number
+		public function get padding():Number
 		{
-			return _pudding;
+			return _padding;
 		}
 
-		public function set pudding(value:Number):void
+		public function set padding(value:Number):void
 		{
-			_pudding = value;
+			_padding = value;
 			
 			validateData();
 		}
 
-		
 		override public function set x(value:Number):void
 		{
 			super.x = value;
 			
-			vlidateChildren();
+			validateChildren();
 		}
 		
 		override public function set y(value:Number):void
 		{
 			super.y = value;
 			
-			vlidateChildren();
+			validateChildren();
+		}
+		
+		override public function set width(value:Number):void
+		{
+			super.width = value;
+			
+			validateChildren();
+		}
+		
+		override public function set height(value:Number):void
+		{
+			super.height = value;
+			
+			validateChildren();
+		}
+		
+		override public function set rotation(value:Number):void
+		{
+			super.rotation = value;
+			
+			validateChildren();
+		}
+		
+		override public function set position(value:Point):void
+		{
+			super.position = value;
+			
+			validateChildren();
+		}
+		
+		override public function set size(value:Point):void
+		{
+			super.size = value;
+			
+			validateChildren();
 		}
 		
 		override public function setTo(x:Number, y:Number, width:Number, height:Number, rotation:Number):void
 		{
 			super.setTo(x, y, width, height, rotation);
 			
-			vlidateChildren();
+			validateChildren();
 		}
 		
+		override public function offset(dx:Number, dy:Number):void
+		{
+			super.offset(dx, dy);
+			
+			validateChildren();
+		}
 		
-		
-		
-		
-		
-		
+		override public function setNaturalSize(size:Point):void
+		{
+			super.setNaturalSize(size);
+			
+			validateChildren();
+		}
 		
 		private var validData:DisplayData = new DisplayData();
 		
-		public function validateData():void
+		public function validateData(rotation:Number=0):void
 		{
+			rotation = MatrixUtil.clampRotation(rotation);
+			
 			var data:DisplayData = new DisplayData();
-			var rect:Rectangle = data.unionVector(children);
-			super.setTo(rect.x, rect.y, rect.width, rect.height, 0);
+			var rect:Rectangle;
 			
-			
-			
-			validData.setTo(rect.x, rect.y, rect.width, rect.height, 0);
+			if(rotation == 0)
+			{
+				rect = data.unionVector(children);
+				super.setTo(rect.x-padding, rect.y-padding, rect.width+2*padding, rect.height+2*padding, rotation);
+				
+				// store last valid data
+				validData.setTo(rect.x, rect.y, rect.width, rect.height, 0);
+			}
+			else
+			{
+				var list:Vector.<DisplayData> = new Vector.<DisplayData>();
+				
+				// translate children
+				var m:Matrix = MatrixUtil.composeMatrix(0, 0, 1, 1, rotation);
+				m.invert();
+				for each (var child:DisplayData in children) 
+				{
+					list.push(TransformUtil.transformData(m, child));					
+				}
+				
+				// calculate union
+				rect = data.unionVector(list);
+				m = MatrixUtil.composeMatrix(0, 0, 1, 1, rotation);
+				var newData:DisplayData = TransformUtil.transformData(m, new DisplayData(rect.x, rect.y, rect.width, rect.height));
+				
+				// store last valid data
+				validData.setTo(newData.x, newData.y, newData.width, newData.height, newData.rotation);
+				
+				// add padding
+				newData = addPadding(newData, padding);
+				super.setTo(newData.x, newData.y, newData.width, newData.height, newData.rotation);
+			}
 		}
 		
-		public function vlidateChildren():void
+		public function validateChildren():void
 		{
+			var actualData:DisplayData = trimPadding(this, padding);
 			
 			if(children.length > 0)
 			{
@@ -135,30 +208,44 @@ package com.vstyran.transform.model
 					
 					// calculate new size
 					var oldLocalBox:Rectangle = localData.getBoundingBox();
-					var deltaW:Number = oldLocalBox.width*width/validData.width - oldLocalBox.width;
-					var deltaH:Number = oldLocalBox.height*height/validData.height - oldLocalBox.height;
+					var deltaW:Number = oldLocalBox.width*actualData.width/validData.width - oldLocalBox.width;
+					var deltaH:Number = oldLocalBox.height*actualData.height/validData.height - oldLocalBox.height;
 					var naturalSize:Point = localData.getNaturalSize();
 					localData.setNaturalSize(localData.resolveMinMax(new Point(naturalSize.x + deltaW, naturalSize.y + deltaH)));
 					
 					// calculate new position
 					var newLocalBox:Rectangle = localData.getBoundingBox();
-					var newX:Number = (oldLocalBox.x + oldLocalBox.width/2)*width/validData.width - newLocalBox.width/2;
-					var newY:Number = (oldLocalBox.y + oldLocalBox.height/2)*height/validData.height - newLocalBox.height/2;
+					var newX:Number = (oldLocalBox.x + oldLocalBox.width/2)*actualData.width/validData.width - newLocalBox.width/2;
+					var newY:Number = (oldLocalBox.y + oldLocalBox.height/2)*actualData.height/validData.height - newLocalBox.height/2;
 					localData.setBoundingPosition(newX, newY);
 					
 					// set global data
-					m = MatrixUtil.composeMatrix(x, y, 1, 1, rotation);
+					m = MatrixUtil.composeMatrix(actualData.x, actualData.y, 1, 1, rotation);
 					var newData:DisplayData = TransformUtil.transformData(m, localData);
 					
 					child.setTo(newData.x, newData.y, newData.width, newData.height, newData.rotation);
 				}
 			}
 			
-			validData.setTo(rect.x, rect.y, rect.width, rect.height, rotation);
+			validData.setTo(actualData.x, actualData.y, actualData.width, actualData.height, rotation);
 		}
 		
 		
+		public function trimPadding(data:DisplayData, padding:Number):DisplayData
+		{
+			var m:Matrix = MatrixUtil.composeMatrix(0, 0, 1, 1, data.rotation);
+			var point:Point = m.transformPoint(new Point(padding, padding));
+			
+			return new DisplayData(data.x+point.x, data.y+point.y, data.width-2*padding, data.height-2*padding, data.rotation);
+		}
 		
+		public function addPadding(data:DisplayData, padding:Number):DisplayData
+		{
+			var m:Matrix = MatrixUtil.composeMatrix(0, 0, 1, 1, data.rotation);
+			var point:Point = m.transformPoint(new Point(padding, padding));
+			
+			return new DisplayData(data.x-point.x, data.y-point.y, data.width+2*padding, data.height+2*padding, data.rotation);
+		}
 		
 		override public function clone():DisplayData
 		{
