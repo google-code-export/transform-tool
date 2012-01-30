@@ -185,6 +185,7 @@ package com.vstyran.transform.view
 		 */		
 		private var _uiTarget:UIComponent;
 		
+		[Bindable]
 		/**
 		 * UI target of transformation. Used as event dispather for moving control. 
 		 */		
