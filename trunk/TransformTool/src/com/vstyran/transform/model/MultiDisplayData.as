@@ -8,35 +8,67 @@ package com.vstyran.transform.model
 	
 	import mx.utils.MatrixUtil;
 
+	/**
+	 * Value object for composit DisplayData.
+	 * 
+	 * @author Volodymyr Styranivskyi
+	 */
 	public class MultiDisplayData extends DisplayData
 	{
-		public function MultiDisplayData()
+		/**
+		 * Constructor.
+		 * 
+		 * @param x Position by X axis.
+		 * @param y Position by Y axis.
+		 * @param width Width of display object. 
+		 * @param height Height of display object. 
+		 * @param rotation Rotation of display object, will be clamped between -180 and 180 degrees. 
+		 */		
+		public function MultiDisplayData(x:Number = 0, y:Number = 0, width:Number = 0, height:Number = 0, rotation:Number = 0)
 		{
 			_children = new Vector.<DisplayData>();
 			
-			super();
-			
+			super(x, y, width, height, rotation);
 		}
 		
-		private var _children:Vector.<DisplayData>;
+		/**
+		 * @private 
+		 */		
+		protected var _children:Vector.<DisplayData>;
 
+		/**
+		 * Vector of DisplayData objects in the same coordinate space as parent. 
+		 */		
 		public function get children():Vector.<DisplayData>
 		{
 			return _children.slice();
 		}
 		
+		/**
+		 * Add child if it's not added yet. This method invokes parent data validation. 
+		 * 
+		 * @param value Child DisplayData object in the same coordinate space as parent. 
+		 */		
 		public function addChild(value:DisplayData):void
 		{
 			addChildInternal(value);
 			validateData();
 		}
 		
-		public function addChildInternal(value:DisplayData):void
+		/**
+		 * @private 
+		 */		
+		protected function addChildInternal(value:DisplayData):void
 		{
 			if(_children.indexOf(value) == -1)
 				_children.push(value);
 		}
 		
+		/**
+		 * Add vector of children if they are not added yet. This method invokes parent data validation. 
+		 * 
+		 * @param value Vector of DisplayData object in the same coordinate space as parent. 
+		 */	
 		public function addChildVector(value:Vector.<DisplayData>):void
 		{
 			for each (var child:DisplayData in value) 
@@ -47,6 +79,11 @@ package com.vstyran.transform.model
 			validateData();
 		}
 		
+		/**
+		 * Add array of children if they are not added yet. This method invokes parent data validation. 
+		 * 
+		 * @param value Array of DisplayData object in the same coordinate space as parent. 
+		 */	
 		public function addChildArray(value:Array):void
 		{
 			for each (var child:DisplayData in value) 
@@ -57,6 +94,11 @@ package com.vstyran.transform.model
 			validateData();
 		}
 		
+		/**
+		 * Remove DisplayData object if it's child of parent. This method invokes parent data validation. 
+		 * 
+		 * @param value Child DisplayData object. 
+		 */		
 		public function removeChild(value:DisplayData):void
 		{
 			var index:int = _children.indexOf(value);
@@ -66,13 +108,22 @@ package com.vstyran.transform.model
 			validateData();
 		}
 		
-		private var _padding:Number = 0;
+		/**
+		 * @private 
+		 */		
+		protected var _padding:Number = 0;
 
+		/**
+		 * Padding for children. Parent data size and position will be increased by this value for each side.
+		 */		
 		public function get padding():Number
 		{
 			return _padding;
 		}
-
+		
+		/**
+		 * @private 
+		 */
 		public function set padding(value:Number):void
 		{
 			_padding = value;
@@ -80,6 +131,9 @@ package com.vstyran.transform.model
 			validateData();
 		}
 
+		/**
+		 * @inheritDoc 
+		 */
 		override public function set x(value:Number):void
 		{
 			super.x = value;
@@ -87,6 +141,9 @@ package com.vstyran.transform.model
 			validateChildren();
 		}
 		
+		/**
+		 * @inheritDoc 
+		 */
 		override public function set y(value:Number):void
 		{
 			super.y = value;
@@ -94,6 +151,9 @@ package com.vstyran.transform.model
 			validateChildren();
 		}
 		
+		/**
+		 * @inheritDoc 
+		 */
 		override public function set width(value:Number):void
 		{
 			super.width = value;
@@ -101,6 +161,9 @@ package com.vstyran.transform.model
 			validateChildren();
 		}
 		
+		/**
+		 * @inheritDoc 
+		 */
 		override public function set height(value:Number):void
 		{
 			super.height = value;
@@ -108,6 +171,9 @@ package com.vstyran.transform.model
 			validateChildren();
 		}
 		
+		/**
+		 * @inheritDoc 
+		 */
 		override public function set rotation(value:Number):void
 		{
 			super.rotation = value;
@@ -115,6 +181,9 @@ package com.vstyran.transform.model
 			validateChildren();
 		}
 		
+		/**
+		 * @inheritDoc 
+		 */
 		override public function set position(value:Point):void
 		{
 			super.position = value;
@@ -122,6 +191,9 @@ package com.vstyran.transform.model
 			validateChildren();
 		}
 		
+		/**
+		 * @inheritDoc 
+		 */
 		override public function set size(value:Point):void
 		{
 			super.size = value;
@@ -129,6 +201,9 @@ package com.vstyran.transform.model
 			validateChildren();
 		}
 		
+		/**
+		 * @inheritDoc 
+		 */
 		override public function setTo(x:Number, y:Number, width:Number, height:Number, rotation:Number):void
 		{
 			super.setTo(x, y, width, height, rotation);
@@ -136,6 +211,9 @@ package com.vstyran.transform.model
 			validateChildren();
 		}
 		
+		/**
+		 * @inheritDoc 
+		 */
 		override public function offset(dx:Number, dy:Number):void
 		{
 			super.offset(dx, dy);
@@ -143,6 +221,9 @@ package com.vstyran.transform.model
 			validateChildren();
 		}
 		
+		/**
+		 * @inheritDoc 
+		 */
 		override public function setNaturalSize(size:Point):void
 		{
 			super.setNaturalSize(size);
@@ -150,12 +231,33 @@ package com.vstyran.transform.model
 			validateChildren();
 		}
 		
-		private var validData:DisplayData = new DisplayData();
+		/**
+		 * @private 
+		 */		
+		protected var validData:DisplayData = new DisplayData();
 		
+		/**
+		 * @private 
+		 */		
+		protected var localChildren:Vector.<DisplayData> = new Vector.<DisplayData>();
+		
+		/**
+		 * Recalculate parent geometry properties depending on children.
+		 *  
+		 * @param rotation Degree value that will be used as new validated data rotation.
+		 */		
 		public function validateData(rotation:Number=0):void
 		{
 			rotation = MatrixUtil.clampRotation(rotation);
 			
+			// validata children at first.
+			for each (var child:DisplayData in children)
+			{
+				if(child is MultiDisplayData)
+					(child as MultiDisplayData).validateData(rotation);
+			}
+			
+			// validate itself
 			var data:DisplayData = new DisplayData();
 			var rect:Rectangle;
 			
@@ -174,7 +276,7 @@ package com.vstyran.transform.model
 				// translate children
 				var m:Matrix = MatrixUtil.composeMatrix(0, 0, 1, 1, rotation);
 				m.invert();
-				for each (var child:DisplayData in children) 
+				for each (child in children) 
 				{
 					list.push(TransformUtil.transformData(m, child));					
 				}
@@ -191,20 +293,40 @@ package com.vstyran.transform.model
 				newData = addPadding(newData, padding);
 				super.setTo(newData.x, newData.y, newData.width, newData.height, newData.rotation);
 			}
+			
+			createLocalChildren();
+			
 		}
 		
+		/**
+		 * @private 
+		 */		
+		private function createLocalChildren():void
+		{
+			localChildren.length = 0;
+			var m:Matrix = MatrixUtil.composeMatrix(validData.x, validData.y, 1, 1, validData.rotation);
+			m.invert();
+			for each (var child:DisplayData in children) 
+			{
+				var localData:DisplayData = TransformUtil.transformData(m, child);
+				
+				localChildren.push(localData);
+			}
+		}
+		
+		/**
+		 * Recalculate geometry properties of children depending on current properties of parent.
+		 */		
 		public function validateChildren():void
 		{
 			var actualData:DisplayData = trimPadding(this, padding);
-			
+			var actuaMatrix:Matrix = MatrixUtil.composeMatrix(actualData.x, actualData.y, 1, 1, rotation);
 			if(children.length > 0)
 			{
-				for each (var child:DisplayData in children) 
+				for (var i:int = 0; i < children.length; i++) 
 				{
-					// get local data
-					var m:Matrix = MatrixUtil.composeMatrix(validData.x, validData.y, 1, 1, validData.rotation);
-					m.invert();
-					var localData:DisplayData = TransformUtil.transformData(m, child);
+					var child:DisplayData = children[i];
+					var localData:DisplayData = localChildren[i].clone();
 					
 					// calculate new size
 					var oldLocalBox:Rectangle = localData.getBoundingBox();
@@ -220,18 +342,17 @@ package com.vstyran.transform.model
 					localData.setBoundingPosition(newX, newY);
 					
 					// set global data
-					m = MatrixUtil.composeMatrix(actualData.x, actualData.y, 1, 1, rotation);
-					var newData:DisplayData = TransformUtil.transformData(m, localData);
+					var newData:DisplayData = TransformUtil.transformData(actuaMatrix, localData);
 					
 					child.setTo(newData.x, newData.y, newData.width, newData.height, newData.rotation);
 				}
 			}
-			
-			validData.setTo(actualData.x, actualData.y, actualData.width, actualData.height, rotation);
 		}
 		
-		
-		public function trimPadding(data:DisplayData, padding:Number):DisplayData
+		/**
+		 * @private
+		 */		
+		protected function trimPadding(data:DisplayData, padding:Number):DisplayData
 		{
 			var m:Matrix = MatrixUtil.composeMatrix(0, 0, 1, 1, data.rotation);
 			var point:Point = m.transformPoint(new Point(padding, padding));
@@ -239,7 +360,10 @@ package com.vstyran.transform.model
 			return new DisplayData(data.x+point.x, data.y+point.y, data.width-2*padding, data.height-2*padding, data.rotation);
 		}
 		
-		public function addPadding(data:DisplayData, padding:Number):DisplayData
+		/**
+		 * @private
+		 */
+		protected function addPadding(data:DisplayData, padding:Number):DisplayData
 		{
 			var m:Matrix = MatrixUtil.composeMatrix(0, 0, 1, 1, data.rotation);
 			var point:Point = m.transformPoint(new Point(padding, padding));
@@ -247,11 +371,20 @@ package com.vstyran.transform.model
 			return new DisplayData(data.x-point.x, data.y-point.y, data.width+2*padding, data.height+2*padding, data.rotation);
 		}
 		
+		/**
+		 * @inheritDoc
+		 */
 		override public function clone():DisplayData
 		{
 			var clone:MultiDisplayData = clone() as MultiDisplayData;
 			
 			clone._children = children;
+			clone.validData = validData.clone();
+			
+			for each (var localChild:DisplayData in localChildren) 
+			{
+				clone.localChildren.push(localChild.clone());
+			}
 			
 			return clone;
 		}
