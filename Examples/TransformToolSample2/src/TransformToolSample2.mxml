@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:view="com.vstyran.transform.view.*"
+			   xmlns:connectors="com.vstyran.transform.connectors.*"
+			   xmlns:model="com.vstyran.transform.model.*"
+			   width="420" height="300"
+			   viewSourceURL="http://vstyran-flex.ho.ua/TransformTool2/examples/TransformToolSample2/srcview/index.html">
+	
+	<fx:Declarations>
+		<model:DisplayData id="model" x="150" y="50" 
+						   width="160" height="100"
+						   minHeight="20" minWidth="32"/>
+	</fx:Declarations>
+	
+	<!-- background fill -->
+	<s:Rect top="0" right="0" left="0" bottom="0">
+		<s:fill>
+			<s:SolidColor color="#dddddd"/>
+		</s:fill>
+	</s:Rect>
+	
+	<s:Group x="0" y="50">
+		<s:Image id="image" x="{model.x}" y="{model.y}" rotation="{model.rotation}"
+				 width="{model.width}" height="{model.height}"
+				 scaleMode="stretch" source="@Embed('image.jpg')"/>
+		
+		<view:TransformTool transformation="model = connector.data">
+			<view:connector>
+				<connectors:SimpleConnector id="connector" data="{model}"/>
+			</view:connector>
+		</view:TransformTool>
+	</s:Group>
+</s:Application>
