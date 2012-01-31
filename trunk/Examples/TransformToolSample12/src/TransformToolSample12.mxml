@@ -26,8 +26,8 @@
 			
 			protected function applyHistory(event:HistoryEvent):void
 			{
-				DataUtil.applyData(tool.targets[0], event.data);
-				tool.updateTool(true);
+				DataUtil.applyData(tool.target, event.data);
+				tool.updateTool();
 			}
 			
 			protected function tool_transformationCompleteHandler(event:TransformEvent):void

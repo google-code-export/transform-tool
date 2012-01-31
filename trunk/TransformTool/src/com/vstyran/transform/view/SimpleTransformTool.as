@@ -4,6 +4,8 @@ package com.vstyran.transform.view
 	import com.vstyran.transform.connectors.SimpleConnector;
 	import com.vstyran.transform.events.ConnectorEvent;
 	import com.vstyran.transform.model.DisplayData;
+	
+	import mx.core.UIComponent;
 
 	/**
 	 * Transform tool that contains SimpleConnector.
@@ -31,6 +33,37 @@ package com.vstyran.transform.view
 			//do not allow to override connector
 		}
 		
+		/**
+		 * @copy com.vstyran.transform.connectors.SimpleConnector#target
+		 */		
+		public function get target():UIComponent
+		{
+			return (connector as SimpleConnector).target;
+		}
+		
+		/**
+		 *  @private
+		 */
+		public function set target(value:UIComponent):void
+		{
+			(connector as SimpleConnector).target = value;
+		}
+		
+		/**
+		 * @copy com.vstyran.transform.connectors.SimpleConnector#targets 
+		 */		
+		public function get targets():Array
+		{
+			return (connector as SimpleConnector).targets;
+		}
+		
+		/**
+		 * @private 
+		 */	
+		public function set targets(value:Array):void
+		{
+			(connector as SimpleConnector).targets = value;
+		}
 		/**
 		 * @copy com.vstyran.transform.connectors.SimpleConnector#data
 		 */		

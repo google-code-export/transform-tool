@@ -75,11 +75,29 @@ package com.vstyran.transform.connectors
 		}
 		
 		/**
+		 * Transformation target.
+		 */		
+		public function get target():UIComponent
+		{
+			if (_targets.length > 0)
+				return _targets[0]; 
+			else
+				return null;
+		}
+		
+		/**
+		 *  @private
+		 */
+		public function set target(value:UIComponent):void
+		{
+			targets = value ? [value] : null;
+		}
+		
+		/**
 		 * @private 
 		 */		
 		private var _targets:Array;
 		
-		[Bindable]
 		/**
 		 * UI target of transformation. Used as event dispather for moving control. 
 		 */		
@@ -151,7 +169,7 @@ package com.vstyran.transform.connectors
 		/**
 		 * @inheritDoc
 		 */		
-		public function getData(deep:Boolean = false):DisplayData
+		public function getData(deep:Boolean = false, userRequested:Boolean = false):DisplayData
 		{
 			if(deep || !matrix)
 				recalcMatrixes();

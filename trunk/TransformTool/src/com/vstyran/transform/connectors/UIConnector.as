@@ -40,12 +40,31 @@ package com.vstyran.transform.connectors
 		protected var dataConnector:DataConnector = new DataConnector();
 		
 		/**
+		 * Transformation target.
+		 */		
+		public function get target():UIComponent
+		{
+			if (_targets.length > 0)
+				return _targets[0]; 
+			else
+				return null;
+		}
+		
+		/**
+		 *  @private
+		 */
+		public function set target(value:UIComponent):void
+		{
+			targets = value ? [value] : null;
+		}
+		
+		/**
 		 * @private 
 		 */		
 		private var _targets:Array;
 		
 		/**
-		 * Target of transformation. 
+		 * Targets of transformation. 
 		 */		
 		public function get targets():Array
 		{
@@ -130,9 +149,9 @@ package com.vstyran.transform.connectors
 		/**
 		 * @inheritDoc 
 		 */		
-		public function getData(deep:Boolean = false):DisplayData
+		public function getData(deep:Boolean = false, userRequested:Boolean = false):DisplayData
 		{
-			if(targets && targets.length > 0 && (dataDirty || deep))
+			if(targets && targets.length > 0 && (dataDirty || deep || userRequested))
 			{
 				if(targets.length == 1)
 				{

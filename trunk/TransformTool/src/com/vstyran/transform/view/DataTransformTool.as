@@ -33,6 +33,38 @@ package com.vstyran.transform.view
 		}
 		
 		/**
+		 * @copy com.vstyran.transform.connectors.DataConnector#target
+		 */		
+		public function get target():UIComponent
+		{
+			return (connector as DataConnector).target;
+		}
+		
+		/**
+		 *  @private
+		 */
+		public function set target(value:UIComponent):void
+		{
+			(connector as DataConnector).target = value;
+		}
+		
+		/**
+		 * @copy com.vstyran.transform.connectors.DataConnector#targets 
+		 */		
+		public function get targets():Array
+		{
+			return (connector as DataConnector).targets;
+		}
+		
+		/**
+		 * @private 
+		 */	
+		public function set targets(value:Array):void
+		{
+			(connector as DataConnector).targets = value;
+		}
+		
+		/**
 		 * @copy com.vstyran.transform.connectors.DataConnector#panel
 		 */			
 		public function get panel():UIComponent

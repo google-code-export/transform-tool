@@ -33,7 +33,23 @@ package com.vstyran.transform.view
 		}
 		
 		/**
-		 * @copy com.vstyran.transform.connectors.UIConnector#target 
+		 * @copy com.vstyran.transform.connectors.UIConnector#target
+		 */		
+		public function get target():UIComponent
+		{
+			return (connector as UIConnector).target;
+		}
+		
+		/**
+		 *  @private
+		 */
+		public function set target(value:UIComponent):void
+		{
+			(connector as UIConnector).target = value;
+		}
+		
+		/**
+		 * @copy com.vstyran.transform.connectors.UIConnector#targets 
 		 */		
 		public function get targets():Array
 		{

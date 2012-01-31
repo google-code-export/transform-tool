@@ -12,7 +12,7 @@
 		<![CDATA[
 			protected function selectText(event:MouseEvent):void
 			{
-				if(tool.targets[0] == textTarget)
+				if(tool.target == textTarget)
 					return;
 				
 				imageTarget.depth = 1;
@@ -24,7 +24,7 @@
 			
 			protected function selectImage(event:MouseEvent):void
 			{
-				if(tool.targets[0] == imageTarget)
+				if(tool.target == imageTarget)
 					return;
 				
 				imageTarget.depth = 2;
