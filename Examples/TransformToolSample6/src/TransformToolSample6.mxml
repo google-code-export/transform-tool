@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"  
+			   xmlns:view="com.vstyran.transform.view.*" 
+			   xmlns:model="com.vstyran.transform.model.*" 
+			   width="460" height="300" xmlns:local="*" 
+			   viewSourceURL="http://vstyran-flex.ho.ua/TransformTool2/examples/TransformToolSample6/srcview/index.html"
+			   creationComplete="selectImage(image2)">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.vstyran.transform.consts.GuidelineType;
+			import com.vstyran.transform.events.GuidelineEvent;
+			import com.vstyran.transform.model.Guideline;
+			import com.vstyran.transform.utils.DataUtil;
+			import com.vstyran.transform.utils.TransformUtil;
+			
+			import mx.collections.ArrayList;
+			
+			protected function mouseDownHandler(event:MouseEvent):void
+			{
+				selectImage(event.currentTarget as Image);
+				tool.startMoving(event);
+			}
+			
+			protected function selectImage(image:Image):void
+			{
+				var guidelines:Vector.<Guideline> = new Vector.<Guideline>();
+				
+				switch(image)
+				{
+					case image1:
+					{
+						guidelines = guidelines.concat(createGuidelines(image2));
+						guidelines = guidelines.concat(createGuidelines(image3));
+						break;
+					}
+					case image2:
+					{
+						guidelines = guidelines.concat(createGuidelines(image1));
+						guidelines = guidelines.concat(createGuidelines(image3));
+						break;
+					}
+					case image3:
+					{
+						guidelines = guidelines.concat(createGuidelines(image1));
+						guidelines = guidelines.concat(createGuidelines(image2));
+						break;
+					}
+					default:
+					{
+						break;
+					}
+				}
+				image1.depth = image2.depth = image3.depth = 0;
+				image.depth = 1;
+				tool.targets = [image];
+				tool.guidelines = guidelines;
+			}
+			
+			private function createGuidelines(image:Image):Vector.<Guideline>
+			{
+				var result:Vector.<Guideline> = new Vector.<Guideline>();
+				var box:Rectangle = DataUtil.createData(image).getBoundingBox();
+				
+				result.push(new Guideline(GuidelineType.VERTICAL_EDGE, box.x, 3));
+				result.push(new Guideline(GuidelineType.VERTICAL_CENTER, box.x+box.width/2, 3));
+				result.push(new Guideline(GuidelineType.VERTICAL_EDGE, box.x+box.width, 3));
+				
+				result.push(new Guideline(GuidelineType.HORIZONTAL_EDGE, box.y, 3));
+				result.push(new Guideline(GuidelineType.HORIZONTAL_CENTER, box.y+box.height/2, 3));
+				result.push(new Guideline(GuidelineType.HORIZONTAL_EDGE, box.y+box.height, 3));
+				
+				
+				result.push(new Guideline(GuidelineType.ROTATION, image.rotation, 3));
+				
+				return result;
+			}
+			
+			protected function tool_guidelinesUpdateHandler(event:GuidelineEvent):void
+			{
+				if(event.cross && event.cross.vGuideline)
+					vGuide.x = event.cross.vGuideline.value;
+				vGuide.visible = (event.cross && event.cross.vGuideline);
+				
+				if(event.cross && event.cross.hGuideline)
+					hGuide.y = event.cross.hGuideline.value;
+				hGuide.visible = (event.cross && event.cross.hGuideline);
+				
+				hGuidelist.dataProvider = event.cross ? toArrayList(event.cross.getHGuidelines()) : null;
+				vGuidelist.dataProvider = event.cross ? toArrayList(event.cross.getVGuidelines()) : null;
+			}
+			
+			private function toArrayList(vector:Vector.<Guideline>):ArrayList
+			{
+				var result:ArrayList = new ArrayList();
+				for each (var item:Guideline in vector) 
+				{
+					result.addItem(item);
+				}
+				return result;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:Group  width="460" height="300" verticalCenter="0" horizontalCenter="0">
+		
+		<!-- background fill -->
+		<s:Rect top="0" right="0" left="0" bottom="0">
+			<s:fill>
+				<s:SolidColor color="#dddddd"/>
+			</s:fill>
+		</s:Rect>
+		<s:Rect id="border" top="25" right="30" left="30" bottom="25">
+			<s:stroke>
+				<s:SolidColorStroke color="#ACACAC"/>
+			</s:stroke>
+		</s:Rect>
+		
+		<s:Image id="image1" x="108" y="70" width="80" height="70" scaleMode="stretch" smooth="true"
+				 source="@Embed('image1.jpg')" mouseDown="mouseDownHandler(event)"/>
+		
+		<s:Image id="image2" x="139" y="163" width="80" height="80" scaleMode="stretch" smooth="true"
+				 source="@Embed('image2.jpg')"  mouseDown="mouseDownHandler(event)"/>
+		
+		<s:Image id="image3" x="267" y="94" width="110" height="100" scaleMode="stretch" smooth="true"
+				 source="@Embed('image3.jpg')"  mouseDown="mouseDownHandler(event)"/>
+		
+		<view:UITransformTool id="tool" depth="2" guidelinesUpdate="tool_guidelinesUpdateHandler(event)">
+			<view:bounds>
+				<model:Bounds x="30" y="25" width="400" height="250"/>
+			</view:bounds>
+		</view:UITransformTool>
+		
+		<s:DataGroup height="100%" width="100%" id="hGuidelist">
+			<s:layout>
+				<s:BasicLayout/>
+			</s:layout>
+			<s:itemRenderer>
+				<fx:Component>
+					<s:ItemRenderer>
+						<s:Line  xFrom="30" xTo="430" y="{data.value}" alpha="0.2">
+							<s:stroke>
+								<s:SolidColorStroke/>
+							</s:stroke>
+						</s:Line>
+					</s:ItemRenderer>
+				</fx:Component>
+			</s:itemRenderer>
+		</s:DataGroup>
+		
+		<s:DataGroup height="100%" width="100%" id="vGuidelist">
+			<s:layout>
+				<s:BasicLayout/>
+			</s:layout>
+			<s:itemRenderer>
+				<fx:Component>
+					<s:ItemRenderer>
+						<s:Line yFrom="25" yTo="275" x="{data.value}" alpha="0.2">
+							<s:stroke>
+								<s:SolidColorStroke/>
+							</s:stroke>
+						</s:Line>
+					</s:ItemRenderer>
+				</fx:Component>
+			</s:itemRenderer>
+		</s:DataGroup>
+		
+		<s:Line id="vGuide" yFrom="25" yTo="275" alpha="0.2" depth="3">
+			<s:stroke>
+				<s:SolidColorStroke color="red"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line id="hGuide" xFrom="30" xTo="430" alpha="0.2" depth="3">
+			<s:stroke>
+				<s:SolidColorStroke color="red"/>
+			</s:stroke>
+		</s:Line>
+	</s:Group>
+	
+</s:Application>
