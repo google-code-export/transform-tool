@@ -1,7 +1,14 @@
 Release Notes for TransformTool 2.4.5
 --------------------------------------
+====== BUG FIXES ======
+* Fixed issue when you apply connector with already added target.
+
+
+Release Notes for TransformTool 2.4.5
+--------------------------------------
 ====== CHANGES ======
 * Added multiselection support (Visio approach).
+
 
 Release Notes for TransformTool 2.4.0
 --------------------------------------
