@@ -175,7 +175,7 @@ package com.vstyran.transform.view
 					_connector.setToolPanel(parent);
 					_connector.addEventListener(ConnectorEvent.DATA_CHANGE, dataChangeHendler);
 					
-					if(connector.targets.length > 0)
+					if(connector.targets && connector.targets.length > 0)
 						setUITargets(connector.targets)
 				}
 				
