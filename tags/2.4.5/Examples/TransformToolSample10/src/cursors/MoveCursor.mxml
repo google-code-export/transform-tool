@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="25" height="45"
+		 currentState="{active ? 'active' : 'normal'}">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			[Bindable]
+			public var active:Boolean;
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="active"/>
+	</s:states>
+	
+	<s:Path left="0" top="0"
+			data="M5.83887 1.58105L0.838867 16.5811 5.83887 14.2871 10.8389 16.5811 5.83887 1.58105Z"
+			rotation="-18">
+		<s:fill>
+			<s:SolidColor/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color="#ffffff" caps="none" weight="1" joints="miter" miterLimit="4"/>
+		</s:stroke>
+	</s:Path>
+	
+	<s:Group width="15" height="15" x="5" y="20" scaleX="1.2" scaleY="1.2" alpha="0.8" includeIn="normal">
+		
+		<s:Path winding="nonZero" data="M5.48145 4.84717L8.47998 0.847168 11.3325 4.84717 5.48145 4.84717Z" >
+			<s:fill>
+				<s:SolidColor/>
+			</s:fill>
+			<s:stroke>
+				<s:SolidColorStroke color="#ffffff" caps="none" weight="1" joints="miter" miterLimit="4"/>
+			</s:stroke>
+		</s:Path>
+		<s:Path winding="nonZero" data="M11.9097 5.47607L15.9097 8.47461 11.9097 11.3276 11.9097 5.47607Z" >
+			<s:fill>
+				<s:SolidColor/>
+			</s:fill>
+			<s:stroke>
+				<s:SolidColorStroke color="#ffffff" caps="none" weight="1" joints="miter" miterLimit="4"/>
+			</s:stroke>
+		</s:Path>
+		<s:Path winding="nonZero" data="M11.3979 11.8472L8.39893 15.8472 5.54639 11.8472 11.3979 11.8472Z" >
+			<s:fill>
+				<s:SolidColor/>
+			</s:fill>
+			<s:stroke>
+				<s:SolidColorStroke color="#ffffff" caps="none" weight="1" joints="miter" miterLimit="4"/>
+			</s:stroke>
+		</s:Path>
+		<s:Path winding="nonZero" data="M4.84717 11.3276L0.847168 8.32861 4.84717 5.47607 4.84717 11.3276Z" >
+			<s:fill>
+				<s:SolidColor/>
+			</s:fill>
+			<s:stroke>
+				<s:SolidColorStroke color="#ffffff" caps="none" weight="1" joints="miter" miterLimit="4"/>
+			</s:stroke>
+		</s:Path>
+	</s:Group>
+</s:Group>

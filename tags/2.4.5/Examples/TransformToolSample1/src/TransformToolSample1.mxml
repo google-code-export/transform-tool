@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:view="com.vstyran.transform.view.*"
+			   width="420" height="300"
+			   viewSourceURL="http://vstyran-flex.ho.ua/TransformTool2/examples/TransformToolSample1/srcview/index.html">
+	
+	<!-- background fill -->
+	<s:Rect top="0" right="0" left="0" bottom="0">
+		<s:fill>
+			<s:SolidColor color="#dddddd"/>
+		</s:fill>
+	</s:Rect>
+	
+	<s:Group rotation="15" x="120" y="60">
+		<s:Image id="image" x="50" y="50" width="160" height="100" rotation="-15"
+				 minHeight="20" minWidth="32"
+				 scaleMode="stretch" source="@Embed('image.jpg')"/>
+	</s:Group>
+	
+	<s:Group x="0" y="50" rotation="45">
+		<view:UITransformTool target="{image}"/>
+	</s:Group>
+</s:Application>
