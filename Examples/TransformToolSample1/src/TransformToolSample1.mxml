@@ -20,6 +20,6 @@
 	</s:Group>
 	
 	<s:Group x="0" y="50" rotation="45">
-		<view:UITransformTool targets="{[image]}"/>
+		<view:UITransformTool target="{image}"/>
 	</s:Group>
 </s:Application>

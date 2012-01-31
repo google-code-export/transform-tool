@@ -176,7 +176,7 @@ package com.vstyran.transform.view
 					_connector.addEventListener(ConnectorEvent.DATA_CHANGE, dataChangeHendler);
 				}
 				
-				updateTool();
+				updateToolInternal();
 			}
 		}
 		
@@ -518,7 +518,7 @@ package com.vstyran.transform.view
 			if(toolCursorManager)
 				toolCursorManager.tool = this;
 			
-			updateTool();
+			updateToolInternal();
 		}
 		
 		/**
@@ -542,7 +542,7 @@ package com.vstyran.transform.view
 		{
 			setUITargets(connector.targets);
 			
-			updateTool();
+			updateToolInternal();
 		}
 		
 		/**
@@ -718,7 +718,15 @@ package com.vstyran.transform.view
 		 */		
 		public function updateTool(deep:Boolean=false):void
 		{
-			var data:DisplayData = connector.getData(deep);
+			updateToolInternal(deep, true);
+		}
+		
+		/**
+		 * @private 
+		 */		
+		protected function updateToolInternal(deep:Boolean=false, userRequested:Boolean = false):void
+		{
+			var data:DisplayData = connector.getData(deep, userRequested);
 			if(data)
 				DataUtil.applyData(this, data, true);
 		}

@@ -26,7 +26,7 @@ package com.vstyran.transform.connectors
 		/**
 		 * @inheritDoc 
 		 */		
-		override public function getData(deep:Boolean = false):DisplayData
+		override public function getData(deep:Boolean = false, userRequested:Boolean = false):DisplayData
 		{
 			var data:DisplayData = super.getData(deep);
 			

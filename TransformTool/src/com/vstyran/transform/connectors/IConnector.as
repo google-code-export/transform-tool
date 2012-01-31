@@ -28,11 +28,12 @@ package com.vstyran.transform.connectors
 		 * Get target data.
 		 * 
 		 * @param deep Flag that indicates whether connector should recalculate all parent dependencies to get right DisplayData values.
-		 * Typically used when position or scale values of parent container changed. 
+		 * Typically used when position or scale values of parent container changed.
+		 * @param userRequested Flag that indicates whether user request updating.
 		 * 
 		 * @return Target data in transform tool coordinate space
 		 */		
-		function getData(deep:Boolean = false):DisplayData;
+		function getData(deep:Boolean = false, userRequested:Boolean = false):DisplayData;
 		
 		/**
 		 * Transform target.

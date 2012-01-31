@@ -35,8 +35,8 @@
 			
 			protected function tool_deleteTargetHandler(event:Event):void
 			{
-				deletedObjects.addItem(tool.targets[0]);
-				designArea.removeElement(tool.targets[0]);
+				deletedObjects.addItem(tool.target);
+				designArea.removeElement(tool.target);
 				deselect();
 				
 			}
@@ -75,7 +75,7 @@
 				{
 					var element:IVisualElement = designArea.getElementAt(i);
 					
-					if(element is Image && tool.targets[0] != element)
+					if(element is Image && tool.target != element)
 					{
 						
 						var box:Rectangle = DataUtil.createData(element as Image).getBoundingBox();
@@ -133,7 +133,7 @@
 						if(event.cross.rGuideline)
 						{
 							var rTargetGuideLine:RGuideLine = new RGuideLine();
-							rTargetGuideLine.update(tool.targets[0], passiveGuideGroup);
+							rTargetGuideLine.update(tool.target, passiveGuideGroup);
 							passiveGuideGroup.addElement(rTargetGuideLine);
 						}
 							
