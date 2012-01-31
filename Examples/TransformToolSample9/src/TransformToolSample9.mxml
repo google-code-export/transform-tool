@@ -17,7 +17,7 @@
 				
 				imageTarget.depth = 1;
 				textTarget.depth = 2;
-				tool.targets[0] = textTarget;
+				tool.targets = [textTarget];
 				tool.showPreviewCover = true;
 				tool.startMoving(event);
 			}

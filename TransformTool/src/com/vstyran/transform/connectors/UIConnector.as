@@ -177,7 +177,36 @@ package com.vstyran.transform.connectors
 		{
 			data = dataConnector.transfrom(data);
 			
-			if(liveTransformation && targets && targets.length > 0)
+			if(liveTransformation)
+				updateTargets(data);
+			
+			return data;
+		}
+		
+		/**
+		 * @inheritDoc 
+		 */	
+		public function complete(data:DisplayData):DisplayData
+		{
+			data = dataConnector.transfrom(data);
+			
+			updateTargets(data);
+			
+			if(dataConnector.data is MultiDisplayData)
+			{
+				(dataConnector.data as MultiDisplayData).validateData(dataConnector.data.rotation);
+				dispatchEvent(new ConnectorEvent(ConnectorEvent.DATA_CHANGE));
+			}
+			
+			return dataConnector.data;
+		}
+		
+		/**
+		 * @private
+		 */		
+		protected function updateTargets(data:DisplayData):void
+		{
+			if(targets && targets.length > 0)
 			{
 				if(dataConnector.data is MultiDisplayData)
 				{
@@ -191,24 +220,6 @@ package com.vstyran.transform.connectors
 					DataUtil.applyData(targets[0], dataConnector.data);
 				}
 			}
-			
-			return data;
-		}
-		
-		/**
-		 * @inheritDoc 
-		 */	
-		public function complete(data:DisplayData):DisplayData
-		{
-			transfrom(data)
-			
-			if(dataConnector.data is MultiDisplayData)
-			{
-				(dataConnector.data as MultiDisplayData).validateData(dataConnector.data.rotation);
-				dispatchEvent(new ConnectorEvent(ConnectorEvent.DATA_CHANGE));
-			}
-			
-			return dataConnector.data;
 		}
 	}
 }
