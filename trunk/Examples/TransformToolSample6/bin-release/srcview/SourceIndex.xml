@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>Source of TransformToolSample6</title>
+	<nodes>
+		<node label="html-template">
+			<node label="history">
+				<node icon="cssIcon" label="history.css" url="source/html-template/history/history.css.html"/>
+				<node label="history.js" url="source/html-template/history/history.js.txt"/>
+				<node icon="htmlIcon" label="historyFrame.html" url="source/html-template/history/historyFrame.html"/>
+			</node>
+			<node icon="htmlIcon" label="index.template.html" url="source/html-template/index.template.html"/>
+			<node icon="swfIcon" label="playerProductInstall.swf" url="source/html-template/playerProductInstall.swf"/>
+			<node label="swfobject.js" url="source/html-template/swfobject.js.txt"/>
+		</node>
+		<node label="libs">
+		</node>
+		<node label="src">
+			<node icon="imageIcon" label="image1.jpg" url="source/image1.jpg.html"/>
+			<node icon="imageIcon" label="image2.jpg" url="source/image2.jpg.html"/>
+			<node icon="imageIcon" label="image3.jpg" url="source/image3.jpg.html"/>
+			<node icon="mxmlAppIcon" selected="true" label="TransformToolSample6.mxml" url="source/TransformToolSample6.mxml.html"/>
+		</node>
+	</nodes>
+	<zipfile label="Download source (ZIP, 134K)" url="TransformToolSample6.zip">
+	</zipfile>
+	<sdklink label="Download Flex SDK" url="http://www.adobe.com/go/flex451_sdk_download">
+	</sdklink>
+</index>
