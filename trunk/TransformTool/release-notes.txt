@@ -1,7 +1,7 @@
-Release Notes for TransformTool 2.4.1
+Release Notes for TransformTool 2.4.5
 --------------------------------------
 ====== CHANGES ======
-
+* Added multiselection support (PowerPoint approach).
 
 Release Notes for TransformTool 2.4.0
 --------------------------------------
