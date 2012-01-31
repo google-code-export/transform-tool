@@ -107,6 +107,5 @@
 				<model:Bounds x="30" y="45" width="400" height="250"/>
 			</view:bounds>
 		</view:TransformTool>
-		<s:Button x="93" y="-1" label="Button"/>
 	</s:Group>
 </s:Application>

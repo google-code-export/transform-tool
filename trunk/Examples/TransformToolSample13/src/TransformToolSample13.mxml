@@ -31,9 +31,10 @@
 					connector.targets = targets;		
 				}
 				else
-					connector.targets = [event.target as UIComponent];
+					connector.target = event.target as UIComponent;
 				
 				skipUpHandler = true;
+				tool.visible = true;
 				tool.startMoving(event);
 			}
 			
@@ -41,7 +42,7 @@
 			{
 				if(!skipUpHandler)
 				{
-					if(event.shiftKey || event.ctrlKey)
+					if((event.shiftKey || event.ctrlKey) && connector.targets.length > 1)
 					{
 						var targets:Array = connector.targets;
 						
@@ -51,8 +52,6 @@
 						
 						connector.targets = targets;		
 					}
-					else
-						connector.targets = [event.target as UIComponent];
 				}
 				
 				skipUpHandler = false;
@@ -64,6 +63,15 @@
 				skipUpHandler = true;
 			}
 			
+			protected function group1_clickHandler(event:MouseEvent):void
+			{
+				if(!event.shiftKey && !event.ctrlKey && event.target == designArea)
+				{
+					connector.target = null;
+					tool.visible = false;
+				}
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -71,7 +79,7 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	
-	<s:Group  width="460" height="300" verticalCenter="0" horizontalCenter="0">
+	<s:Group id="designArea" width="460" height="300" verticalCenter="0" horizontalCenter="0" click="group1_clickHandler(event)">
 		
 		<!-- background fill -->
 		<s:Rect top="0" right="0" left="0" bottom="0">
@@ -79,7 +87,7 @@
 				<s:SolidColor color="#dddddd"/>
 			</s:fill>
 		</s:Rect>
-		<s:Rect id="border" top="45" right="30" left="30" bottom="25">
+		<s:Rect id="border" top="25" right="30" left="30" bottom="25">
 			<s:stroke>
 				<s:SolidColorStroke color="#ACACAC"/>
 			</s:stroke>
@@ -92,12 +100,11 @@
 		<s:Image id="imageTarget3" x="260" y="110" width="80" height="50" rotation="0" scaleMode="stretch" mouseChildren="false"
 				 smooth="true" source="@Embed('image3.jpg')" minHeight="20" minWidth="20" mouseDown="select(event)" mouseUp="upHandler(event)"/>
 		
-		<view:TransformTool id="tool" depth="3" transformation="tool_transformationCompleteHandler(event)">
+		<view:TransformTool id="tool" depth="3" visible="false" transformation="tool_transformationCompleteHandler(event)">
 			<connectors:UIConnector id="connector" padding="5"/>
 			<view:bounds>
-				<model:Bounds x="30" y="45" width="400" height="250"/>
+				<model:Bounds x="30" y="25" width="400" height="250"/>
 			</view:bounds>
 		</view:TransformTool>
-		<s:Button x="93" y="-1" label="Button"/>
 	</s:Group>
 </s:Application>
