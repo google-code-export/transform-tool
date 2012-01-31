@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="25" height="45"
+		 currentState="{active ? 'active' : 'normal'}">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			[Bindable]
+			public var active:Boolean;
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="active"/>
+	</s:states>
+	
+	<s:Path left="0" top="0"
+			data="M5.83887 1.58105L0.838867 16.5811 5.83887 14.2871 10.8389 16.5811 5.83887 1.58105Z"
+			rotation="-18">
+		<s:fill>
+			<s:SolidColor/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color="#ffffff" caps="none" weight="1" joints="miter" miterLimit="4"/>
+		</s:stroke>
+	</s:Path>
+	
+	<s:Group width="15" height="15" x="5" y="20" scaleX="1.2" scaleY="1.2" alpha="0.8" includeIn="normal">
+		
+		<s:Path winding="nonZero" data="M10.5 6.5C10.5 4.28906 8.71094 2.5 6.50049 2.5 4.28906 2.5 2.48926 4.31885 2.50049 6.5 2.51172 8.68164 4.28955 10.5 6.50049 10.5L6.50049 12.5C3.18408 12.5 0.531738 9.8125 0.500488 6.5 0.469238 3.18799 3.20361 0.484863 6.50049 0.5 9.79688
+				0.515137 12.5 3.18359 12.5 6.5L14 6.5 11.5 9 9 6.5 10.5 6.5Z" >
+			<s:fill>
+				<s:SolidColor/>
+			</s:fill>
+			<s:stroke>
+				<s:SolidColorStroke color="#ffffff" caps="none" weight="1" joints="miter" miterLimit="4"/>
+			</s:stroke>
+		</s:Path>
+		
+	</s:Group>
+</s:Group>
