@@ -18,7 +18,7 @@
 			
 			protected function select(event:MouseEvent):void
 			{
-				var targets:Array = connector.targets;
+				var targets:Array = connector.targets ? connector.targets : [];
 				var index:int = targets ? targets.indexOf(event.target as UIComponent) : -1;
 				
 				if(index == -1)
