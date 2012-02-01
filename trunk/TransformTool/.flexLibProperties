@@ -16,8 +16,6 @@
     <classEntry path="com.vstyran.transform.model.DisplayData"/>
     <classEntry path="com.vstyran.transform.namespaces.tt_internal"/>
     <classEntry path="com.vstyran.transform.operations.AnchorOperation"/>
-    <classEntry path="com.vstyran.transform.operations.IAncorOperation"/>
-    <classEntry path="com.vstyran.transform.operations.IOperation"/>
     <classEntry path="com.vstyran.transform.operations.MoveOperation"/>
     <classEntry path="com.vstyran.transform.operations.ResizeOperation"/>
     <classEntry path="com.vstyran.transform.operations.RotateOperation"/>

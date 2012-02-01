@@ -4,7 +4,6 @@ package com.vstyran.transform.controls
 	import com.vstyran.transform.events.GuidelineEvent;
 	import com.vstyran.transform.model.Bounds;
 	import com.vstyran.transform.namespaces.tt_internal;
-	import com.vstyran.transform.operations.IAncorOperation;
 	import com.vstyran.transform.operations.IOperation;
 	import com.vstyran.transform.skins.ControlSkin;
 	import com.vstyran.transform.utils.DataUtil;
@@ -255,7 +254,7 @@ package com.vstyran.transform.controls
 		{
 			for each (var uiTarget:UIComponent in _uiTargets) 
 			{
-				addListeners(uiTarget, int.MAX_VALUE-1);
+				addListeners(uiTarget);
 			}
 		}
 		
@@ -363,7 +362,7 @@ package com.vstyran.transform.controls
 			matrix = TransformUtil.getMatrix(null, tool);
 			tool.startTransformation(this, operation.type);
 			
-			if(operation is IAncorOperation && anchor && anchor is IAnchor)
+			if(anchor && anchor is IAnchor)
 			{
 				activeAnchor = anchor as IAnchor;
 				activeAnchor.activateAnchor();
@@ -380,8 +379,6 @@ package com.vstyran.transform.controls
 			
 			systemManager.getSandboxRoot().addEventListener(MouseEvent.MOUSE_MOVE, moveHandler);
 			systemManager.getSandboxRoot().addEventListener(MouseEvent.MOUSE_UP, upHandler);
-			
-			event.stopImmediatePropagation();
 		}
 		
 		/**

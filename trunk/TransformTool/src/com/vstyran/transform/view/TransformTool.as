@@ -141,8 +141,8 @@ package com.vstyran.transform.view
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			addEventListener(Event.REMOVED_FROM_STAGE, removedFromStageHandler);
-			addEventListener(MouseEvent.MOUSE_DOWN, downHandler, true, int.MAX_VALUE);
-			addEventListener(MouseEvent.MOUSE_UP, upHandler, true, int.MAX_VALUE);
+			addEventListener(MouseEvent.MOUSE_DOWN, downHandler, true);
+			addEventListener(MouseEvent.MOUSE_UP, upHandler, true);
 		}
 		
 		/**
