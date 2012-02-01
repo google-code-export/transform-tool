@@ -18,25 +18,28 @@
 			
 			protected function select(event:MouseEvent):void
 			{
-				if(event.shiftKey || event.ctrlKey)
-				{
-					var targets:Array = connector.targets;
-					
-					var index:int = targets.indexOf(event.target as UIComponent);
-					if(index == -1)
-						targets.push(event.target as UIComponent);
-					else
-						targets.splice(index, 1);
-					
-					connector.targets = targets;		
-				}
-				else
-					connector.target = event.target as UIComponent;
+				var targets:Array = connector.targets;
+				var index:int = targets ? targets.indexOf(event.target as UIComponent) : -1;
 				
-				skipUpHandler = true;
-				tool.visible = true;
-				tool.startMoving(event);
+				if(index == -1)
+				{
+					if(event.shiftKey || event.ctrlKey)
+					{
+						targets.push(event.target as UIComponent);
+						connector.targets = targets;		
+					}
+					else
+					{
+						connector.target = event.target as UIComponent;
+					}
+					skipUpHandler = true;
+					
+					tool.visible = true;
+					tool.startMoving(event);
+				}
+				
 			}
+			
 			
 			protected function upHandler(event:MouseEvent):void
 			{
@@ -51,6 +54,11 @@
 							targets.splice(index, 1);
 						
 						connector.targets = targets;		
+					}
+					
+					if(!event.shiftKey && !event.ctrlKey)
+					{
+						connector.target = event.target as UIComponent;
 					}
 				}
 				
