@@ -1,4 +1,10 @@
-Release Notes for TransformTool 2.4.5
+Release Notes for TransformTool 2.4.7
+--------------------------------------
+====== BUG FIXES ======
+* Fixed regression issue with anchors.
+
+
+Release Notes for TransformTool 2.4.6
 --------------------------------------
 ====== BUG FIXES ======
 * Fixed issue when you apply connector with already added target.
