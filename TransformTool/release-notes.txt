@@ -1,3 +1,9 @@
+Release Notes for TransformTool 2.4.8
+--------------------------------------
+====== BUG FIXES ======
+* Fixed clonning MultiDisplayData.
+
+
 Release Notes for TransformTool 2.4.7
 --------------------------------------
 ====== BUG FIXES ======
