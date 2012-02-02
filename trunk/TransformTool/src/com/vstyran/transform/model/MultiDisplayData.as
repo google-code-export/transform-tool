@@ -376,7 +376,7 @@ package com.vstyran.transform.model
 		 */
 		override public function clone():DisplayData
 		{
-			var clone:MultiDisplayData = clone() as MultiDisplayData;
+			var clone:MultiDisplayData = super.clone() as MultiDisplayData;
 			
 			clone._children = children;
 			clone.validData = validData.clone();
