@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Graphic xmlns="http://ns.adobe.com/fxg/2008" version="2">    
+	<Path data="M15.3726 4.17676L11.354 7.8457 10.3491 7.8457 10.3491 5.1582C4.45557 5.1875 3.91455 7.72852 4.31982 12.6113L2.31006 12.6113C1.72705 5.48828 4.35498 3.24316 10.3491 3.29492L10.3491 0.5 11.354 0.5 15.3726 4.17676Z" >
+		<fill>
+			<SolidColor color="#2f2f2f"/>
+		</fill>
+		<stroke>
+			<SolidColorStroke color="#ffffff" caps="none" weight="1" joints="miter" miterLimit="4"/>
+		</stroke>
+	</Path>
+	<Path 
+		data="M5.16797 14.8232L9.18701 11.1543 10.1924 11.1543 10.1924 13.8418C16.0854 13.8125 16.6265 11.2715 16.2212 6.38818L18.231 6.38818C18.814 13.5117 16.186 15.7568 10.1924 15.7051L10.1924 18.5 9.18701 18.5 5.16797 14.8232Z" >
+		<fill>
+			<SolidColor color="#2f2f2f"/>
+		</fill>
+		<stroke>
+			<SolidColorStroke color="#ffffff" caps="none" weight="1" joints="miter" miterLimit="4"/>
+		</stroke>
+	</Path>
+</Graphic>
