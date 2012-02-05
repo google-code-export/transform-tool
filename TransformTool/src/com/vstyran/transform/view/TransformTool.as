@@ -186,7 +186,7 @@ package com.vstyran.transform.view
 		/**
 		 * @private 
 		 */		
-		private var _uiTargets:Array;
+		protected var _uiTargets:Array;
 		
 		[Bindable("uiTargetsChanged")]
 		/**

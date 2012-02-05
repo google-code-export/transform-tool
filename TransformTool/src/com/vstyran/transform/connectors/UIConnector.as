@@ -232,11 +232,13 @@ package com.vstyran.transform.connectors
 					for each (var child:DisplayData in (dataConnector.data as MultiDisplayData).children) 
 					{
 						DataUtil.applyData(child.userData.target as UIComponent, child);
+						(child.userData.target as UIComponent).validateNow();
 					}
 				}
 				else
 				{
 					DataUtil.applyData(targets[0], dataConnector.data);
+					(targets[0]  as UIComponent).validateNow();
 				}
 			}
 		}
