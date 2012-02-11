@@ -32,6 +32,7 @@ package com.vstyran.transform.view
 	import mx.core.IVisualElementContainer;
 	import mx.core.UIComponent;
 	
+	import spark.components.Group;
 	import spark.components.supportClasses.SkinnableComponent;
 	import spark.primitives.BitmapImage;
 	
@@ -128,7 +129,7 @@ package com.vstyran.transform.view
 		/**
 		 * Element that will be placed around transform tool with visual rotation 0. 
 		 */		
-		public var boundingGroup:UIComponent;
+		public var boundingGroup:Group;
 		
 		/**
 		 * Constructor. 
@@ -303,6 +304,35 @@ package com.vstyran.transform.view
 		}
 		
 		/**
+		 * @private
+		 */
+		private var _actionContent:Array;
+
+		/**
+		 * Action content will be placed in bounding group if it is defined in skin. 
+		 */		
+		public function get actionContent():Array
+		{
+			return _actionContent;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set actionContent(value:Array):void
+		{
+			_actionContent = value;
+			
+			if(boundingGroup)
+			{
+				boundingGroup.mxmlContent = _actionContent;
+				validateBoundingGroup = true;
+				invalidateProperties();
+			}
+		}
+
+		
+		/**
 		 *  A user-supplied function to run on each transformation.  
 		 *
 		 *  <p>You can supply a <code>snappingFunction</code> that 
@@ -383,6 +413,7 @@ package com.vstyran.transform.view
 				}
 				case boundingGroup:
 				{
+					boundingGroup.mxmlContent = _actionContent;
 					validateBoundingGroup = true;
 					invalidateProperties();
 					break;
@@ -446,7 +477,7 @@ package com.vstyran.transform.view
 			
 			if(validateBoundingGroup)
 			{
-				if(boundingGroup && boundingGroup.parent)
+				if(boundingGroup && boundingGroup.parent && (_actionContent || boundingGroup.numElements > 0))
 				{
 					var m:Matrix = TransformUtil.getMatrix(this.parent, boundingGroup.parent);
 					

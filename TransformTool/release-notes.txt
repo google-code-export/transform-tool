@@ -1,3 +1,8 @@
+Release Notes for TransformTool 2.4.9
+--------------------------------------
+====== CHANGES ======
+* Added action content support.
+
 Release Notes for TransformTool 2.4.8
 --------------------------------------
 ====== BUG FIXES ======
