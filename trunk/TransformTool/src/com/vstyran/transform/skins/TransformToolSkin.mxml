@@ -80,6 +80,8 @@
 		</s:Rect>
 	</s:Group>
 	
+	<s:Group id="boundingGroup" visible="{!rotateControl.controlActivated}"/>
+	
 	<s:Line yFrom="-26" yTo="0" horizontalCenter="0">
 		<s:stroke>
 			<s:SolidColorStroke/>
@@ -121,4 +123,5 @@
 	</controls:Control>
 	
 	<controls:Anchor id="centerAnchorControl" verticalCenter="0" horizontalCenter="0"/>
+
 </s:Skin>
