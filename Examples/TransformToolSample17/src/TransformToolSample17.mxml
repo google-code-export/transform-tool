@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"  
+			   xmlns:view="com.vstyran.transform.view.*" 
+			   xmlns:model="com.vstyran.transform.model.*"
+			   width="460" height="300" xmlns:local="*" 
+			   viewSourceURL="http://vstyran-flex.ho.ua/TransformTool2/examples/TransformToolSample17/srcview/index.html" 
+			   xmlns:connectors="com.vstyran.transform.connectors.*" xmlns:managers="managers.*">
+	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		
+		s|Button
+		{
+			skinClass:ClassReference("skins.ButtonSkin");
+		}
+	</fx:Style>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			protected function actionButtonClickHandler(event:MouseEvent):void
+			{
+				Alert.show("Button " + (event.target as Button).label + " pressed.");
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Group  width="460" height="300" verticalCenter="0" horizontalCenter="0">
+		
+		<!-- background fill -->
+		<s:Rect top="0" right="0" left="0" bottom="0">
+			<s:fill>
+				<s:SolidColor color="#dddddd"/>
+			</s:fill>
+		</s:Rect>
+		<s:Rect id="border" top="45" right="30" left="30" bottom="25">
+			<s:stroke>
+				<s:SolidColorStroke color="#ACACAC"/>
+			</s:stroke>
+		</s:Rect>
+		
+		<s:ComboBox id="actionCombo" x="30" y="14" width="228" selectedIndex="0">
+			<s:ArrayList>
+				<fx:Object label="Blank action content"/>
+				<fx:Object label="Right vertical bar">
+					<fx:value>
+						<s:VGroup right="-28" top="0" bottom="0" width="20" gap="2" horizontalAlign="justify">
+							<s:Button label="1" width="20" click="actionButtonClickHandler(event)"/>
+							<s:Button label="2" width="20" click="actionButtonClickHandler(event)"/>
+							<s:Button label="3" width="20" click="actionButtonClickHandler(event)"/>
+						</s:VGroup>
+					</fx:value>
+				</fx:Object>
+				<fx:Object label="Bottom horizontal bar">
+					<fx:value>
+						<s:HGroup bottom="-28" height="20" right="0" gap="2" verticalAlign="justify">
+							<s:Button label="1" width="20" click="actionButtonClickHandler(event)"/>
+							<s:Button label="2" width="20" click="actionButtonClickHandler(event)"/>
+							<s:Button label="3" width="20" click="actionButtonClickHandler(event)"/>
+						</s:HGroup>
+					</fx:value>
+				</fx:Object>
+			</s:ArrayList>
+		</s:ComboBox>
+		
+		<s:Image id="imageTarget" x="170" y="110" width="130" height="100" rotation="0" scaleMode="stretch" mouseChildren="false"
+				 smooth="true" source="@Embed('image.jpg')" minHeight="20" minWidth="20"/>
+		
+		<view:UITransformTool id="tool" depth="3" target="{imageTarget}" actionContent="{actionCombo.selectedItem.value}">
+			<view:bounds>
+				<model:Bounds x="30" y="45" width="400" height="230"/>
+			</view:bounds>
+		</view:UITransformTool>
+	</s:Group>
+</s:Application>
