@@ -41,7 +41,7 @@
 			</s:stroke>
 		</s:Rect>
 		
-		<s:ComboBox id="actionCombo" x="30" y="14" width="228" selectedIndex="0">
+		<s:DropDownList id="actionCombo" x="30" y="14" width="228" selectedIndex="0">
 			<s:ArrayList>
 				<fx:Object label="Blank action content"/>
 				<fx:Object label="Right vertical bar">
@@ -63,7 +63,7 @@
 					</fx:value>
 				</fx:Object>
 			</s:ArrayList>
-		</s:ComboBox>
+		</s:DropDownList>
 		
 		<s:Image id="imageTarget" x="170" y="110" width="130" height="100" rotation="0" scaleMode="stretch" mouseChildren="false"
 				 smooth="true" source="@Embed('image.jpg')" minHeight="20" minWidth="20"/>
