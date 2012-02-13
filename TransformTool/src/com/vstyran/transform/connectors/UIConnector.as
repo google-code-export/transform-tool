@@ -44,7 +44,7 @@ package com.vstyran.transform.connectors
 		 */		
 		public function get target():UIComponent
 		{
-			if (_targets.length > 0)
+			if (_targets && _targets.length > 0)
 				return _targets[0]; 
 			else
 				return null;
