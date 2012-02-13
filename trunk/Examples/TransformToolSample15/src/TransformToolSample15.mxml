@@ -47,7 +47,7 @@
 				<s:SolidColor color="#dddddd"/>
 			</s:fill>
 		</s:Rect>
-		<s:Rect id="border" top="45" right="30" left="30" bottom="25">
+		<s:Rect id="border" top="25" right="30" left="30" bottom="25">
 			<s:stroke>
 				<s:SolidColorStroke color="#ACACAC"/>
 			</s:stroke>
@@ -77,7 +77,7 @@
 		
 		<view:UITransformTool id="tool" depth="3" target="{target}">
 			<view:bounds>
-				<model:Bounds x="30" y="45" width="400" height="250"/>
+				<model:Bounds x="30" y="25" width="400" height="250"/>
 			</view:bounds>
 		</view:UITransformTool>
 	</s:Group>
