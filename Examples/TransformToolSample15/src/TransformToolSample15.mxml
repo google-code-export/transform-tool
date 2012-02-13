@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"  
+			   xmlns:view="com.vstyran.transform.view.*" 
+			   xmlns:model="com.vstyran.transform.model.*"
+			   width="460" height="300" xmlns:local="*" 
+			   viewSourceURL="http://vstyran-flex.ho.ua/TransformTool2/examples/TransformToolSample15/srcview/index.html" 
+			   xmlns:connectors="com.vstyran.transform.connectors.*" 
+			   xmlns:managers="com.vstyran.transform.managers.*">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.core.UIComponent;
+			protected function select(event:MouseEvent):void
+			{
+				if(!tool.target || tool.target != event.target)
+				{
+					tool.target = event.target as UIComponent;
+					tool.visible = true;
+					tool.startMoving(event);
+				}
+			}
+			
+			protected function designArea_clickHandler(event:MouseEvent):void
+			{
+				if(event.target == designArea)
+				{
+					tool.target = null;
+					tool.visible = false;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:Group id="designArea"  width="460" height="300" verticalCenter="0" horizontalCenter="0" click="designArea_clickHandler(event)">
+		
+		<!-- background fill -->
+		<s:Rect top="0" right="0" left="0" bottom="0">
+			<s:fill>
+				<s:SolidColor color="#dddddd"/>
+			</s:fill>
+		</s:Rect>
+		<s:Rect id="border" top="45" right="30" left="30" bottom="25">
+			<s:stroke>
+				<s:SolidColorStroke color="#ACACAC"/>
+			</s:stroke>
+		</s:Rect>
+		
+		<s:Group id="target" width="100" height="70" x="100" y="120" mouseDown="select(event)">
+			<s:Ellipse top="0" bottom="0" right="0" left="0">
+				<s:stroke>
+					<s:SolidColorStroke color="#154447" weight="2"/>
+				</s:stroke>
+				<s:fill>
+					<s:SolidColor color="#86A143"/>
+				</s:fill>
+			</s:Ellipse>
+		</s:Group>
+		
+		<s:Group id="target1" width="100" height="70" x="260" y="120" mouseDown="select(event)">
+			<s:Rect top="0" bottom="0" right="0" left="0">
+				<s:stroke>
+					<s:SolidColorStroke color="#476228" weight="2"/>
+				</s:stroke>
+				<s:fill>
+					<s:SolidColor color="#D5A659"/>
+				</s:fill>
+			</s:Rect>
+		</s:Group>
+		
+		<view:UITransformTool id="tool" depth="3" target="{target}">
+			<view:bounds>
+				<model:Bounds x="30" y="45" width="400" height="250"/>
+			</view:bounds>
+		</view:UITransformTool>
+	</s:Group>
+</s:Application>
