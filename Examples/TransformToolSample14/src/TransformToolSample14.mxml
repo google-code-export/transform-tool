@@ -6,81 +6,99 @@
 			   xmlns:model="com.vstyran.transform.model.*"
 			   width="460" height="300" xmlns:local="*" 
 			   viewSourceURL="http://vstyran-flex.ho.ua/TransformTool2/examples/TransformToolSample14/srcview/index.html" 
-			   xmlns:connectors="com.vstyran.transform.connectors.*" xmlns:managers="com.vstyran.transform.managers.*">
+			   xmlns:connectors="com.vstyran.transform.connectors.*" xmlns:managers="com.vstyran.transform.managers.*" creationComplete="application1_creationCompleteHandler(event)">
 	<fx:Script>
 		<![CDATA[
-			import com.vstyran.transform.events.TransformEvent;
-			import com.vstyran.transform.model.DisplayData;
-			import com.vstyran.transform.model.MultiDisplayData;
-			import com.vstyran.transform.utils.DataUtil;
-			
+			import mx.collections.ArrayList;
 			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			
+			[Bindable]
+			private var zorder:ArrayList;
+			
+			protected function application1_creationCompleteHandler(event:FlexEvent):void
+			{
+				zorder = new ArrayList();
+				zorder.addItem(imageTarget1);
+				zorder.addItem(imageTarget2);
+				zorder.addItem(imageTarget3);
+				recalculateDepth();
+			}
 			
 			protected function select(event:MouseEvent):void
 			{
-				if(event.shiftKey || event.ctrlKey)
+				if(!tool.target || tool.target != event.target)
 				{
-					var multiData:MultiDisplayData = new MultiDisplayData();
-					multiData.padding = 5;
-					multiData.minWidth =40;
-					multiData.minHeight =40;
-					
-					if(connector.data)
-					{
-						if(connector.data is MultiDisplayData)
-							multiData = connector.data as MultiDisplayData;
-						else
-							multiData.addChild(connector.data);
-					}
-					
-					var data:DisplayData = DataUtil.createData(event.target as UIComponent);
-					data.userData = event.target;
-					multiData.addChild(data);
-					
-					connector.data = multiData;
-				}
-				else
-				{
-					var data:DisplayData = DataUtil.createData(event.target as UIComponent);
-					data.userData = event.target;
-					connector.data = data;
+					tool.target = event.target as UIComponent;
+					tool.visible = true;
+					tool.startMoving(event);
 				}
 			}
 			
-			protected function tool_transformationHandler(event:TransformEvent):void
+			protected function designArea_clickHandler(event:MouseEvent):void
 			{
-				if(connector.data is MultiDisplayData)
+				if(event.target == designArea)
 				{
-					for each (var child:DisplayData in (connector.data as MultiDisplayData).children) 
-					{
-						DataUtil.applyData(child.userData as UIComponent, child);
-					}
-				}
-				else
-				{
-					DataUtil.applyData(connector.data.userData as UIComponent, connector.data);
+					tool.target = null;
+					tool.visible = false;
 				}
 			}
 			
-			protected function tool_transformationCompleteHandler(event:TransformEvent):void
+			private function recalculateDepth():void
 			{
-				tool_transformationHandler(event);
-				
-				if(connector.data is MultiDisplayData)
+				for (var i:int = 0; i < zorder.length; i++) 
 				{
-					(connector.data as MultiDisplayData).validateData(connector.data.rotation);
-					tool.updateTool();
+					zorder.getItemAt(i).depth = i;
 				}
+			}
+			
+			protected function bringToFrontHandler(event:MouseEvent):void
+			{
+				zorder.removeItem(tool.target);
+				//set to top of array
+				zorder.addItem(tool.target);
+				recalculateDepth();
+			}
+			
+			protected function bringForwardHandler(event:MouseEvent):void
+			{
+				if(tool.target.depth < zorder.length-1)
+				{
+					zorder.removeItem(tool.target);
+					//set to one position higher
+					zorder.addItemAt(tool.target, tool.target.depth+1);
+					recalculateDepth();
+				}
+			}
+			
+			protected function sendBackwardHandler(event:MouseEvent):void
+			{
+				if(tool.target.depth > 0)
+				{
+					zorder.removeItem(tool.target);
+					//set to one position lower
+					zorder.addItemAt(tool.target, tool.target.depth-1);
+					recalculateDepth();
+				}
+			}
+			
+			protected function sendToBackHandler(event:MouseEvent):void
+			{
+				zorder.removeItem(tool.target);
+				//set to bottom of aaray
+				zorder.addItemAt(tool.target, 0);
+				recalculateDepth();
 			}
 			
 		]]>
 	</fx:Script>
 	
+	
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	
-	<s:Group id="designArea"  width="460" height="300" verticalCenter="0" horizontalCenter="0">
+	<s:Group id="designArea"  width="460" height="300" verticalCenter="0" horizontalCenter="0" click="designArea_clickHandler(event)">
 		
 		<!-- background fill -->
 		<s:Rect top="0" right="0" left="0" bottom="0">
@@ -88,24 +106,37 @@
 				<s:SolidColor color="#dddddd"/>
 			</s:fill>
 		</s:Rect>
-		<s:Rect id="border" top="45" right="30" left="30" bottom="25">
+		<s:Rect id="border" top="25" right="30" left="30" bottom="25">
 			<s:stroke>
 				<s:SolidColorStroke color="#ACACAC"/>
 			</s:stroke>
 		</s:Rect>
 		
-		<s:Image id="imageTarget1" x="100" y="110" width="80" height="50" rotation="0" scaleMode="stretch" mouseChildren="false"
-				 smooth="true" source="@Embed('image1.jpg')" minHeight="20" minWidth="20" mouseDown="select(event)"/>
-		<s:Image id="imageTarget2" x="180" y="180" width="80" height="50" rotation="0" scaleMode="stretch" mouseChildren="false"
-				 smooth="true" source="@Embed('image2.jpg')" minHeight="20" minWidth="20" mouseDown="select(event)"/>
-		<s:Image id="imageTarget3" x="260" y="110" width="80" height="50" rotation="0" scaleMode="stretch" mouseChildren="false"
-				 smooth="true" source="@Embed('image3.jpg')" minHeight="20" minWidth="20" mouseDown="select(event)"/>
+		<s:Group top="0" right="0" left="0" bottom="0">
+			<s:Image id="imageTarget1" x="100" y="80" width="120" height="70" rotation="0" scaleMode="stretch" mouseChildren="false"
+					 smooth="true" source="@Embed('image1.png')" minHeight="20" minWidth="20" mouseDown="select(event)"/>
+			<s:Image id="imageTarget2" x="180" y="160" width="120" height="70" rotation="0" scaleMode="stretch" mouseChildren="false"
+					 smooth="true" source="@Embed('image2.png')" minHeight="20" minWidth="20" mouseDown="select(event)"/>
+			<s:Image id="imageTarget3" x="260" y="80" width="120" height="70" rotation="0" scaleMode="stretch" mouseChildren="false"
+					 smooth="true" source="@Embed('image3.png')" minHeight="20" minWidth="20" mouseDown="select(event)"/>
+		</s:Group>
 		
-		<view:TransformTool id="tool" depth="3" transformation="tool_transformationHandler(event)" transformationComplete="tool_transformationCompleteHandler(event)">
-			<connectors:DataConnector id="connector" panel="{designArea}"/>
+		<view:UITransformTool id="tool" depth="3" target="{imageTarget1}">
 			<view:bounds>
-				<model:Bounds x="30" y="45" width="400" height="250"/>
+				<model:Bounds x="30" y="25" width="400" height="250"/>
 			</view:bounds>
-		</view:TransformTool>
+			<view:actionContent>
+				<s:VGroup right="-24" top="0" bottom="0" width="16" gap="1" horizontalAlign="justify">
+					<s:Button label="Bring to front" height="16" icon="@Embed(source='icons/bring_to_front-icon.gif')" 
+							  click="bringToFrontHandler(event)"/>
+					<s:Button label="Bring forward" height="16" icon="@Embed(source='icons/move_forward.png')" 
+							  click="bringForwardHandler(event)"/>
+					<s:Button label="Send backward" height="16" icon="@Embed(source='icons/move_backward.png')" 
+							  click="sendBackwardHandler(event)"/>
+					<s:Button label="Send to back" height="16" icon="@Embed(source='icons/send_to_back-icon.gif')" 
+							  click="sendToBackHandler(event)"/>
+				</s:VGroup>
+			</view:actionContent>
+		</view:UITransformTool>
 	</s:Group>
 </s:Application>
