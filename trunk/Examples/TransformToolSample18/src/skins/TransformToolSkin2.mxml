@@ -43,10 +43,6 @@
 			<vector:CursorItem control="{moveControl}">
 				<cursors:MoveCursor mouseChildren="false" mouseEnabled="false" depth="{Number.MAX_VALUE}"/>
 			</vector:CursorItem>
-			<vector:CursorItem control="{topMiddleControl}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="90"/>
-			<vector:CursorItem control="{bottomMiddleControl}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="90"/>
-			<vector:CursorItem control="{middleLeftControl}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="0"/>
-			<vector:CursorItem control="{middleRightControl}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="0"/>
 			<vector:CursorItem control="{topLeftControl}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="45"/>
 			<vector:CursorItem control="{bottomRightControl}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="45"/>
 			<vector:CursorItem control="{topRightControl}" cursor="{resizeCursor}" maintainRotation="true" originalRotation="-45"/>
@@ -95,25 +91,13 @@
 	<controls:Control id="topLeftControl" top="-6" left="-6" anchor="{bottomRightControl}" styleName="control">
 		<operations:ResizeOperation anchor="{new Point(1, 1)}"/>
 	</controls:Control>
-	<controls:Control id="topMiddleControl" top="-6" horizontalCenter="0" anchor="{bottomMiddleControl}" styleName="control">
-		<operations:ResizeOperation horizontalEnabled="false"  anchor="{new Point(0.5, 1)}"/>
-	</controls:Control>
 	<controls:Control id="topRightControl" top="-6" right="-6" anchor="{bottomLeftControl}" styleName="control">
 		<operations:ResizeOperation anchor="{new Point(0, 1)}"/>
-	</controls:Control>
-	<controls:Control id="middleRightControl" verticalCenter="0" right="-6" anchor="{middleLeftControl}" styleName="control">
-		<operations:ResizeOperation verticalEnabled="false" anchor="{new Point(0, 0.5)}"/>
 	</controls:Control>
 	<controls:Control id="bottomRightControl" bottom="-6" right="-6" anchor="{topLeftControl}" styleName="control">
 		<operations:ResizeOperation anchor="{new Point(0, 0)}"/>
 	</controls:Control>
-	<controls:Control id="bottomMiddleControl" bottom="-6" horizontalCenter="0" anchor="{topMiddleControl}" styleName="control">
-		<operations:ResizeOperation horizontalEnabled="false" anchor="{new Point(0.5, 0)}"/>
-	</controls:Control>
 	<controls:Control id="bottomLeftControl" bottom="-6" left="-6" anchor="{topRightControl}" styleName="control">
 		<operations:ResizeOperation anchor="{new Point(1, 0)}"/>
-	</controls:Control>
-	<controls:Control id="middleLeftControl" verticalCenter="0" left="-6" anchor="{middleRightControl}" styleName="control">
-		<operations:ResizeOperation verticalEnabled="false" anchor="{new Point(1, 0.5)}"/>
 	</controls:Control>
 </s:Skin>

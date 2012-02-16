@@ -89,7 +89,9 @@
 		</s:Rect>
 	</s:Group>
 	
-	<s:Group id="boundingGroup" visible="{!topLeftRotateControl.controlActivated}"/>
+	<s:Group id="boundingGroup" 
+			 visible="{!topLeftRotateControl.controlActivated &amp;&amp; !topRightRotateControl.controlActivated &amp;&amp;
+					   !bottomLeftRotateControl.controlActivated &amp;&amp; !bottomRightRotateControl.controlActivated}"/>
 	
 	<controls:Control id="topLeftRotateControl" top="-10" left="-10" width="20" height="20" 
 					  styleName="rotateControl" operation="{rotateOperation}" anchor="{centerAnchorControl}"/>
