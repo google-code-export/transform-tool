@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
+    xmlns:fb="http://ns.adobe.com/flashbuilder/2009" alpha.disabled="0.5" xmlns:view="com.vstyran.reuler.view.*">
+	<fx:Metadata>[HostComponent("com.vstyran.reuler.view.Ruler")]</fx:Metadata>
+
+    <s:states>
+        <s:State name="normal" />
+        <s:State name="disabled" />
+    </s:states>
+    
+    <!--- @copy spark.components.SkinnableContainer#contentGroup -->
+    <s:Group id="contentGroup" left="0" right="0" top="0" bottom="0" minWidth="0" minHeight="0">
+        <s:layout>
+            <s:BasicLayout/>
+        </s:layout>
+    </s:Group>
+	
+	<view:HRulerBar id="hRulerBar" top="0" left="29" right="0" height="30"/>
+	<view:VRulerBar id="vRulerBar" top="29" left="0" bottom="0" width="30"/>
+</s:Skin>

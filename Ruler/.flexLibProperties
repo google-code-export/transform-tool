@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="com.vstyran.reuler.view.RulerBarBase"/>
+    <classEntry path="com.vstyran.reuler.view.Ruler"/>
+    <classEntry path="com.vstyran.reuler.model.Tick"/>
+    <classEntry path="com.vstyran.reuler.view.VRulerBar"/>
+    <classEntry path="com.vstyran.reuler.skins.VRulerBarSkin"/>
+    <classEntry path="com.vstyran.reuler.consts.MeasureUnit"/>
+    <classEntry path="com.vstyran.reuler.view.HRulerBar"/>
+    <classEntry path="com.vstyran.reuler.skins.HRulerBarSkin"/>
+    <classEntry path="com.vstyran.reuler.skins.RulerSkin"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>
