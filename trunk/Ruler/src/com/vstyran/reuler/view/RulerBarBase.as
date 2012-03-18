@@ -81,18 +81,18 @@ package com.vstyran.reuler.view
 		}
 
 		
-		private var _pixelPerValue:Number = MeasureUnit.INCH;
+		private var _pixelsPerValue:Number = MeasureUnit.INCH;
 
-		public function get pixelPerValue():Number
+		public function get pixelsPerValue():Number
 		{
-			return _pixelPerValue;
+			return _pixelsPerValue;
 		}
 
-		public function set pixelPerValue(value:Number):void
+		public function set pixelsPerValue(value:Number):void
 		{
-			if(_pixelPerValue != value)
+			if(_pixelsPerValue != value)
 			{
-				_pixelPerValue = value;
+				_pixelsPerValue = value;
 				updateSkinDisplayList(true);
 			}
 		}
@@ -108,7 +108,7 @@ package com.vstyran.reuler.view
 				distance = list[i];
 				while(distance < list[i+1])
 				{
-					if(distance*pixelPerValue*zoom > minDistance)
+					if(distance*pixelsPerValue*zoom > minDistance)
 						return distance;
 				
 					distance += list[i];
@@ -122,7 +122,7 @@ package com.vstyran.reuler.view
 		{
 			ticks.removeAll();
 			var distance:Number = getDistance();
-			var distancePx:Number = distance*pixelPerValue*zoom;
+			var distancePx:Number = distance*pixelsPerValue*zoom;
 			var count:Number = length/distancePx;
 			
 			for (var i:int = 0; i < count; i++) 

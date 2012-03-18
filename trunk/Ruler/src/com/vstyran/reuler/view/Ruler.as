@@ -4,7 +4,12 @@ package com.vstyran.reuler.view
 	import com.vstyran.reuler.consts.MeasureUnit;
 	import com.vstyran.reuler.skins.RulerSkin;
 	import com.vstyran.reuler.utils.SkinUtil;
+	import com.vstyran.transform.model.Guideline;
+	import com.vstyran.transform.model.GuidelineCross;
 	
+	import mx.collections.ArrayList;
+	
+	import spark.components.DataGroup;
 	import spark.components.SkinnableContainer;
 	
 	
@@ -24,6 +29,9 @@ package com.vstyran.reuler.view
 		
 		[SkinPart]
 		public var vRulerBar:VRulerBar;
+		
+		[SkinPart]
+		public var guideDataGroup:DataGroup;
 		
 		
 		private var _minDistance:Number = 30;
@@ -92,24 +100,24 @@ package com.vstyran.reuler.view
 		}
 		
 		
-		private var _pixelPerValue:Number = MeasureUnit.INCH;
+		private var _pixelsPerValue:Number = MeasureUnit.INCH;
 		
-		public function get pixelPerValue():Number
+		public function get pixelsPerValue():Number
 		{
-			return _pixelPerValue;
+			return _pixelsPerValue;
 		}
 		
-		public function set pixelPerValue(value:Number):void
+		public function set pixelsPerValue(value:Number):void
 		{
-			if(_pixelPerValue != value)
+			if(_pixelsPerValue != value)
 			{
-				_pixelPerValue = value;
+				_pixelsPerValue = value;
 				
 				if(vRulerBar)
-					vRulerBar.pixelPerValue = _pixelPerValue;
+					vRulerBar.pixelsPerValue = _pixelsPerValue;
 				
 				if(hRulerBar)
-					hRulerBar.pixelPerValue = _pixelPerValue;
+					hRulerBar.pixelsPerValue = _pixelsPerValue;
 			}
 		}
 		
@@ -186,6 +194,39 @@ package com.vstyran.reuler.view
 			}
 		}
 		
+		private var _guideCross:GuidelineCross;
+		
+		public function get guideCross():GuidelineCross
+		{
+			return _guideCross;
+		}
+		
+		public function set guideCross(value:GuidelineCross):void
+		{
+			_guideCross = value;
+			
+			guidelines.removeAll();
+			
+			if(guideCross)
+			{
+				addGuidelines(guideCross.getVGuidelines());
+				addGuidelines(guideCross.getHGuidelines());
+			}
+		}
+		
+		private function addGuidelines(vector:Vector.<Guideline>):void
+		{
+			if(vector)
+			{
+				for each (var guideline:Guideline in vector) 
+				{
+					guidelines.addItem(guideline);
+				}
+			}
+		}
+		
+		private var guidelines:ArrayList = new ArrayList();
+		
 		override protected function partAdded(partName:String, instance:Object) : void
 		{
 			super.partAdded(partName, instance);
@@ -195,7 +236,7 @@ package com.vstyran.reuler.view
 				hRulerBar.distanceList = _distanceList;
 				hRulerBar.minDistance = _minDistance;
 				hRulerBar.zoom = _zoom;
-				hRulerBar.pixelPerValue = _pixelPerValue;
+				hRulerBar.pixelsPerValue = _pixelsPerValue;
 				hRulerBar.paddingLeft = _paddingLeft;
 				hRulerBar.paddingRight = _paddingRight;
 			}
@@ -204,9 +245,13 @@ package com.vstyran.reuler.view
 				vRulerBar.distanceList = _distanceList;
 				vRulerBar.minDistance = _minDistance;
 				vRulerBar.zoom = _zoom;
-				vRulerBar.pixelPerValue = _pixelPerValue;
+				vRulerBar.pixelsPerValue = _pixelsPerValue;
 				vRulerBar.paddingTop = _paddingTop;
 				vRulerBar.paddingBottom = _paddingBottom;
+			}
+			else if(instance == guideDataGroup)
+			{
+				guideDataGroup.dataProvider = guidelines;
 			}
 		}
 	}
