@@ -18,7 +18,7 @@
 		</s:layout>
 		<s:itemRenderer>
 			<fx:Component>
-				<s:ItemRenderer height="100%">
+				<s:ItemRenderer height="100%" autoDrawBackground="false">
 					<fx:Script>
 						<![CDATA[
 							override public function set data(value:Object):void
