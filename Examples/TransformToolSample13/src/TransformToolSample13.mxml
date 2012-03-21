@@ -71,12 +71,78 @@
 				skipUpHandler = true;
 			}
 			
-			protected function group1_clickHandler(event:MouseEvent):void
+			protected function designArea_mouseDownHandler(event:MouseEvent):void
 			{
-				if(!event.shiftKey && !event.ctrlKey && event.target == designArea)
+				if(event.target != designArea)
+					return;
+				
+				systemManager.getSandboxRoot().addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+				systemManager.getSandboxRoot().addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+				
+				startSelectionPoint = designArea.globalToLocal(new Point(event.stageX, event.stageY));
+				
+				selectionRect.x = startSelectionPoint.x;
+				selectionRect.y = startSelectionPoint.y;
+				selectionRect.width = 0;
+				selectionRect.height = 0;
+			}
+			
+			private var startSelectionPoint:Point;
+			protected function mouseMoveHandler(event:MouseEvent):void
+			{
+				var point:Point = designArea.globalToLocal(new Point(event.stageX, event.stageY));
+				
+				var minX:Number = Math.min(point.x, startSelectionPoint.x);
+				var minY:Number = Math.min(point.y, startSelectionPoint.y);
+				var maxX:Number = Math.max(point.x, startSelectionPoint.x);
+				var maxY:Number = Math.max(point.y, startSelectionPoint.y);
+			
+				selectionRect.x = minX;
+				selectionRect.y = minY;
+				selectionRect.width = maxX - minX;
+				selectionRect.height = maxY - minY;
+				selectionRect.visible = true;
+				skipUpHandler = true;
+			}
+			
+			protected function mouseUpHandler(event:MouseEvent):void
+			{
+				systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+				systemManager.getSandboxRoot().removeEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+				selectionRect.visible = false;
+				
+				var data:DisplayData = new DisplayData(selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.height);
+				
+				var selection:Array = (connector.targets && (event.shiftKey || event.ctrlKey)) ? connector.targets : [];
+				
+				if(data.containsData(DataUtil.createData(imageTarget1)))
+					addTarget(selection, imageTarget1);
+				if(data.containsData(DataUtil.createData(imageTarget2)))
+					addTarget(selection, imageTarget2);
+				if(data.containsData(DataUtil.createData(imageTarget3)))
+					addTarget(selection, imageTarget3);
+				
+				if(selection.length > 0)
+				{
+					connector.targets = selection;
+					tool.visible = true;
+				}
+				else if(!event.shiftKey && !event.ctrlKey)
 				{
 					connector.target = null;
 					tool.visible = false;
+				}
+				
+				skipUpHandler = false;
+			}
+			
+			private function addTarget(targets:Array, target:UIComponent):void
+			{
+				var index:int = targets ? targets.indexOf(target) : -1;
+				
+				if(index == -1)
+				{
+					targets.push(target);
 				}
 			}
 			
@@ -87,7 +153,8 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	
-	<s:Group id="designArea" width="460" height="300" verticalCenter="0" horizontalCenter="0" click="group1_clickHandler(event)">
+	<s:Group id="designArea" width="460" height="300" verticalCenter="0" horizontalCenter="0"
+			 mouseDown="designArea_mouseDownHandler(event)">
 		
 		<!-- background fill -->
 		<s:Rect top="0" right="0" left="0" bottom="0">
@@ -114,5 +181,14 @@
 				<model:Bounds x="30" y="25" width="400" height="250"/>
 			</view:bounds>
 		</view:TransformTool>
+		
+		<s:Rect id="selectionRect" visible="false" includeInLayout="false">
+			<s:stroke>
+				<s:SolidColorStroke color="#3399FF"/>
+			</s:stroke>
+			<s:fill>
+				<s:SolidColor color="#3399FF" alpha="0.2"/>
+			</s:fill>
+		</s:Rect>
 	</s:Group>
 </s:Application>
