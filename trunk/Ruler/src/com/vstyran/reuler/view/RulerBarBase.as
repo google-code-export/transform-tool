@@ -41,7 +41,7 @@ package com.vstyran.reuler.view
 		{
 			if(_minDistance != value)
 			{
-				_minDistance = value;
+				_minDistance = !isNaN(value) && value > 0 ? value : 30;
 				updateSkinDisplayList(true);
 			}
 		}
@@ -75,7 +75,7 @@ package com.vstyran.reuler.view
 		{
 			if(_zoom != value)
 			{
-				_zoom = value;
+				_zoom = !isNaN(value) && value > 0 ? value : 1;
 				updateSkinDisplayList(true);
 			}
 		}
@@ -92,7 +92,7 @@ package com.vstyran.reuler.view
 		{
 			if(_pixelsPerValue != value)
 			{
-				_pixelsPerValue = value;
+				_pixelsPerValue = !isNaN(value) && value > 0 ? value : MeasureUnit.INCH;
 				updateSkinDisplayList(true);
 			}
 		}
