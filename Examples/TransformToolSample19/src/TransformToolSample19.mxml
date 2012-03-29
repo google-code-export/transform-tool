@@ -11,17 +11,45 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.vstyran.transform.connectors.UIConnector;
+			import com.vstyran.transform.connectors.UIScaleConnector;
+			import com.vstyran.transform.model.Bounds;
+			import com.vstyran.transform.view.TransformTool;
+			
 			import mx.core.UIComponent;
 			import mx.events.FlexEvent;
+			
+			
+			private var tool:TransformTool;
+			private var uiConnector:UIConnector;
+			private var uiScaleConnector:UIScaleConnector;
+			
+			protected function application1_creationCompleteHandler(event:FlexEvent):void
+			{
+				uiConnector = new UIConnector();
+				uiScaleConnector = new UIScaleConnector();
+				tool = new TransformTool();
+				var bounds:Bounds = new Bounds();
+				bounds.x = 30;
+				bounds.y = 25;
+				bounds.width = 400;
+				bounds.height = 250;
+				tool.bounds = bounds;
+				
+				setCurrentTarget(imageTarget1);
+				
+				designArea.addElement(tool);
+			}
+			
 			protected function select(event:MouseEvent):void
 			{
 				if(_currentTarget != event.currentTarget)
 				{
 					setCurrentTarget(event.currentTarget as UIComponent);
-					tool.visible = true;
 					tool.startMoving(event);
 				}
 			}
+			
 			
 			private var _currentTarget:UIComponent;
 
@@ -31,7 +59,6 @@
 				
 				uiScaleConnector.target = null;
 				uiConnector.target = null;
-				tool.visible = false;
 				
 				if(_currentTarget == null)
 					return;
@@ -46,24 +73,11 @@
 					uiConnector.target = _currentTarget;
 					tool.connector = uiConnector;
 				}
-				
-				tool.visible = true;
 			}
-			
-			protected function application1_creationCompleteHandler(event:FlexEvent):void
-			{
-				setCurrentTarget(imageTarget1);
-			}
-			
 		]]>
 	</fx:Script>
 	
-	<fx:Declarations>
-		<connectors:UIScaleConnector id="uiScaleConnector"/>
-		<connectors:UIConnector id="uiConnector"/>
-	</fx:Declarations>
-	
-	<s:Group  width="460" height="300" verticalCenter="0" horizontalCenter="0">
+	<s:Group id="designArea" width="460" height="300" verticalCenter="0" horizontalCenter="0">
 		
 		<!-- background fill -->
 		<s:Rect top="0" right="0" left="0" bottom="0">
@@ -88,12 +102,5 @@
 				 
 		<s:Image id="imageTarget2" x="285" y="182" width="120" height="70" rotation="0" scaleMode="stretch" mouseChildren="false"
 				 smooth="true" source="@Embed('image2.jpg')" minHeight="20" minWidth="20" mouseDown="select(event)"/>
-				 
-		<view:TransformTool id="tool" visible="false">
-			<connectors:SimpleConnector/>
-			<view:bounds>
-				<model:Bounds x="30" y="25" width="400" height="250"/>
-			</view:bounds>
-		</view:TransformTool>
 	</s:Group>
 </s:Application>
