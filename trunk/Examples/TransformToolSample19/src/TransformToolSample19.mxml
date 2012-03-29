@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"  
+			   xmlns:view="com.vstyran.transform.view.*" 
+			   xmlns:model="com.vstyran.transform.model.*"
+			   xmlns:connectors="com.vstyran.transform.connectors.*"
+			   width="460" height="300" xmlns:local="*" 
+			   viewSourceURL="http://vstyran-flex.ho.ua/TransformTool2/examples/TransformToolSample19/srcview/index.html"
+			   creationComplete="application1_creationCompleteHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			protected function select(event:MouseEvent):void
+			{
+				if(_currentTarget != event.currentTarget)
+				{
+					setCurrentTarget(event.currentTarget as UIComponent);
+					tool.visible = true;
+					tool.startMoving(event);
+				}
+			}
+			
+			private var _currentTarget:UIComponent;
+
+			public function setCurrentTarget(value:UIComponent):void
+			{
+				_currentTarget = value;
+				
+				uiScaleConnector.target = null;
+				uiConnector.target = null;
+				tool.visible = false;
+				
+				if(_currentTarget == null)
+					return;
+				
+				if(_currentTarget is Label)
+				{
+					uiScaleConnector.target = _currentTarget;
+					tool.connector = uiScaleConnector;
+				}
+				else
+				{
+					uiConnector.target = _currentTarget;
+					tool.connector = uiConnector;
+				}
+				
+				tool.visible = true;
+			}
+			
+			protected function application1_creationCompleteHandler(event:FlexEvent):void
+			{
+				setCurrentTarget(imageTarget1);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<connectors:UIScaleConnector id="uiScaleConnector"/>
+		<connectors:UIConnector id="uiConnector"/>
+	</fx:Declarations>
+	
+	<s:Group  width="460" height="300" verticalCenter="0" horizontalCenter="0">
+		
+		<!-- background fill -->
+		<s:Rect top="0" right="0" left="0" bottom="0">
+			<s:fill>
+				<s:SolidColor color="#dddddd"/>
+			</s:fill>
+		</s:Rect>
+		<s:Rect id="border" top="25" right="30" left="30" bottom="25">
+			<s:stroke>
+				<s:SolidColorStroke color="#ACACAC"/>
+			</s:stroke>
+		</s:Rect>
+		
+		<s:Label id="textTarget1" x="252" y="71" width="153" height="24" rotation="0" paddingRight="5" paddingLeft="5"
+				 fontSize="24" text="Simple text 1" minHeight="20" minWidth="20" mouseDown="select(event)"/>
+		
+		<s:Label id="textTarget2" x="54" y="206" width="153" height="24" rotation="0" paddingRight="5" paddingLeft="5"
+				 fontSize="24" text="Simple text 2" minHeight="20" minWidth="20" mouseDown="select(event)"/>
+		
+		<s:Image id="imageTarget1" x="54" y="47" width="120" height="70" rotation="0" scaleMode="stretch" mouseChildren="false"
+				 smooth="true" source="@Embed('image1.jpg')" minHeight="20" minWidth="20" mouseDown="select(event)"/>
+				 
+		<s:Image id="imageTarget2" x="285" y="182" width="120" height="70" rotation="0" scaleMode="stretch" mouseChildren="false"
+				 smooth="true" source="@Embed('image2.jpg')" minHeight="20" minWidth="20" mouseDown="select(event)"/>
+				 
+		<view:TransformTool id="tool" visible="false">
+			<connectors:SimpleConnector/>
+			<view:bounds>
+				<model:Bounds x="30" y="25" width="400" height="250"/>
+			</view:bounds>
+		</view:TransformTool>
+	</s:Group>
+</s:Application>
