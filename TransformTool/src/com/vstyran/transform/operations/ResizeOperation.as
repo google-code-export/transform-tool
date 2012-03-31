@@ -148,12 +148,12 @@ package com.vstyran.transform.operations
 			// check min/max values
 			newSize = data.resolveMinMax(newSize);
 			
+			// set new size
+			data.inflate(newSize.x - data.width, newSize.y - data.height, startAnchor);
+			
 			// check pasive guidelines
 			if(data.rotation%90 == 0)
 				guideCross = DataUtil.getPreciseGuides(data, guideCross, guidelines);
-			
-			// set new size
-			data.inflate(newSize.x - data.width, newSize.y - data.height, startAnchor);
 			
 			return data;
 		}
