@@ -1,3 +1,9 @@
+Release Notes for TransformTool 2.5.1
+--------------------------------------
+====== BUG FIXES ======
+* Fixed guidelines for resize operation.
+
+
 Release Notes for TransformTool 2.5.0
 --------------------------------------
 ====== BUG FIXES ======
