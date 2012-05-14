@@ -1,6 +1,7 @@
 package com.vstyran.transform.model
 {
 	import com.vstyran.transform.utils.MathUtil;
+	import com.vstyran.transform.utils.TransformUtil;
 	
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -88,7 +89,7 @@ package com.vstyran.transform.model
 			if(_y == value) return;
 			_y = value;
 			invalidate();
-			dispatchEvent(new Event("xChanged"));
+			dispatchEvent(new Event("yChanged"));
 		}
 		
 		/**
@@ -801,16 +802,51 @@ package com.vstyran.transform.model
 		 */		
 		public function intersects(data:DisplayData):Boolean
 		{
-			return (contains(data.topLeft.x, data.topLeft.y) ||
-				contains(data.topRight.x, data.topRight.y) ||
-				contains(data.bottomRight.x, data.bottomRight.y) ||
-				contains(data.bottomLeft.x, data.bottomLeft.y) ||
-				data.contains(topLeft.x, topLeft.y) ||
-				data.contains(topRight.x, topRight.y) ||
-				data.contains(bottomRight.x, bottomRight.y) ||
-				data.contains(bottomLeft.x, bottomLeft.y));
+			return (projectAndCheckIntersection(this, data) &&
+					projectAndCheckIntersection(data, this));
+		}
+		
+		/**
+		 * @private
+		 * Projects projectedData into contextData coordinate system and checks intersection segments.
+		 * 
+		 * @param contextData Data to be context of projection.
+		 * @param projectedData Data to be projected.
+		 * 
+		 * @return A value of true if projection intersects; otherwise false.
+		 * 
+		 * @see http://www.gamedev.net/page/resources/_/technical/game-programming/2d-rotated-rectangle-collision-r2604 
+		 */		
+		private function projectAndCheckIntersection(contextData:DisplayData, projectedData:DisplayData):Boolean
+		{
+			var m:Matrix = contextData.matrix;
+			m.invert();
+			projectedData = TransformUtil.transformData(m, projectedData);
 			
-			return false;
+			var projectedBox:Rectangle = projectedData.getBoundingBox();
+			
+			return (projectionsIntersects(new Point(0, contextData.width), new Point(projectedBox.x, projectedBox.right)) &&
+					projectionsIntersects(new Point(0, contextData.height), new Point(projectedBox.y, projectedBox.bottom)));
+		}
+		
+		/**
+		 * @private
+		 * Checks whether segmets intersects each other.
+		 * 
+		 * @param projection1 First segment (line from x to y)
+		 * @param projection2 Second segment (line from x to y)
+		 * @return A value of true if segments intersect; otherwise false.
+		 * 
+		 */		
+		private function projectionsIntersects(projection1:Point, projection2:Point):Boolean
+		{
+			var p1:Point = new Point(Math.min(projection1.x, projection1.y), Math.max(projection1.x, projection1.y));
+			var p2:Point = new Point(Math.min(projection2.x, projection2.y), Math.max(projection2.x, projection2.y));
+			
+			return ((p1.x <= p2.x && p1.y >= p2.x) ||
+					(p1.x <= p2.y && p1.y >= p2.y) ||
+					(p2.x <= p1.x && p2.y >= p1.x) ||
+					(p2.x <= p1.y && p2.y >= p1.y))
 		}
 		
 		/**
