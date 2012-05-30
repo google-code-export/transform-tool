@@ -2,6 +2,7 @@ Release Notes for TransformTool 2.5.2
 --------------------------------------
 ====== BUG FIXES ======
 * Fixed method "intersects" in DisplayData class.
+* Fixed cursor management.
 
 Release Notes for TransformTool 2.5.1
 --------------------------------------

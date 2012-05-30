@@ -27,6 +27,11 @@ package com.vstyran.transform.managers
 		function removeCursor(control:Control):void
 			
 		/**
+		 * Hide all cursors from stage. 
+		 */			
+		function removeAllCursors():void
+			
+		/**
 		 * Setter for transform tool.
 		 * 
 		 * @param value Transform tool which uses manager.

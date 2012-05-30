@@ -252,6 +252,19 @@ package com.vstyran.transform.managers.vector
 		}
 		
 		/**
+		 * @inheritDoc 
+		 */		
+		public function removeAllCursors():void
+		{
+			for each (var item:CursorItem in items) 
+			{
+				item.cursor.visible = false;
+			}
+			setCurrentCursor(null);
+			Mouse.show();
+		}
+		
+		/**
 		 * @private
 		 * 
 		 * Find item that corresponds to control.  

@@ -347,6 +347,14 @@ package com.vstyran.transform.view
 		 */		
 		public var snappingFunction:Function;
 		
+		override public function set visible(value:Boolean):void
+		{
+			super.visible = value;
+			
+			if(visible && toolCursorManager)
+				toolCursorManager.removeAllCursors();
+		}
+		
 		//------------------------------------------------
 		// Life cycle methods
 		//------------------------------------------------
