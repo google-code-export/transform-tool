@@ -55,6 +55,14 @@ package com.vstyran.transform.managers.raster
 		}
 		
 		/**
+		 * @inheritDoc 
+		 */		
+		public function removeAllCursors():void
+		{
+			mx.managers.CursorManager.removeAllCursors()
+		}
+		
+		/**
 		 * @private 
 		 * Find item that corresponds to control. 
 		 */		
