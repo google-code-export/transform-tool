@@ -621,6 +621,7 @@ package com.vstyran.transform.view
 		 */		
 		private var _transforming:Boolean;
 		
+		[Bindable("transformingChanged")]
 		/**
 		 * Flag that indicate whether tyransforming is in progress. 
 		 */		
@@ -659,6 +660,7 @@ package com.vstyran.transform.view
 				previewCover.visible = showPreview && showPreviewCover;
 			
 			_transforming = true;
+			dispatchEvent(new Event("transformingChanged"));
 			
 			dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION_START, type, connector.getData()));
 		}
@@ -699,6 +701,8 @@ package com.vstyran.transform.view
 				dispatchEvent(new TransformEvent(TransformEvent.TRANSFORMATION_COMPLETE, type, data, targetData));
 			}
 			isTransformed = false;
+			
+			dispatchEvent(new Event("transformingChanged"));
 		}
 		
 		/**
