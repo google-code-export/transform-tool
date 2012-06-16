@@ -22,6 +22,7 @@ package com.vstyran.transform.managers.vector
 	import mx.core.IVisualElement;
 	import mx.core.IVisualElementContainer;
 	import mx.core.UIComponent;
+	import mx.managers.CursorManager;
 	
 	use namespace tt_internal;
 	
@@ -185,6 +186,10 @@ package com.vstyran.transform.managers.vector
 			if(currentCursor)
 			{
 				setCursorPosition(event.stageX, event.stageY);
+				
+				if(currentCursor && hideMouse)
+					hideSystemCursor();
+				
 				event.updateAfterEvent();
 			}
 		}
@@ -201,7 +206,7 @@ package com.vstyran.transform.managers.vector
 					currentCursor.visible = false;
 				
 				if(hideMouse)
-					Mouse.hide();
+					hideSystemCursor();
 				
 				item.cursor.visible = true;
 				
@@ -247,7 +252,7 @@ package com.vstyran.transform.managers.vector
 			{
 				item.cursor.visible = false;
 				setCurrentCursor(null);
-				Mouse.show();
+				showSystemCursor();
 			}
 		}
 		
@@ -261,7 +266,7 @@ package com.vstyran.transform.managers.vector
 				item.cursor.visible = false;
 			}
 			setCurrentCursor(null);
-			Mouse.show();
+			showSystemCursor();
 		}
 		
 		/**
@@ -317,6 +322,26 @@ package com.vstyran.transform.managers.vector
 				hint.x = currentCursor.x - delta.x + hintXOffset;
 				hint.y = currentCursor.y - delta.y + hintYOffset;
 			}
+		}
+		
+		/**
+		 * @private 
+		 */
+		private function hideSystemCursor():void
+		{
+			Mouse.hide();
+			mx.managers.CursorManager.getInstance().hideCursor();
+		}
+		
+		/**
+		 * @private 
+		 */
+		private function showSystemCursor():void
+		{
+			mx.managers.CursorManager.getInstance().showCursor();
+			
+			if(mx.managers.CursorManager.getInstance().currentCursorID == mx.managers.CursorManager.NO_CURSOR)
+				Mouse.show();
 		}
 	}
 }
