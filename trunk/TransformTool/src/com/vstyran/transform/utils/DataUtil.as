@@ -148,7 +148,6 @@ package com.vstyran.transform.utils
 			if(bounds)
 			{
 				var box:Rectangle =  data.getBoundingBox();
-				
 				var newX:Number = MathUtil.fitValue(box.x, bounds.x, bounds.right);
 				var newY:Number = MathUtil.fitValue(box.y, bounds.y, bounds.bottom);
 				var newRight:Number = MathUtil.fitValue(box.right, bounds.x, bounds.right);

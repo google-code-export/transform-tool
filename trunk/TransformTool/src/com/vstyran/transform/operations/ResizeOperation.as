@@ -93,59 +93,43 @@ package com.vstyran.transform.operations
 				userData = invokeSnappingFunction(this, userData, startAnchor);
 			}
 			
+			var fitData:DisplayData = data;
 			if(userData)
 			{
 				// use snapped data
 				newSize = new Point(userData.width, userData.height);
+				fitData = userData;
 			}
 			else
 			{
+				// recalculate new size keeping min/max values
+				newSize = data.resolveMinMax(newSize);
+				
 				// guide data
 				if(data.rotation%90 == 0 && maintainGuidelines && guidelines && guidelines.length > 0)
 				{
-					// recalculate new size keeping min/max values
-					newSize = data.resolveMinMax(newSize);
-					
 					var guidData:DisplayData = data.clone();
 					guidData.inflate(newSize.x - startData.width, newSize.y - startData.height, startAnchor);
 					var currentAnchor:Point = new Point(startAnchor.x*guidData.width/startData.width, startAnchor.y*guidData.height/startData.height);
 					guideCross = DataUtil.guideSize(data.clone(), guidData, currentAnchor, guidelines);
-					
-					// fit onto bounds
-					guidData = DataUtil.fitResizingData(guidData, bounds);
-					
-					var tmpSize:Point = new Point(guidData.width, guidData.height);
-					if(maintainAspectRatio)
-					{
-						var vChanged:Boolean = tmpSize.y != MathUtil.round(newSize.y,2);
-						var hChanged:Boolean = tmpSize.x != MathUtil.round(newSize.x,2);
-						
-						// if snapped to two guides we will use less snapping value
-						if(vChanged && hChanged)
-						{
-							if(Math.abs(tmpSize.x-MathUtil.round(newSize.x,2)) >= Math.abs(tmpSize.y-MathUtil.round(newSize.y,2)))
-								hChanged = false;
-							else
-								vChanged = false;
-						}
-						
-						if(vChanged || hChanged)
-							tmpSize = startData.resolveAspectRatio(tmpSize, !vChanged, !hChanged );
-					}
-					
-					newSize = tmpSize;
+					fitData = guidData;
 				}
+			}
+			
+			// fit into bounds and resolve aspect ratio
+			if(data.rotation%90 == 0)
+				newSize = resolveAspectRatio(DataUtil.fitResizingData(fitData, bounds), newSize);
+			
+			
+			// check aspects if not maintaining aspect ratio and not guided
+			if(!userData && !maintainAspectRatio && maintainAspects && (!guideCross || (!guideCross.vGuideline && !guideCross.hGuideline)))
+			{
+				var aspectData:DisplayData = data.clone();
+				aspectData.inflate(newSize.x - startData.width, newSize.y - startData.height, startAnchor);
+				var aspect:AspectRatio = DataUtil.snapAspects(startData, aspectData, aspects, horizontalEnabled, verticalEnabled);
 				
-				// check aspects if not maintaining aspect ratio and not guided
-				if(!maintainAspectRatio && maintainAspects && (!guideCross || (!guideCross.vGuideline && !guideCross.hGuideline)))
-				{
-					var aspectData:DisplayData = data.clone();
-					aspectData.inflate(newSize.x - startData.width, newSize.y - startData.height, startAnchor);
-					var aspect:AspectRatio = DataUtil.snapAspects(startData, aspectData, aspects, horizontalEnabled, verticalEnabled);
-					
-					if(aspect)
-						newSize = new Point(aspectData.width, aspectData.height);
-				}
+				if(aspect)
+					newSize = new Point(aspectData.width, aspectData.height);
 			}
 			
 			// check min/max values
@@ -159,6 +143,34 @@ package com.vstyran.transform.operations
 				guideCross = DataUtil.getPreciseGuides(data, guideCross, guidelines);
 			
 			return data;
+		}
+		
+		/**
+		 * @private 
+		 */		
+		private function resolveAspectRatio(data:DisplayData, lastSize:Point):Point
+		{
+			var resolvedSize:Point = new Point(data.width, data.height);
+			
+			if(maintainAspectRatio)
+			{
+				var vChanged:Boolean = resolvedSize.y != MathUtil.round(lastSize.y,2);
+				var hChanged:Boolean = resolvedSize.x != MathUtil.round(lastSize.x,2);
+				
+				// if snapped to two guides we will use less snapping value
+				if(vChanged && hChanged)
+				{
+					if(Math.abs(resolvedSize.x-MathUtil.round(lastSize.x,2)) >= Math.abs(resolvedSize.y-MathUtil.round(lastSize.y,2)))
+						hChanged = false;
+					else
+						vChanged = false;
+				}
+				
+				if(vChanged || hChanged)
+					resolvedSize = startData.resolveAspectRatio(resolvedSize, !vChanged, !hChanged );
+			}
+			
+			return resolvedSize;
 		}
 		
 		/**
