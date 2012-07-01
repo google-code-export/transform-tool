@@ -90,6 +90,11 @@ package com.vstyran.transform.operations
 			{
 				userData = data.clone();
 				userData.inflate(newSize.x - startData.width, newSize.y - startData.height, startAnchor);
+				
+				// fit into bounds and resolve aspect ratio
+				if(data.rotation%90 == 0)
+					userData = DataUtil.fitResizingData(userData, bounds);
+
 				userData = invokeSnappingFunction(this, userData, startAnchor);
 			}
 			
