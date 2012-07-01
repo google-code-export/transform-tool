@@ -111,6 +111,9 @@ package com.vstyran.transform.operations
 					var currentAnchor:Point = new Point(startAnchor.x*guidData.width/startData.width, startAnchor.y*guidData.height/startData.height);
 					guideCross = DataUtil.guideSize(data.clone(), guidData, currentAnchor, guidelines);
 					
+					// fit onto bounds
+					guidData = DataUtil.fitResizingData(guidData, bounds);
+					
 					var tmpSize:Point = new Point(guidData.width, guidData.height);
 					if(maintainAspectRatio)
 					{
