@@ -138,6 +138,30 @@ package com.vstyran.transform.utils
 		}
 		
 		/**
+		 * Fit data size into bounds. 
+		 * @param data Source data to be fitted. Will be changed.
+		 * @param bounds Bounds that will be used as fitting boundaries.
+		 * @return Data with fitted size.
+		 */		
+		public static function fitResizingData(data:DisplayData, bounds:Bounds):DisplayData 
+		{
+			if(bounds)
+			{
+				var box:Rectangle =  data.getBoundingBox();
+				
+				var newX:Number = MathUtil.fitValue(box.x, bounds.x, bounds.right);
+				var newY:Number = MathUtil.fitValue(box.y, bounds.y, bounds.bottom);
+				var newRight:Number = MathUtil.fitValue(box.right, bounds.x, bounds.right);
+				var newBottom:Number = MathUtil.fitValue(box.bottom, bounds.y, bounds.bottom);
+				
+				data.setBoundingPosition(newX, newY);
+				data.setBoundingSize(newRight - newX, newBottom - newY, new Point(0, 0));
+			}
+			
+			return data;
+		}
+		
+		/**
 		 * Snap position of data into grid. 
 		 *  
 		 * @param data Source data to be fitted. Will be changed.
