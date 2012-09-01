@@ -51,6 +51,9 @@ package com.vstyran.reuler.view
 		
 		override protected function updateSkinDisplayList(force:Boolean = false):void
 		{
+			if(!tickGroup)
+				return;
+			
 			if(lastHeight != tickGroup.height || force)
 			{
 				updateTicks(tickGroup.height - paddingTop - paddingBottom, paddingTop);
