@@ -124,6 +124,7 @@ package com.vstyran.reuler.view
 		
 		private var _paddingLeft:Number = 0;
 		
+		[Bindable]
 		public function get paddingLeft():Number
 		{
 			return _paddingLeft;
@@ -142,6 +143,7 @@ package com.vstyran.reuler.view
 		
 		private var _paddingRight:Number = 0;
 		
+		[Bindable]
 		public function get paddingRight():Number
 		{
 			return _paddingRight;
@@ -160,6 +162,7 @@ package com.vstyran.reuler.view
 		
 		private var _paddingTop:Number = 0;
 		
+		[Bindable]
 		public function get paddingTop():Number
 		{
 			return _paddingTop;
@@ -178,6 +181,7 @@ package com.vstyran.reuler.view
 		
 		private var _paddingBottom:Number = 0;
 		
+		[Bindable]
 		public function get paddingBottom():Number
 		{
 			return _paddingBottom;

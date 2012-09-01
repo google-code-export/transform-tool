@@ -120,15 +120,19 @@ package com.vstyran.reuler.view
 		
 		protected function updateTicks(length:Number, shift:Number):void
 		{
-			ticks.removeAll();
+			var newList:ArrayList = new ArrayList();
 			var distance:Number = getDistance();
 			var distancePx:Number = distance*pixelsPerValue*zoom;
 			var count:Number = length/distancePx;
 			
 			for (var i:int = 0; i < count; i++) 
 			{
-				ticks.addItem(new Tick(i*distance,i*distancePx + shift, distancePx));	
+				var tick:Tick = new Tick(i*distance,i*distancePx + shift, distancePx);
+				newList.addItem(tick);
 			}
+			
+			ticks.removeAll();
+			ticks.addAll(newList);
 		}
 		
 		override protected function partAdded(partName:String, instance:Object) : void
